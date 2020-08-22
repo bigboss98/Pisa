@@ -1,0 +1,286 @@
+\chapter{Linear Regression}
+Linear Regression is in statistics a linear process to modeling the relation between
+a scalar response (or dependent variable) and one or more explanatory variables (or independent variables).
+
+The case of one explanatory variable is called \emph{simple linear regression} and 
+for more than one explanatory variable, the process is called \emph{multiple linear regression}.
+
+Suppose for example we want to predict the price of an house, given living area and the number of bedrooms,
+so we represent this relation as a linear regression with the hypothesis function as 
+\[ h_{\theta}(x) = \theta_0 + \theta_1 x_1 + \theta_1 x_2 \]
+where $x_1$ is the living area and $x_2$ is the number of bedrooms.
+
+Here, the $\theta_i$’s are the parameters(also called \emph{weights}) parameterizing the 
+space of linear functions mapping from $x$ to $y$ and when there is no risk of confusion,
+we will drop the $\theta$ subscript in $h_{\theta}(x)$ and write it more simply as $h(x)$.
+
+To simplify our notation, we also introduce the convention of letting $x_0 = 1$
+(this is the intercept term), so we have 
+\[ h_{\theta}(x) = \sum _{i = 0} ^n \theta_i x_i = \transpose{\theta} x \]
+where on the right-hand side above we are viewing $\theta$ and $x$ both as vectors, 
+and here $n$ is the number of input variables, without counting $x_0$.
+
+\section{Least squares cost function}
+Given the training set, to learn $\theta$ parameters a reasonable choice is to make
+$h(x)$ close to $y$, at least for the training examples we have.
+
+To formalize this, we will define a function that measures, for each value of the $\theta$’s,
+how close the $h(x^{(i)})$’s are to the corresponding $y^{(i)}$’s.
+
+We define the cost function as
+\[ J(\theta) = \frac{1}{2} \sum _{i=0} ^n \left (h_{\theta}(x^{(i)}) - y^{(i)} \right )^2 \]
+where we divide by $\frac{1}{2}$ in order to simply derivation in future.
+
+If you’ve seen linear regression before, you may recognize this as the familiar 
+\emph{least-squares} cost function that gives rise to the ordinary least squares regression model.\newline
+Whether or not you have seen it previously, let’s keep going, and we’ll eventually show this to be
+a special case of a much broader family of algorithms.
+
+Our objective is to find $\theta$ that minimize $J(\theta)$ so let’s consider now
+the \emph{gradient descent} algorithm, which starts with some initial $\theta$, and repeatedly performs the update:
+\[ \theta_j = \theta_j - \alpha * \derivative{\theta_j} J(\theta) \]
+This update is simultaneously performed for all values of $j= 0, 1, \dots, n$ and 
+$\alpha$ is called the \emph{learning rate}.
+
+This is a very natural algorithm that repeatedly takes a step in the direction of steepest decrease of J
+and in order to implement this algorithm, we have to work out what is 
+the partial derivative term on the right hand side.\newline
+Let’s first work it out for the case we have only one training example $(x, y)$, so that we
+can neglect the sum in the definition of J and we have 
+
+\begin{align*}
+    \derivative{\theta_j} = & \derivative{\theta_j} \frac{1}{2} (h_{\theta}(x) - y)^2 \\
+                          = & (h_{\theta}(x) - y) \derivative{\theta_j} (h_{\theta}(x)-y) \\
+                          = & (h_{\theta}(x) - y) \derivative{\theta_j} (\sum _{i = 0}^n \theta_i x_i - y) \\
+                          = & (h_{\theta}(x) - y)x_j \\
+\end{align*}
+For a simple training example, it provides the update rule as
+\[ \theta_j = \theta_j - \alpha (h_{\theta}(x) - y)x_j ^{(i)} \]
+The rule is called the \emph{LMS update rule}(LMS stands for “least mean squares”), and is also known
+as the \emph{Widrow-Hoff} learning rule.\newline
+This rule has several properties that seem natural and intuitive in fact for instance, the magnitude of 
+    the update is proportional to the error term $(y(i) - h_{\theta}(x^{(i)}))$; 
+thus, for instance, if we are encountering a training example on which our prediction nearly matches
+the actual value of $y^{(i)}$, then we find that there is little need to change the parameters,
+in contrast, a larger change to the parameters will be made if our prediction $h_{\theta}(x^{(i)})$ 
+has a large error.
+
+We’d derived the LMS rule for when there was only a single training example and 
+to modify this method for a training set of more than one example,
+we replace the LMS rule with the following algorithm, where we repeat until the convergence the update rule
+\[ \theta_j = \theta_j - \alpha (\sum _{i=0}^m (y^{(i)} - h_{\theta}(x^{(i)}) x_j^{(i)} 
+   \quad \forall j = 1, 2, \dots, m \]
+This is simply gradient descent on the original cost function $J$ and this method looks at every example
+in the entire training set on every step, and it is called \emph{batch gradient descent}.\newline
+Note that, while gradient descent can be susceptible to local minima in general, the optimization problem
+we have posed here for linear regression has only one global, and no other local optima, because 
+$J$ is a convex quadratic function.
+
+Another algorithm to train the $\theta$ parameters is \emph{stochastic descent}, where 
+we repeatedly run through the training set, and each time we encounter a training example,
+we update the parameters according to the gradient of the error with respect to that single training example only.
+
+Whereas batch gradient descent has to scan through the entire training set before taking a single step,
+a costly operation if $m$ is large, stochastic gradient descent can start making progress right away,
+and continues to make progress with each example it looks at.\newline
+Often, stochastic gradient descent gets $\theta$ "close” to the minimum much faster than batch 
+gradient descent, but note however that it may never “converge” to the minimum, and the parameters
+$\theta$ will keep oscillating around the minimum of $J(\theta)$; in practice most of the values near the minimum
+will be reasonably good approximations to the true minimum and for these reasons, particularly when 
+the training set is large, stochastic gradient descent is often preferred over batch gradient descent.
+
+\section{Normal Equation}
+Gradient Descent gives a way to minimize $J(\theta)$, we present now another method, where 
+we performing the minimization explicitly and without resorting to an iterative algorithm.\newline
+In this method, we will minimize $J$ by explicitly taking its derivatives with respect to the $\theta_j$’s,
+and setting them to zero.\newline
+To enable us to do this without having to write pages full of matrices of derivatives,
+let’s introduce some notation for doing calculus with matrices.
+
+\subsection{Matrix derivates}
+For a function $f: \R ^{m \times n} \to \R$ mapping from $m$-by-$n$ matrices to the real numbers, 
+we define the derivative of $f$ with respect to $A$ to be 
+\[ \Delta _A f(A) = \begin{bmatrix}
+                        \derivative{A_{11}} & \ldots & \derivative{A_{1n}} \\
+                        \vdots & \ddots & \vdots \\
+                        \derivative{A_{m1}} & \ldots & \derivative{A_{mn}} \\
+                    \end{bmatrix} \]
+For example suppose $A = \begin{bmatrix}
+                       A_{11} & A_{12} \\
+                       A_{21} & A_{22} \\
+                         \end{bmatrix}$
+is a $2 \times 2$ matrix and the function $f:\R ^{2 \times 2} \to \R$ is given by 
+\[ f(A) = \frac{3}{2} A_{11} + 5A^2 _{12} + A_{21}A_{22} \]
+so we obtain the following gradient matrix 
+\[ \Delta _A f(A) = \begin{bmatrix}
+                    \frac{3}{2} & 10 A_{12} \\
+                    A_{22} & A_{21} \\
+                    \end{bmatrix} \]
+We also introduce the \emph{trace} operator defined as 
+\[ tr A = \sum _{i=1}^n A_{ii} \]
+The trace operator has commutative, associative properties and also the following properties(proof is 
+easy, you need only to consider the definition) with $A$ and $B$ as square matrices and $a \in \R$
+\begin{align*}
+    tr A & = tr \transpose{A} \\
+    tr (A + B) & = tr A + tr B \\
+    tr \, aA & = a \, tr A \\
+\end{align*}
+We present now some properties about matrix derivation, without proof
+\begin{align}
+    \Delta _A tr AB & = \transpose{B} \\
+    \Delta _{\transpose{A}} f(A) & = \transpose{(\Delta _A f(A))} \\
+    \Delta _A tr AB \transpose{A} C & = CAB + \transpose{C} A \transpose{B} \\
+    \Delta _A |A| & = |A| \transpose{(A ^{-1})} \\
+\end{align}
+
+\subsection{Least squares revised}
+Given a training set, define the \emph{design matrix} $X$ to be the $m \times n$ matrix(actually 
+the $m \times n+1$ if we include the intercept term), that contains the training example in this way 
+\[ X = \begin{bmatrix}
+        \dots & \transpose{(x^{(1)})} & \dots \\
+        \dots & \transpose{(x^{(2)})} & \dots \\
+        \dots & \vdots & \dots \\
+        \dots & \transpose{(x^{(m)})} & \dots \\
+        \end{bmatrix} \]
+Also let $y$ be the $m$ dimensional vector that containing all the target values from the training set
+\[ y = \begin{bmatrix}
+        y^{(1)} \\
+        y^{(2)} \\
+        \vdots \\
+        y^{(m)} \\
+        \end{bmatrix} \]
+Now since $h_{\theta}(x) = \transpose{(x^{(i)})} \theta$ we can easily verify that
+\[ \begin{bmatrix}
+    h_{\theta}(x^{(1)}) - y^{(1)} \\
+    \vdots \\
+    h_{\theta}(x^{(m)}) - y^{(m)} \\
+    \end{bmatrix} \]
+Using the fact that for a vector $z$, we have $z ^\intercal z = \sum _i z_i^2$, so we obtain 
+\begin{align*}
+    \frac{1}{2} \transpose{(X \theta - y)} (X \theta - y) & = \frac{1}{2} \sum _{i = 1}^m
+                                                            (h_{\theta}(x^{(i)}) - y^{(i)})^2 \\
+                                                        & = J(\theta) \\
+\end{align*}
+To minimize $J(\theta)$ we consider now the derivative with the respect to $\theta$ 
+\begin{align*}
+    \Delta _{\theta} J(\theta) & = \Delta _{\theta} \frac{1}{2} \transpose{(X \theta - y)} (X \theta - y) \\
+                               & = \frac{1}{2} \Delta _{\theta} (\transpose{\theta} \transpose{X} X \theta -
+                                   \transpose{\theta} \transpose{X} y - \theta X \transpose{y} + \transpose{y} y) \\
+                               & = \frac{1}{2} \Delta _{\theta} tr(\transpose{\theta} \transpose{X} X \theta -
+                                   \transpose{\theta} \transpose{X} y - \theta X \transpose{y} + \transpose{y} y) \\
+                               & = \frac{1}{2} \Delta _{\theta} (tr \transpose{\theta} \transpose{X} \theta X -
+                                   2 tr \transpose{y} \theta X) \\
+                               & = \frac{1}{2} (\transpose{X} X \theta + \transpose{X} X \theta - 2 \transpose{X} y) \\
+                               & = \transpose{X} X \theta - \transpose{X} y 
+\end{align*}
+In the third step, we used the fact that the trace of a real numer is just the real number, the fourth step 
+used the fact that $tr A = tr \transpose{A}$ and the fifth step we use the second and third properties given 
+in matrix derivation.\newline
+To minimize $J$, we set its derivatives to zero, and obtain the normal equations
+\[ \transpose{X} X \theta = \transpose{X} y \]
+so the value of $\theta$ that minimize $J(\theta)$ is given by 
+\[ \theta = (\transpose{X} X)^{-1} \transpose{X} y \]
+
+
+\section{Probabilistic Interpretation of Linear Regression}
+In this section, we will give a set of probabilistic assumptions, under which least-squares regression
+is derived as a very natural algorithm and let us assume that the target variables and the inputs 
+are related via the equation
+\[ y^{(i)} = \transpose{\theta} x + \epsilon ^{(i)} \]
+where $\epsilon{(i)}$ is an error term that captures either unmodeled effects, such as if there are some features
+very pertinent to predicting housing price, but that we’d left out of the regression, or random noise.
+
+Let us further assume that the $\epsilon^{(i)}$ are distributed IID (independently and identically distributed)
+according to a Gaussian distribution as $\epsilon^{(i)} \sim N(0, \sigma^2)$, that implies that 
+$P(y^{(i)} | x^{(i)} ; \theta) \sim N(\transpose{\theta}x^{(i)}, \sigma^2)$.
+
+Given $X$, the design matrix, which contains all the $x^{(i)}$’s, and $\theta$, 
+the probability of the data is given by $P(y| X; \theta)$ and this quantity is typically viewed 
+as a function of $y$, and perhaps $X$, for a fixed value of $\theta$.\newline
+When we wish to explicitly view this as a function of $\theta$, we will instead call it the likelihood function
+\begin{align*}
+    L(\theta) & = L(\theta | X; y) = P(y | X; \theta) \\
+              & = \prod _{i = 1} ^ m P(y^{(i)} | x^{(i)}; \theta) \\
+              & = \prod _{i = 1} ^ m \gaussian{\transpose{\theta}x^{(i)}}{\sigma ^ 2} \\
+\end{align*}
+
+Now, given this probabilistic model relating the $y^{(i)}$’s and the $x^{(i)}$’s, a reasonable way
+of choosing our best guess of the parameters $\theta$, we should choose $\theta$ to maximize $L(\theta)$.
+
+Instead of maximizing $L(\theta)$, we can also maximize any strictly increasing function of $L(\theta)$, 
+in particular, the derivations will be a bit simpler if we  instead maximize the log likelihood $l(\theta)$
+\begin{align*}
+    l(\theta) & = \log L(\theta) \\
+              & = \log \prod _{i=1} ^ m \gaussian{\transpose{\theta}y^{(i)}}{\sigma ^ 2} \\
+              & = \sum _{i = 1} ^ m \log \gaussian{\transpose{\theta}y^{(i)}}{\sigma^2} \\
+              & = m \log \frac{1}{\sqrt{2 \pi} \sigma} - 
+                  \frac{1}{\sigma^2} \frac{1}{2} \sum _{i=1}^m (y^{(i)} - \transpose{\theta}x^{(i)})^2 \\
+\end{align*}
+Here maximizing $l(\theta)$ gives the same answer that minimizing
+\[ \frac{1}{2} \sum _{i = 1} (y^{(i)} - \transpose{\theta}x^{(i)})^2 \]
+which we recognise to be $J(\theta)$, our original least-squares cost function.
+
+Under the previous probabilistic assumptions on the data, least-squares regression corresponds
+to finding the maximum likelihood estimate of $\theta$ and this is thus one set of assumptions 
+under which least-squares regression can be justified as a very natural method that’s just 
+doing maximum likelihood estimation.
+
+Note however that the probabilistic assumptions are by no means necessary for least-squares to be 
+a perfectly good and rational procedure, and there may, and indeed there are, other natural assumptions
+that can also be used to justify it.
+
+\section{Newton optimization to maximise $l(\theta)$}
+Specifically, suppose we have some function $f:\R \to \R$, and we wish to find a value of $\theta$
+so that $f(\theta) = 0$.\newline
+Here, $\theta \in \R$ is a real number and Newton’s method performs the following update
+\[ \theta = \theta - \frac{f(\theta)}{f'(\theta)} \]
+This method has a natural interpretation in which we can think of it as approximating the function $f$
+via a linear function that is tangent to $f$ at the current guess $\theta$, solving for where that 
+linear function equals to zero, and letting the next guess for $\theta$ be where that linear function is zero.
+
+Newton’s method gives a way of getting to $f(\theta) = 0$ and to maximise $l(\theta)$ we have to consider that
+the maxima of $l$ correspond to points where its first derivative $l'(\theta)$ is zero.\newline
+So, by letting $f(\theta) = l'(\theta)$, we can use the same algorithm to maximize $l$, and we obtain the update rule
+\[ \theta = \theta - \frac{l'(\theta)}{l''(\theta)} \]
+The generalization of Newton’s method to multidimensional setting(also called the \emph{Newton-Raphson} method)
+is given by 
+\[ \theta = \theta - H^{-1} \Delta _{\theta} \, l(\theta) \]
+where $H^{-1}$ is the second derivative called \emph{Hessian}.
+
+Newton’s method typically enjoys faster convergence than (batch) gradient descent, and requires
+many fewer iterations to get very close to the minimum.\newline
+One iteration of Newton’s can, however, be more expensive than one iteration of gradient descent,
+since it requires finding and inverting an $n \times n$ Hessian; but so long as $n$ is not too large,
+it is usually much faster over all.\newline
+When Newton’s method is applied to maximize the logistic regression log likelihood function $l(\theta)$,
+the resulting method is also called \emph{Fisher scoring}.
+
+\section{Locally Weighted Regression}
+Learning algorithms can be divided in two different categories:
+\begin{description}
+    \item [Parametrics:] fit fixed set of parameters $\theta$ to data
+    \item [Non parametrics:] you have to keep an amount of data/parameters, that grows with size of data
+\end{description}
+\emph{Locally Weight Regression} is our first example of non parametric learning algorithm, where to predict
+from a point $x_i$ you have to watch their neighbors.
+
+The objective is to fit $\theta$ to minimize the objective function
+\[ \sum _{i = 1}^n w^{(i)}(y^{(i)} - \transpose{\theta}x^{(i)})^2 \]
+where $w^{(i)}$ is a weight function and a common choice of weight function is the following
+\[ w^{(i)} = exp \left(\frac{-(x^{(i)} - \hat{x})^2}{2 \tau ^ 2}\right) \]
+Note that the weights depend on the particular point $x$ at which we’re trying to evaluate $x$ so
+if $|x^{(i)} - \hat{x}|$ is small the weight is close to 1, instead if $|x^{(i)} - \hat{x}|$ is 
+large the weight is close to $0$.
+
+Hence, $\theta$ is chosen giving a much higher “weight” to the (errors on) training examples close
+to the query point $x$ and note also that while the formula for the weights takes a form that is 
+cosmetically similar to the density of a Gaussian distribution, the $w(i)$’s do not directly have anything
+to do with Gaussians, and in particular the $w(i)$ are not random variables, normally distributed or otherwise.
+
+The parameter $\tau$ controls how quickly the weight of a training example falls off with distance of
+its $x^{(i)}$ from the query point $x$ and it is called the \emph{bandwidth} parameter, which choice of value
+is important to avoid overfitting and underfitting.
+
+It is commonly used when we have a lot of data and we don't want to think about which features to use.
+
+

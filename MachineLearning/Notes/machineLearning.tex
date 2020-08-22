@@ -1,0 +1,35 @@
+\documentclass[11pt]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{classicthesis}
+\usepackage{arsclassica}
+
+%\let\emph\relax
+%\DeclareTextFontCommand{\emph}{\textbf}
+\newcommand{\numberset}{\mathbb}
+\newcommand{\R}{\numberset{R}}
+\newcommand{\transpose}[1]{#1 ^ \mathsf{T}}
+\newcommand{\derivative}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\gaussian}[2]{\frac{1}{\sqrt{2 \pi #2}} exp \left(\frac{-(y^{(i)} - #1)^2}{2 #2}\right)}
+
+\begin{document}
+    \title{Machine Learning Notes}
+    \author{Natali Marco}
+    \date{}
+
+    \maketitle
+    \tableofcontents
+    \listoffigures
+
+    \input{linearRegression}%Chapter 1 Linear Regression
+    \input{classification}%Chapter 2 Classification
+    \input{generalizedModels}% Chapter 3 Generalized Linear Models    
+    \input{generativeAlgorithms}% Chapter 4 Generative Algorithms
+%    \input{supportVectorMachine}% Chapter 5 Support Vector Machine
+%    \input{neuralNetwork}% Chapter 6 Neural Network
+\end{document}

@@ -1,0 +1,252 @@
+\chapter{Generalized Linear Models}
+So far, we’ve seen a regression example, and a classification example: in the regression example, we had
+$y | x; \theta \sim N(\mu, \sigma^2)$, and in the classification one $y | x; \theta \sim Bernoulli(\phi)$,
+for some appropriate definitions of $\mu$ and $\phi$ as functions of $x$ and $\theta$.
+
+In this section, we will show that both of these methods are special cases of a broader family of models,
+called \emph{Generalized Linear Models}(GLMs) and we will also show how other models in the GLM family
+can be derived and applied to other classification and regression problems.
+
+\section{Exponential family}
+To work our way up to GLMs, we will begin by defining exponential family distributions and we say that
+a class of distributions is in the exponential family if it can be written in the form
+\[ P(y | \eta) = b(y) \, exp(\eta^T T(y) - a(\eta)) \]
+Here, $\eta$ is called the \emph{natural parameter} of the distribution, $T(y)$ is the 
+sufficient statistic(for the distributions we consider, it will often be the case that $T(y) = y$),
+$a(\eta)$ is the \emph{log partition} function and the quantity $e^{a(\eta)}$ essentially plays the role
+of a normalization constant, that makes sure the distribution $p(y | \eta)$ sums/integrates over $y$ to 1.
+
+A fixed choice of $T,a$ and $b$ defines a family(or set) of distributions that is parameterized by $\eta$;
+as we vary $\eta$, we then get different distributions within this family and we now show that the Bernoulli
+and the Gaussian distributions are examples of exponential family distributions.
+
+The Bernoulli distribution with mean $\phi$, written $Bernoulli(\phi)$, specifies a distribution 
+over $y \in \{0,1\}$, so that $p(y = 1 | \phi) = \phi$ and $p(y = 0 | \phi) = 1 - \phi$.\newline
+As we vary $\phi$, we obtain Bernoulli distributions with different means and we now show that this class
+of Bernoulli distributions, ones obtained by varying $\phi$, is in the exponential family.
+
+We write the Bernoulli distribution as
+\begin{align*}
+    P(y | \phi) & = \phi ^ y (1 - \phi)^{1 - y} \\
+                & = exp(\log(\phi^y (1 - \phi)^{1 - y})) \\
+                & = exp \left(\log \left(\frac{\phi}{1-\phi}\right)y + \log (1 - y)\right) \\
+\end{align*}
+Thus, the natural parameter is given by $\eta= \log(\frac{\phi}{1-\phi})$ and it is interestingly,
+if we invert this definition for $\eta$ by solving for $\phi$ in terms of $\eta$, we obtain
+\[ \phi = \frac{1}{1 + e ^ {-\eta}} \]
+This is the familiar sigmoid function and this will come up again when we derive logistic regression as a GLM.
+
+To complete the formulation of the Bernoulli distribution as an exponential family distribution, we also have
+\begin{align*}
+    T(y) & = y \\
+    a(\eta) & = - \log (1 - \phi) \\
+            & = \log (1 + e^{\eta}) \\
+    b(y) & =  1 \\
+\end{align*}
+Let’s now move on to consider the Gaussian distribution and recall that, when deriving linear regression, 
+the value of $\sigma ^ 2$ had no effect on our final choice of $\theta$ and $h_{\theta}(x)$.
+
+Thus, we can choose an arbitrary value for $\sigma^2$ without changing anything and to simplify the derivation below,
+let’s set $\sigma^2 = 1$, so we have
+\begin{align*}
+    P(y | \mu) & = \frac{1}{\sqrt{2 \pi}} exp \left(-\frac{1}{2} (y - \mu)^2 \right) \\
+               & = \frac{1}{\sqrt{2 \pi}} exp \left(-\frac{y^2}{2}\right) exp\left(\mu y - \frac{\mu^2}{2}\right) \\
+\end{align*}
+Thus, we see that the Gaussian is in the exponential family, with
+\begin{align*}
+    \eta & = \mu \\
+    T(y) & = y \\
+    b(y) & = \frac{1}{\sqrt{2 \pi}} exp(\frac{-y^2}{2}) \\
+    a(\eta) & = \frac{\mu^2}{2} = \frac{\eta^2}{2} \\
+\end{align*}
+There’re many other distributions that are members of the exponential family: 
+the multinomial, the Poisson (for modelling count data),
+the gamma and the exponential (for modelling continuous, non-negative random variables, such as time-intervals),
+the beta and the Dirichlet (for distributions over probabilities) and many more.\newline
+In the next section, we will describe a general “recipe” for constructing models in which $y$ 
+(given $x$ and $\theta$) comes from any of these distributions.
+
+\section{Constructing GLM}
+Suppose you would like to build a model to estimate the number $y$ of customers arriving in your store
+(or number of page views on your website) in any given hour, based on certain features $x$ 
+such as store promotions, recent advertising, weather, day of week, etc.
+
+We know that the Poisson distribution usually gives a good model for numbers of visitors and knowing this,
+how can we come up with a model for our problem? Fortunately, the Poisson is an exponential family distribution,
+so we can apply a Generalized Linear Model(GLM).\newline
+In this section, we will describe a method for constructing GLM models for problems such as these and 
+more generally, consider a classification or regression problem where we would like to predict the value 
+of some random variable $y$ as a function of $x$.
+
+To derive a GLM for this problem, we will make the following three assumptions about the conditional distribution
+of $y$ given $x$ and about our model:
+\begin{enumerate}
+    \item $y;x, \theta \sim ExponentialFamily(\eta)$.
+    \item Given $x$, our goal is to predict the expected value of $T(y)$ given $x$ and 
+          in most of our examples, we will have $T(y) = y$, so this means we would like the prediction $h(x)$
+          output by our learned hypothesis $h$ to satisfy $h(x) = E[y | x]$.
+    \item The natural parameter $\eta$ and the inputs $x$ are related linearly $\eta = \transpose{\theta}x$;
+          if $\eta$ is vector valued, then $\eta_i = \transpose{\theta_i}x$.
+\end{enumerate}
+The third of these assumptions might seem the least well justified of the above, and it might be better thought
+of as a “design choice” in our recipe for designing GLMs, rather than as an assumption per se and 
+these three assumptions/design choices will allow us to derive a very elegant class of learning algorithms,
+namely GLMs, that have many desirable properties such as ease of learning.
+
+Furthermore, the resulting models are often very effective for modelling different types of distributions over $y$;
+for example, we will shortly show that both logistic regression and ordinary least squares can both be derived as GLMs.
+
+\subsection{Ordinary Least Squares}
+To show that ordinary least squares is a special case of the GLM family of models, consider the setting 
+where the target variable $y$ (also called the \emph{response variable} in GLM terminology) is continuous,
+and we model the conditional distribution of $y$ given $x$ as a Gaussian $N(\mu, \sigma^2)$.
+
+So, we let the ExponentialFamily($\eta$) distribution above be the Gaussian distribution and 
+as we saw previously, in the formulation of the Gaussian as an exponential family distribution,
+we had $\mu = \eta$ and so we have
+\begin{align*}
+    h_{\theta}(x) & = E[y | x; \theta] \\
+                  & = \mu \\
+                  & = \eta \\
+                  & = \transpose{\theta} x \\
+\end{align*}
+
+\subsection{Logistic Regression}
+We now consider logistic regression and here we are interested in binary classification, so $y \in \{0,1\}$.
+
+Given that $y$ is binary valued, it therefore seems natural to choose the Bernoulli family of distributions
+to model the conditional distribution of $y$ given $x$ and in our formulation of the Bernoulli distribution as
+an exponential family distribution, we had $\phi = \frac{1}{1 + e ^{-\eta}}$.
+
+Furthermore, note that if $y | x; \theta \sim Bernoulli(\phi)$, then $E[y | x; \theta] = \phi$, so following
+a similar derivation as the one for ordinary least squares, we get
+\begin{align*}
+    h_{\theta}(x) & = E[y | x; \theta] \\
+                  & = \phi \\
+                  & = \frac{1}{1 + e ^ {-\eta}} \\
+                  & = \frac{1}{1 + e ^ {-\transpose{\theta} x}} \\
+\end{align*}
+So, this gives us hypothesis functions of the form 
+\[ h_{\theta}(x) = \frac{1}{1 + e^{-\transpose{\theta} x}} \].
+
+To introduce a little more terminology, the function $g$ giving the distribution’s mean as a function 
+of the natural parameter ($g(\eta) = E[T(y); \eta]$) is called the \emph{canonical response function}.\newline
+Its inverse, $g^{-1}$, is called the \emph{canonical link function} and thus, the canonical response function
+for the Gaussian family is just the identify function and the canonical response function for the Bernoulli
+is the logistic function.
+
+\section{Softmax Regression}
+Consider a classification problem in which the response variable $y$ can take on any one of $k$ values,
+so $y \in \{1, 2, \dots, k\}$; for example, rather than classifying email into the two classes 
+spam or not spam, which would have been a binary classification problem, we might want to classify it
+into three classes, such as spam, personal mail, and work related mail.\newline
+The response variable is still discrete, but can now take on more than two values and we will thus model it 
+as distributed according to a multinomial distribution.
+
+Let’s derive a GLM for modelling this type of multinomial data and to do so, we will begin by expressing
+the multinomial as an exponential family distribution.\newline
+To parameterize a multinomial over $k$ possible outcomes, one could use $k$ parameters $\phi_1, \dots, \phi_k$ 
+specifying the probability of each of the outcomes, however, these parameters would be redundant, or more formally,
+they would not be independent, since knowing any $k-1$ of the $\phi_i$’s uniquely determines the last one,
+as they must satisfy $\displaystyle \sum _{i = 1}^k \phi_i = 1$.
+
+So, we will instead parameterize the multinomial with only $k-1$ parameters $\phi_1, \dots, \phi_{k-1}$, 
+where $\displaystyle \phi_i =P(y=i; \phi)$, and $\displaystyle P(y = k; \phi) = 1 - \sum _{i=1}^{k-1} \phi_i$.\newline
+For notational convenience, we will also let $\displaystyle \phi_k= 1 - \sum _{i=1}^{k-1} \phi_i$, 
+but we should keep in mind that this is not a parameter, and that it is fully specified by $k-1$ parameters.\newline
+To express the multinomial as an exponential family distribution, we will define $T(y) \in \R ^{k-1}$ in which 
+$T_i$ has $0$ in all entries except $1$ in $i$-th row.
+
+Unlike our previous examples, here we do not have $T(y) = y$ and also, $T(y)$ is now a $k-1$ dimensional vector,
+rather than a real number.\newline
+We will write $(T(y))_i$ to denote the $i$-th element of the vector $T(y)$.\newline
+We introduce one more very useful piece of notation: an indicator function $1\{*\}$ takes on a value of $1$
+if its argument is true, and $0$ otherwise ($1\{True\} = 1, 1\{False\} = 0$).
+
+So, we can also write the relationship between $T(y)$ and $y$ as $(T(y))_i = 1\{y=i\}$ and 
+further, we have that $E[(T(y))_i] = P(y=i) = \phi_i$.\newline
+We are now ready to show that the multinomial is a member of the exponential family, infact we have
+\begin{align*}
+    P(y | \phi) & = \phi _1^{1\{y=1\}} \phi_2^{1\{y=2\}} \dots \phi_k^{1\{y=k\}} \\
+               & = \phi _1^{1\{y=1\}} \phi_2^{1\{y=2\}} \dots \phi_k^{1 - \sum _{i=1}^{k-1} 1\{y = i\}} \\
+               & = \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} \dots \phi_k^{1 - \sum _{i=1}^{k-1} (T(y))_i} \\
+               & = exp \left((T(y))_1 \log \phi_1 + (T(y))_2 \log \phi_2 + \dots 
+                             + (1 - \sum _{i=1}^{k-1} (T(y))_i) \log \phi_k \right) \\
+               & = exp \left((T(y))_1 \log \left(\frac{\phi_1}{\phi_k}\right) + (T(y))_2 \log \left(\frac{\phi_2}
+                   {\phi_k}\right) + \dots + (T(y))_{k-1} \log \left(\frac{\phi_{k-1}}{\phi_k}\right)
+                   + \log \phi_k\right) \\
+               & = b(y) exp(\eta^T T(y) - a(\eta)) \\
+\end{align*}
+where we have 
+\begin{align*}
+    \eta & = \begin{bmatrix}
+                \log(\frac{\phi_1}{\phi_k}) \\
+                \log(\frac{\phi_2}{\phi_k}) \\
+                \vdots \\
+                \log(\frac{\phi_{k-1}}{\phi_k}) \\
+             \end{bmatrix} \\
+    a(\eta) & = -\log \phi_k \\
+    b(y) & = 1 \\
+\end{align*}
+This completes our formulation of the multinomial as an exponential family distribution.
+
+The link function is given, for $i = 1, \dots, k$ by
+\[ \eta_i = \log \frac{\phi_i}{\phi_k} \]
+For convenience we have also that $\eta_k = \log \frac{\phi_k}{\phi_k} = 0$ and to invert the link function
+and derive the response function, we therefore have that
+\begin{align*}
+    e^{\eta_i} & = \frac{\phi_i}{\phi_k} \\
+    \phi_k e^{\eta_i} & = \phi_i \\
+    \phi_k \sum _{i=1} ^k e^{\eta_i} & = \sum _{i=1}^k \phi_i = 1 
+\end{align*}
+This implies that $\displaystyle \phi_k = \frac{1}{\sum _{i=1}^k e^{\eta_i}}$, that gives the response function
+\[ \phi_i = \frac{e^{\eta_i}}{\sum _{j=1}^k e^{\eta_j}} \]
+This function mapping from the $\eta$’s to the $\phi$’s is called the \emph{softmax function}.
+
+To complete our model, we assume that $\eta_i$'s are linearly related to the $x$’s, so, we have 
+$\eta_i = \transpose{\theta_i}x$ (for $i = 1, \dots, k-1$), where $\theta_1, \dots, \theta_{k-1} \in \R^{d+1}$
+are the parameters of our model.\newline
+For notational convenience, we can also define $\theta_k = 0$, so that $\eta_k = \transpose{\theta_k}x = 0$,
+as given previously and hence, our model assumes that the conditional distribution of $y$ given $x$ is given by
+\begin{align*}
+    P(y = i | x; \theta) & = \phi_i \\
+                         & = \frac{e^{\eta_i}}{\sum _{j=1}^k e^{\eta_j}} \\
+                         & = \frac{e^{\transpose{\theta_i}x}}{\sum _{j=1}^k e^{\transpose{\theta_j}x}} \\
+\end{align*}
+This model, which applies to classification problems where $y \in \{1, \dots, k \}$, is called \emph{softmax regression}
+and it is a generalization of logistic regression.\newline
+Our hypothesis will output
+\begin{align*}
+    h_{\theta}(x) & = E[T(y) | x; \theta] \\
+                  & = \begin{bmatrix}
+                      1\{y = 1\} \\
+                      1\{y = 2\} \\
+                      \dots \\
+                      1\{y = k - 1\} \\
+                      \end{bmatrix} \\
+                  & = \begin{bmatrix}
+                      \phi_1 \\
+                      \phi_2 \\
+                      \dots \\
+                      \phi_{k-1} \\
+                      \end{bmatrix} \\
+                  & = \begin{bmatrix}
+                      \frac{exp(\transpose{\theta_1}x)}{\sum _{j=1}^k exp(\transpose{\theta_j}x)} \\
+                      \frac{exp(\transpose{\theta_2}x)}{\sum _{j=1}^k exp(\transpose{\theta_j}x)} \\
+                      \dots \\
+                      \frac{exp(\transpose{\theta_{k-1}}x)}{\sum _{j=1}^k exp(\transpose{\theta_j}x)} \\
+                      \end{bmatrix} \\
+\end{align*}
+In other words, our hypothesis will output the estimated probability that $P(y = i | x; \theta)$, for every value
+of $i= 1, \dots, k$ and even though $h_{\theta}(x)$ as defined above is only $k-1$ dimensional, clearly 
+$P(y = k | x; \theta)$ can be obtained as $1 - \sum _{i=1}^{k-1} \phi_i$.\newline
+Lastly, let’s discuss parameter fitting: similar to our original derivation of ordinary least squares
+and logistic regression, if we have a training set of $n$ examples $\{(x(i), y(i)); i= 1, \dots, n\}$ 
+and would like to learn the parameters $\theta_i$ of this model, we would begin by writing down the log-likelihood
+\begin{align*}
+    l(\theta) & = \sum _{i=1} ^ n \log P(y^{(i)} | x^{(i)}; \theta) \\
+              & = \sum _{i=1} ^ n \log \prod _{l=1}^k (\frac{e^{\transpose{\theta_l}x^{(i)}}}
+                  {\sum _{j=1}^k e^{\transpose{\theta_j}x^{(i)}}})^{1\{y^{(i)} = l\}} \\
+\end{align*}
+We can now obtain the maximum likelihood estimate of the parameters by maximizing $l(\theta)$ in terms of $\theta$,
+using a method such as gradient ascent or Newton’s method.
