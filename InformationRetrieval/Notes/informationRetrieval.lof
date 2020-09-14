@@ -1,0 +1,15 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\deactivateaddvspace 
+\ttl@tocsep 
+\ttl@tocsep 
+\ttl@tocsep 
+\contentsline {figure}{\numberline {1}{\ignorespaces Altavista search engine web page\relax }}{5}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Google search engine on 1998\relax }}{5}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces A Google search with knowledge graph\relax }}{6}{figure.caption.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces an example of transition from word to concept with the phrase "Leonardo is the scientist that has painted the Mona Lisa"\relax }}{6}{figure.caption.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Google search evolution\relax }}{7}{figure.caption.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces A term-document incidence matrix. Matrix element $(t, d)$ is $1$ if the play in column $d$ contains the word in row $t$, and is $0$ otherwise\relax }}{7}{figure.caption.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces an example of Inverted index for Brutus, Caesar and Calpurnia\relax }}{8}{figure.caption.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Pseudocode of Intersection between two postings list\relax }}{8}{figure.caption.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces And query between Brutus, Calpurnia and Caesar\relax }}{9}{figure.caption.9}%

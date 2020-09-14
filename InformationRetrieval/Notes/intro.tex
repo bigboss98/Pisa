@@ -1,0 +1,193 @@
+\chapter{Introduction to Information Retrieval}
+In this course we will strongly consider \emph{search engines}, but \emph{information retrieval} is not
+only consider on search engines, so a definition of information retrieval is the following
+
+\begin{defi}
+Information retrieval is finding material (usually documents) of unstructured nature that satisfies
+an information need from within large collections
+\end{defi}
+As defined in this way, information retrieval used to be an activity that only a few people engaged in:
+reference librarians, paralegals, and similar professional searchers, but now the world has changed,
+and hundreds of millions of people engage in information retrieval every day when 
+they use a web search engine or search their email.
+
+Information retrieval systems can also be distinguished by the scale at
+which they operate, and it is useful to distinguish three prominent scales.
+In web search, the system has to provide search over billions of documents
+stored on millions of computers. Distinctive issues are needing to gather
+documents for indexing, being able to build systems that work efficiently
+at this enormous scale, and handling particular aspects of the web, such as
+the exploitation of hypertext
+
+In between is the space of enterprise,
+institutional, and domain-specific search, where retrieval might be provided for
+collections such as a corporation’s internal documents, a database of patents,
+or research articles on biochemistry. In this case, the documents will typi-
+cally be stored on centralized file systems and one or a handful of dedicated
+machines will provide search over the collection
+
+Data available and considered can be from different nature, so we have the following classification:
+\begin{description}
+    \item [Structured data: ] are data that tends to refer to tables and typically allows numerical range
+                              and exact match (for text) queries, like for example "Salary < 60000 AND Manager = Smith".
+    \item [Semistructured data (XML/JSON): ] type of data where are available some structured aspects, like know
+                                             the name of a document, chapter or paragraph, so it facilitate some
+                                             semi-structured search like 
+                                             "Title contains data AND Bullets contain search".
+
+    \item [Unstructured data: ] Typically refers to free text, and allows keyword queries including operators and
+                                more sophisticated “concept” queries like find all web pages dealing with drug abuse.
+
+                                Is the classic model for searching text documents, so we more concentrate on this
+                                type of data.
+\end{description}
+We consider now the search engines, that are defined as 
+\begin{defi}
+A search engine is a software system that is designed to carry out search, which means to search page 
+in a systematic way for particular information specified in a textual search query.\newline
+The search results are generally presented in a line of results, often referred to as search engine results pages 
+and the information may be a mix of links to pages, images, videos, infographics, articles, research papers,
+and other types of files.
+\end{defi}
+Search engines are not only web search engine but contains also social network (Facebook), streaming site (Netflix),
+Maps (OpenStreetMap) and work finder (Linkedin) and we have 5 generations of search engines:
+\begin{description}
+    \item [Zero generation: ] introduced on 1991, use only metadata added by users
+    \item [First generation: ] introduced on 1995-1997 and use only on-page web-text data, as can be seen on 
+                               figure \ref{img:altavista}.
+                               \begin{figure}
+                                    \caption{Altavista search engine web page}
+                                    \label{img:altavista}
+                                    \includegraphics[width=\textwidth]{Images/altavista}
+                                \end{figure}
+    \item [Second generation: ] introduced on 1998 by Google, use off-page, web-graph data, where it
+                                use \emph{anchor texts} (how people refer to the page) and \emph{links}, that
+                                strongly improve the usability and utility of a search engine.
+                                An example of second generation search engine can be viewed on figure \ref{img:google}.
+                                \begin{figure}
+                                    \caption{Google search engine on 1998}
+                                    \label{img:google}
+                                    \includegraphics[width=\textwidth]{Images/google}
+                                \end{figure}
+    \item [Third generation: ] introduced on $2005$, it start to answer "the need behind the query" and are
+                               added more sources, like maps, images, news, wikipedia and so on. 
+
+    \item [Fourth generation: ] introduced on $2012$, it strongly concern about \emph{knowledge graph} defined as
+                                \begin{defi}
+                                Knowledge graph is a knowledge base used by Google and its services to enhance
+                                its search engine's results with information gathered from a variety of sources.\newline
+                                The information is presented to users in an infobox next to the search results.
+                                \end{defi}
+                                An example of knowledge graph can be viewed on figure \ref{img:knowledgeGraph} and
+                                knowledge graph also permit to transform word to concept, that can provide more
+                                information and provide more accurate results on user query, as we can see on 
+                                figure \ref{img:leonardo} as we can viewed the phrase "Leonardo is the scientist
+                                that has painted the Mona Lisa". \newline
+                                With Knowledge graph is also possible to consider \emph{polysemy} and 
+                                \emph{sinonimy} word, so at example is possible recognise that "Microsoft's browser"
+                                and "Internet explorer" represent the same concept.
+                                \begin{figure}
+                                    \caption{A Google search with knowledge graph}
+                                    \label{img:knowledgeGraph}
+                                    \includegraphics[width=\textwidth]{Images/knowledgeGraph}
+                                \end{figure}
+                                \begin{figure}
+                                    \caption{an example of transition from word to concept with the phrase
+                                             "Leonardo is the scientist that has painted the Mona Lisa"}
+                                    \label{img:leonardo}
+                                    \includegraphics[width=\textwidth]{Images/leonardo}
+                                \end{figure}
+\end{description}
+In figure \ref{img:googleEvolution} is possible to notice which was the evolution on Google search engine.
+
+\begin{figure}
+    \caption{Google search evolution}
+    \label{img:googleEvolution}
+    \includegraphics[width=\textwidth]{Images/googleGeneration}
+\end{figure}
+Now are available "devices $2.0$", that have their IDs, communication capacity, computing and storage, like
+for example car with maps, where the driver can asks (using text or voice audio) the route for a place.
+
+\section{Boolean retrieval model}
+We consider now the first model of Information retrieval, that was mainly used on first generation of search engine,
+but are also used currently in email, library catalog and so on.
+
+\begin{defi}
+The boolean retrieval model is a model able to asks query formed by a boolean expression (query where we use 
+AND, OR, NOT operators to join terms) where we Views each document as a set of words and it is a precise model,
+because document matches condition or not.
+\end{defi}
+
+We consider as example to determine which plays of Shakespeare contain the words 
+"Brutus AND Ceaser AND NOT Calpurnia" and the simplest form is do a sort of linear scan, but this type
+of text processing does not enable to rank results, consider some similarity measures and so on, so we use 
+our boolean retrieval model defined above 
+
+In figure \ref{img:booleanMatrix} is possible to note a term-document incident matrix, where we 
+record for each document, here a play of Shakespeare’s, whether it contains each word 
+out of all the words Shakespeare used (Shakespeare used about 32,000 different words).
+
+\begin{figure}
+    \caption{A term-document incidence matrix. Matrix element $(t, d)$ is $1$ if the play in column $d$
+             contains the word in row $t$, and is $0$ otherwise}
+    \label{img:booleanMatrix}
+    \includegraphics[width=\textwidth]{Images/booleanMatrix}
+\end{figure}
+The problem of Term-document incident matrix is that the matrix could be very big and it is also a \emph{sparse}
+matrix, so we waste a lot of spaces to represent useless data.
+
+To solve this problem we introduce \emph{inverted index}, where for each term $t$, we must store a list 
+of all documents that contain $t$ and we identify each by docID, a document serial number.\newline
+In figure \ref{img:invertedIndex} is possible to note an example of inverted index, where we only store the docID
+where a word appear in a document.
+
+\begin{figure}
+    \caption{an example of Inverted index for Brutus, Caesar and Calpurnia}
+    \label{img:invertedIndex}
+    \includegraphics[width=\textwidth]{Images/invertedIndex}
+\end{figure}
+The advantages of inverted index is that query requires just a scan and also we can store smaller integers,
+using \emph{gap coding}, that will enable to use less amount of memory.
+
+To execute an AND query the first approach consist to check each element of the two postings list that will cause 
+$n * m$ operations, where $n$ and $m$ are the length of the two postings list, and we can achieve a better result
+if we sort the two postings list, so at least if we compare $1$ and $2$ we can avoid to consider to compare the
+element $1$ with element that are greater than $2$, so we need only $n + m$ comparison that will improve the
+performance of AND query.
+
+\begin{figure}
+    \caption{Pseudocode of Intersection between two postings list}
+    \label{alg:intersection}
+    \begin{codebox}
+        \Procname{$\proc{intersection} (p_1, p_2)$}
+        \li $\id{answer} \gets <> $
+        \li \While $p_1 \neq \const{nil}$ and $p_2 \neq \const{nil}$ 
+            \Do
+        \li     \If $\proc{docID}(p_1) \isequal \proc{docID}(p_2)$
+        \li         \Then $\proc{Add}(\id{answer}, \proc{docID}(p_1))$
+        \li               $\id{p_1} \gets \proc{next}(p_1)$
+        \li               $\id{p_2} \gets \proc{next}(p_2)$
+        \li     \ElseIf $\proc{docID}(p_1) < \proc{docID}(p_2)$
+        \li         \Then $\id{p_1} \gets \proc{next}(p_1)$
+        \li     \ElseNoIf $\id{p_2} \gets \proc{next}(p_2)$
+                \End
+        \li \Return $\id{answer}$
+    \end{codebox}
+\end{figure}
+
+The pseudocode to intersect two postings list in a AND query can be found on figure \ref{alg:intersection} and
+in case we have to compute an AND query between 3 operands, it is better to first compute an AND query between
+operands with smallest length and then compute an AND query with the other operand, so to compute the 
+query "Brutus AND Caesar AND Calpurnia" in figure \ref{img:andQuery} we first compute "Brutus AND Calpurnia" and
+then compute "(Brutus AND Calpurnia) AND Caesar"
+
+\begin{figure}
+    \caption{And query between Brutus, Calpurnia and Caesar}
+    \label{img:andQuery}
+    \includegraphics[width=\textwidth]{Images/andQuery}
+\end{figure}
+
+
+
+
+
