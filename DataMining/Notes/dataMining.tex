@@ -1,0 +1,36 @@
+\documentclass[a4paper, openany]{book}
+\usepackage[T1]{fontenc}%per rappresentare i font italiani, come le lettere accentate, con la giusta spaziatura
+\usepackage[utf8]{inputenc}%per poter inserire nel testo .tex i caratteri unicode8
+\usepackage[italian]{babel}%per poter effettuare la giusta sillabazione della lingua italiana
+\usepackage{classicthesis}%necessario per usare lo stile arsclassica
+\usepackage{arsclassica}%per poter usare lo stile arsclassica usato nell'Arte di imparare il Latex
+\usepackage{amsmath}%per poter rappresentare ed utilizzare al meglio gli ambienti e le formule matematiche
+\usepackage{amssymb}%per rappresentare alcuni simboli particolari matematici
+\usepackage{amsthm}%per definire e poter effettuare le dimostrazioni matematiche
+\usepackage{amsfonts}%per poter avere i font matematici
+\usepackage{amstext}%per avere una gestione del testo nell'ambiente matematico
+\usepackage{booktabs}%per la corretta gestione delle tabelle
+\usepackage{microtype}%per effettuare un aggiustamento della spaziatura tra caratteri e del font
+\usepackage{clrscode3e}%per effettuare lo pseudocodice nello stile del libro CLRS
+\usepackage{graphicx}
+
+\theoremstyle{definition}%per avere lo stile tondo quando uso un ambiente definito da newtheorem
+\newtheorem*{defi}{Def}%Definizione per avere la gestione delle definizioni
+\newtheorem{prop}{Prop}[chapter]
+\newtheorem{thm}{Thm}[chapter]
+\newtheorem{esempio}{Esempio}
+\newcommand{\numberset}{\mathbb}
+\newcommand{\N}{\numberset{N}}
+\newcommand{\deriv}{\Rightarrow}
+
+\begin{document}
+    \title{Data Mining notes}
+    \author{Marco Natali}
+    \date{}
+    \maketitle
+
+    \tableofcontents
+    \listoffigures
+
+    \input{intro}%Introduction Chapter
+\end{document}
