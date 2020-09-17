@@ -1,0 +1,103 @@
+\chapter{Data Visualization}
+For preparing data for data mining task it is essential to have an overall picture of your data, so we have to
+gain insight in your data, with respect to your project goals and should be general to understand properties.\newline
+You should discover semantics of data and also to discover statistical charecteristics of your data in
+order to have a more understanding of data.
+
+Data can be represent usually by $3$ modes:
+\begin{itemize}
+    \item Record: we have a matrix representation that will represent data and it is divided in:
+            \begin{itemize}
+                \item Data Matrix: If data objects have the same fixed set of numeric attributes,
+                      then the data objects can be thought of as points in a multidimensional space,
+                      where each dimension represents a distinct attribute.\newline
+                      Such data set can be represented by an $m$ by $n$ matrix, where there are $m$ rows,
+                      one for each object, and $n$ columns, one for each attribute,
+                      as you can see in figure \ref{img:dataMatrix}.
+                \item Document Matrix: each document becomes a ‘term’ vector, where each term 
+                      is a component (attribute) of the vector and the value of each component is 
+                      the number of times the corresponding term occurs in the document.
+                \item Transition Data: A special type of record data, where each record (transaction)
+                      involves a set of items, so for example consider a grocery store.\newline
+                      The set of products purchased by a customer during one shopping trip constitute a transaction,
+                      while the individual products that were purchased are the items,
+                      as it possible to note in figure \ref{img:transiction}.
+            \end{itemize}
+    \item Graph
+    \item Order
+\end{itemize}
+Data is a collection of data objects and their attributes, where the last one is a property or 
+characteristic of an object like eye color of a person and a data object is a collection of 
+attributes that descrive an object.
+
+There are different types of attributes:
+\begin{description}
+    \item [Nominal/Categorical: ] attribute values in a finite domain, categories, “name of things” like
+                                  eye color, zip codes.
+    \item [Binary: ] nominal attribute with only $2$ states ($0$ and $1$) where we have \emph{symmetric binary},
+                     in which both outcomes are equally important, or also \emph{asymmetric binary} where 
+                     outcomes are not equally important, like medical test positive vs negative, and the convention
+                     is to assign $1$ to most important outcome.
+    \item [Ordinal: ] finite domain with a meangniful ordering on the domain, like rankings, grades and height.
+    \item [Numeric: ] quantity (integer or real-valued) measured on a scale of equal-sized units and which
+                      values have order, example of this data are temperatures in Celsius and calendar dates.
+    \item [Ratio-scaled: ] we can speak of values as being an order of magnitude larger than the unit of measurement
+                           and example are length, elapsed time and so on.
+\end{description}
+There is also a distinction about which data an attribute can have:
+\begin{description}
+    \item [Discrete Attribute: ] has only a finite or countably infinite set of values and often are represented
+                                 as integer variables, where we can note that binary attributes are a special
+                                 case of discrete attributes.
+    \item [Continuous Attribute: ] has real numbers as attribute values and practically real values can only
+                                   be measured and represented using a finite number of digits.\newline
+                                   Examples are temperature, weight, or height and also continuous attributes
+                                   are typically represented as floating-point variables.
+\end{description}
+The type of an attribute depends on which of the following properties/operations it possesses:
+\begin{description}
+    \item [Distinctness: ] $= \neq$
+    \item [Order: ] $< >$
+    \item [Differences: ] are $+ -$
+    \item [Ratios: ] are $* /$
+\end{description}
+We have that Nominal attribute has only distinctness, ordinal attribute add the order property, interval
+attribute has also differences and in the end ratio attribute has all $4$ properties.
+
+ Poor data quality negatively affects many data processing efforts
+“The most important point is that poor data quality is an unfolding
+disaster.
+– Poor data quality costs the typical company at least ten percent
+(10%) of revenue; twenty percent (20%) is probably a better
+estimate.”
+
+Some \emph{Data quality} issues are the following:
+\begin{description}
+•••••Syntactic accuracy: Entry is not in the domain.
+– Examples: fmale in gender, text in numerical a8ributes, ... Can be
+checked quite easy.
+Semantic accuracy: Entry is in the domain but not correct
+– Example: John Smith is female
+– Needs more informa4on to be checked (e.g. “business rules”).
+Completeness: is violated if an entry is not correct although
+it belongs to the domain of the attribute.
+– Example: Complete records are missing, the data is biased (A bank has
+rejected customers with low income.)
+Unbalanced data: The data set might be biased extremely
+to one type of records.
+– Example: Defec4ve goods are a very small frac4on of all.
+Timeliness: Is the available data up to date?
+\end{description}
+Data set may include data objects that are duplicates, or almost duplicates of one another and that is 
+a major issue when we are merging data from heterogeneous sources, an example can be a same person with
+multiple email addresses.
+\emph{Data cleaning} is the process of dealing with duplicate data issues 
+When should duplicate data not be removed?
+
+Figure: In figure we change from Lira to Euro and that explain a dramatic reduction on figure and that is 
+a problem so we have to rescale values that makes consistent data.
+
+Figure: 
+
+Distribution of data observation is important to recognize if we have symmetric data, skewed data, bimodal
+pattern (which usually shows subpopulation on attribute)
