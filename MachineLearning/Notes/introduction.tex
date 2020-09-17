@@ -1,3 +1,129 @@
 \chapter{Introduction}
+In Machine Learning course we will introduce principles and models that makes possible to make prediction
+given data, even also if we don't know how to obtain result.\newline
+In early ages of Computer Science to obtain some results we have to develop some algorithms to solve that 
+but sometimes we don't have a knowledge of how to obtains some results but we have a lot of data and we 
+uses in ML this data to infer a model which allows the generalization and be able to provide accurate response
+on new data.\newline
+In \cite{aiMagazine} Poggio and Shelton says that the problem of learning is arguably at the very core of 
+the problem of intelligence, both biological and artificial.
+
+ML can be useful as predictive models when we have no (or poor) theory, a lack in knowledge to how to explain
+a phenomenon and we have uncertain, noisy or incomplete data, and also it is request when we use ML models 
+to have a source of training experience and a tolerance on the precision of results.\newline
+The ML studies and proposes methods to build (infer) dependencies/functions/hypotheses from examples
+of observed data, that fits the know examples and able to generalize, with reasonable accuracy for new data,
+under statistical and computational conditions and criteria.
+
+Some examples of application of ML are real-world systems, like human computer interface and search engine,
+pattern recognition (face and speech recognition), Computer Vision, Natural Language Processing and so on.
+
+In figure \ref{img:mlProcess} it is possible to note all components of a ML process that we will analyzed now:
+\begin{description}
+    \item [Data: ] represent the available facts (experience) and can helps to capture the structure
+                   of the analyzed objects.\newline
+                   There different type of data, from numerical value to graph element, to complex data
+                   from other fields like DNA elements.\newline
+                   Data can suffer from $3$ problems that will be now briefly introduced:
+                   \begin{enumerate}
+                        \item \emph{Noise}: addition of external factors to the stream of target information (signal),
+                              due to randomness in the measurements, not due to the underlying law.
+                        \item \emph{Outliers}: unusual data values that are not consistent with most
+                                               observations, due to abnormal measurements errors.\newline
+                                               In preprocessing phase we should reduce or completely remove 
+                                               outlier that can will create unrepresentive result in modelation.
+                        \item \emph{Feature selection}: selection of a small number of informative features and it
+                                    can provide an optimal input representation for a learning problem.
+                   \end{enumerate}
+    \item [Task: ] defines the purpose of the application and it is the knowledge that we want to achieve
+                   (is it pattern in DM or model in ML) and we have two different type of task, both important:
+                   \begin{description}
+                        \item [Predictive: ] is the function approximation and it composed 
+                                             by Classification and Regression.
+                        \item [Descriptive: ] has objective to find subsets or groups of unclassified data 
+                        and it is composed by cluster analysis and association rules.
+                   \end{description}
+                   Task can be also suddivised by the present or absent of precedent result:
+                   \begin{itemize}
+                        \item \emph{Supervised learning: } Given Training examples as $<input, output> = (x, y)$
+                               for an unknown function $f$, known only at the given points of example) we have also
+                               a target value, the desiderate value of y, given by the teacher according to $f(x)$
+                               to label the data and we would like to find a good approximation of $f$ that can 
+                               be used to predict $y'$ on unseen data $x'$.\newline
+                               If we have that $y$ has discrete value output we have a \emph{Classification} task
+                               instead if we have continuous output values we have a \emph{Regression} task.
+
+                        \item \emph{Unsupervised Learning:} there is no label data from teacher and we only
+                              have a set of unlabeled data $x$ and we want to find natural groupings inside
+                              the set of data; \emph{Clustering} is an example of an Unsupervised learning task.
+
+                        \item \emph{Semisupervised Learning: } combines both labeled and unlabeled examples
+                              to generate an appropriate function or classifier.
+
+                        \item \emph{Reinforcement Learning: } is the adaptation in autonomous systems and 
+                              ML algorithms learns a policy of how to act given an observation of the
+                              world and every action has some impact in the environment, so the
+                              environment provides feedback that guides the learning algorithm.
+                   \end{itemize}
+    \item [Model: ] aims to capture/describes the relationships among the data (on the basis of the task)
+                    by a “language”, related to the representation used to get knowledge.\newline
+                    It defines the class of functions that the learning machine can implement (hypothesis space),
+                    set of functions $h(x, w)$, where $w$ is the (abstract) parameter.\newline
+                    \emph{Hypothesis function} is a proposed function $h$ that we believed to be similar to $f$ 
+                    and it is an expression in a given language that describes the relationship among data.\newline
+                    Unfortunately there is no universal “best” learning method, so if an algorithm achieves
+                    superior results on some problems, it must pay with inferiority on other problems;
+                    in this sense there is no free lunch.
+
+    \item [Learning Algorithms: ] is an (Heuristic) search through the hypothesis space H of the best hypothesis
+                                  and typically searching for the h with the minimum “error”, where 
+                                  free parameters of the model are fitted to the task at hand.\newline
+                                  $H$ may not coincide with the set of all possible functions and the
+                                  search can not be exhaustive: we need to make assumptions and we will
+                                  see the rule of \emph{Inductive bias}
+
+
+ Loss
+A “good” approximation to f from examples.
+How to measure the quality of the approximation?
+ Recall that we produce h(x) value (output of the model for input x)
+ We want to measure the “distance” between h(x) and d
+(objective function for minimization of errors in training, check of errors in test)
+We use a (“inner”) loss function:
+ L(h(x),d)
+e.g. high value  poor approximation
+The Error (or Risk or Loss) is an expected value of this L
+e.g. a “sum” or mean of the inner loss L over the set of samples
+
+A possible classifications of common learning tasks specifying the
+(changing of the) nature of the loss function (in particular of L),
+output and hypothesis space
+Both:
+• Survey of common learning tasks
+• Nature of models (hypothesis spaces) for different class of tasks.
+
+Learning: search for a good function in a function space from
+known data (typically minimizing an Error/Loss)
+•Good w.r.t. generalization error: it measures how accurately the
+model predicts over novel samples of data
+(Error/Loss measured over new data)
+Generalization: crucial point of ML!!!
+Easy to use ML tools versus correct/good use of ML
+
+Learning phase (training, fitting): build the model fromdata – training data (and bias)
+know
+Predictive phase (deployment/ Inference use of the ML built
+model): apply the model to new examples.
+For test we take the input x’, we compute the response by the
+model; comparing with the target value that the model has never
+seen we can evaluate our predictive hypothesis,
+i.e. evaluation of the generalization capability
+Note: performance in ML = generalization accuracy/ predictive accuracy
+estimated by the error computed on the (hold out) Test Set
+• Theory: E.g. Statistical Learning Theory [Vapnik] :
+– under what (mathematical) conditions is a model able to
+generalize?  see next lecture (just basic notions)
+
+
 
 
