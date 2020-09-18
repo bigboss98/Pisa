@@ -80,50 +80,128 @@ In figure \ref{img:mlProcess} it is possible to note all components of a ML proc
                                   free parameters of the model are fitted to the task at hand.\newline
                                   $H$ may not coincide with the set of all possible functions and the
                                   search can not be exhaustive: we need to make assumptions and we will
-                                  see the rule of \emph{Inductive bias}
+                                  see the rule of \emph{Inductive bias}.
+    
+    \item [Loss function: ] is the union of Task and Model and it is a good approximation to $f$ from examples.\newline
+                            We use a inner loss function $L(h(x), y)$ to measure the distance between $h(x)$ and $y$,
+                            so if we have an high value it meanst that we have a poor approximation; this loss 
+                            function changes for different tasks so we have always to define it.\newline
+                            The Error (or Risk or Loss) is an expected value of this $L$ defined as 
+                            \[ E(w) = \frac{1}{l} \sum _{p=1}^l L(h(x_p), y) \]
+                            A possible classifications of common learning tasks specifying the 
+                            (changing of the) nature of the loss function (in particular of L),
+                            output and hypothesis space.
+                            
+                            \begin{defi}[overfitting]
+                            We have that learner \emph{overfit} the data if it outputs a hypothesis $h \in H$
+                            having true error $R$ and empirical error $E$, but there is another hypothesis $h' \in H$
+                            having $E' > E$ and $R' < R$.
+                            \end{defi}
+                            In figure \ref{img:overfitting} we can see the effect of overfitting in polynomial
+                            fitting, with also in figure \ref{img:coefficients} it possible to note the 
+                            coefficients of our polynomial fitting.
+    \item [Validation: ] evaluation of performances for ML systems gives a predictive accuracy and we have
+                         that the performance on training data provide an overoptimistic evaluation.\newline
+                         Validation has $2$ aims:
+                         \begin{enumerate}
+                            \item \emph{Model selection} where we estimating the performance (generalization error)
+                                  of different learning models in order to choose the best one (to generalize) and 
+                                  this includes search the best hyper-parameters of your model and returns a model.
+                            \item \emph{Model assessment}, after we have chosen a final model,
+                                  estimating/evaluating its prediction error/ risk (generalization error)
+                                  on new test data (measure of the quality/performance of the ultimately chosen model)
+                                  and it returns an estimation.
+                         \end{enumerate}
+                         A good rule is to keep a separation between goals and use separate datasets to validate
+                         and test our model, so we should have $3$ dataset: a training set, to find the best 
+                         hypothesis, a validation set for model selection and in the end a external unseen 
+                         test dataset to estimate our prediction error.
+                            
+                         If we have infinite data there are not problem, but we have only a small amount of data
+                         we have to choose how to create these $3$ datasets so we present now some technique
+                         to do validation, that will be extended later during the course:
+                         \begin{description}
+                             \item [Hold-out Cross Validation: ] we partition dataset $D$ into $3$ disjoint sets
+                                    training set $TR$, validation set $VL$ and test set $TS$, as we can see
+                                    in figure \ref{img:hold-out} and in figure \ref{img:dataset} we can see
+                                    the purpose of each dataset.
+                             
+                            \item [K-fold Cross Validation: ] Hold CV make an insufficient use of data so we 
+                                  split the dataset $D$ into $k$ mutually exclusive subsets $D_1, D_2, \dots, D_k$
+                                  to train the learning algorithm on $D - D_i$ and test it on $D_i$ and it uses
+                                  all the data for training and validation/testing.
+                        \end{description}
 
+                        \begin{figure}
+                            \caption{Representation of dataset in Hold-out validation}
+                            \label{img:hold-out}
+                            \includegraphics[width=\textwidth]{images/holdOut}
+                        \end{figure}
 
- Loss
-A “good” approximation to f from examples.
-How to measure the quality of the approximation?
- Recall that we produce h(x) value (output of the model for input x)
- We want to measure the “distance” between h(x) and d
-(objective function for minimization of errors in training, check of errors in test)
-We use a (“inner”) loss function:
- L(h(x),d)
-e.g. high value  poor approximation
-The Error (or Risk or Loss) is an expected value of this L
-e.g. a “sum” or mean of the inner loss L over the set of samples
+                        \begin{figure}
+                            \caption{Purpose of Training, validation and testset}
+                            \label{img:dataset}
+                            \includegraphics[width=\textwidth]{images/dataSet}
+                        \end{figure}
 
-A possible classifications of common learning tasks specifying the
-(changing of the) nature of the loss function (in particular of L),
-output and hypothesis space
-Both:
-• Survey of common learning tasks
-• Nature of models (hypothesis spaces) for different class of tasks.
+Specificity = TN / (FP + TN)
+Positive
+ Negative
+Positive
+ TP
+ FN
+ (True Negative rate =1 -FPR)
+Sensitivity = TP / (TP + FN)
+Negative
+ FP
+ TN
+(True Positive rate or Recall)
+(Precison= TP/(TP+FP))
+false positive (FP) :eqv. with
+false alarm
+Accuracy: % of correctly classified patterns = TP +TN / total
+Note: for binary classif.: 50% correctly classified = “coin” (random guess) predictor!
+Other topics:
+• unbalanced data (e.g. 99% +)  trivial classifier exists ,
 
-Learning: search for a good function in a function space from
-known data (typically minimizing an Error/Loss)
-•Good w.r.t. generalization error: it measures how accurately the
-model predicts over novel samples of data
-(Error/Loss measured over new data)
-Generalization: crucial point of ML!!!
-Easy to use ML tools versus correct/good use of ML
+ROC curve
+The diagonal corresponds
+to the worst classificator.
+Better curves have higher
+AUC (Area Under the
+Curve).
 
-Learning phase (training, fitting): build the model fromdata – training data (and bias)
-know
-Predictive phase (deployment/ Inference use of the ML built
-model): apply the model to new examples.
-For test we take the input x’, we compute the response by the
-model; comparing with the target value that the model has never
-seen we can evaluate our predictive hypothesis,
-i.e. evaluation of the generalization capability
-Note: performance in ML = generalization accuracy/ predictive accuracy
-estimated by the error computed on the (hold out) Test Set
-• Theory: E.g. Statistical Learning Theory [Vapnik] :
-– under what (mathematical) conditions is a model able to
-generalize?  see next lecture (just basic notions)
+Specificity = TN / (FP + TN)
+Positive
+ TP
+ FN
+ TPr or Sensitivity = TP / (TP + FN)
+Negative
+ FP
+ TN
 
+ Data collection:
+–
+ adequately large and representative set of examples
+for training and test the system
+Data representation
+– domain dependent, exploit prior knowledge of the
+application expert
+– Feature selection
+– Outliers detection
+– Other preprocessing: variable scaling, missing data,..
+Often the most critical phase for an overall success!
+Model choice:
+– statement of the problem
+– hypothesis formulation
+• You must know the limits of applicability of your model
+– complexity control
 
-
+Building of the model (core of ML):
+– through the learning algorithm using the
+training data
+Evaluation:
+– performance = predictive accuracy !
+\end{description}
+VC dim theory analysis !!!
 

@@ -5,13 +5,21 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{classicthesis}
 \usepackage{arsclassica}
 
 %\let\emph\relax
 %\DeclareTextFontCommand{\emph}{\textbf}
+\theoremstyle{definition}%per avere lo stile tondo quando uso un ambiente definito da newtheorem
+\newtheorem*{defi}{Def}%Definizione per avere la gestione delle definizioni
+\newtheorem{prop}{Prop}[chapter]
+\newtheorem{thm}{Thm}[chapter]
+\newtheorem{esempio}{Esempio}
 \newcommand{\numberset}{\mathbb}
+\newcommand{\N}{\numberset{N}}
+\newcommand{\deriv}{\Rightarrow}
 \newcommand{\R}{\numberset{R}}
 \newcommand{\transpose}[1]{#1 ^ \mathsf{T}}
 \newcommand{\derivative}[1]{\frac{\partial}{\partial #1}}
@@ -25,11 +33,12 @@
     \maketitle
     \tableofcontents
     \listoffigures
-
-    \input{linearRegression}%Chapter 1 Linear Regression
-    \input{classification}%Chapter 2 Classification
-    \input{generalizedModels}% Chapter 3 Generalized Linear Models    
-    \input{generativeAlgorithms}% Chapter 4 Generative Algorithms
-%    \input{supportVectorMachine}% Chapter 5 Support Vector Machine
-%    \input{neuralNetwork}% Chapter 6 Neural Network
+    
+    \input{introduction}%Chapter 1 Introduction to ML
+    \input{linearRegression}%Chapter 2 Linear Regression
+    \input{classification}%Chapter 3 Classification
+    \input{generalizedModels}% Chapter 4 Generalized Linear Models    
+    \input{generativeAlgorithms}% Chapter 5 Generative Algorithms
+%    \input{supportVectorMachine}% Chapter 6 Support Vector Machine
+%    \input{neuralNetwork}% Chapter 7 Neural Network
 \end{document}
