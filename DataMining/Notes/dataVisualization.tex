@@ -64,40 +64,224 @@ The type of an attribute depends on which of the following properties/operations
 We have that Nominal attribute has only distinctness, ordinal attribute add the order property, interval
 attribute has also differences and in the end ratio attribute has all $4$ properties.
 
- Poor data quality negatively affects many data processing efforts
-“The most important point is that poor data quality is an unfolding
-disaster.
-– Poor data quality costs the typical company at least ten percent
-(10%) of revenue; twenty percent (20%) is probably a better
-estimate.”
+Poor data quality negatively affects many data processing efforts infact we have that the most important point
+is that poor data quality is an unfolding disaster and also poor data quality costs to a typical company
+at least $10\%$ of revenue, but $20\%$ is probably a better estimate.
 
 Some \emph{Data quality} issues are the following:
 \begin{description}
-•••••Syntactic accuracy: Entry is not in the domain.
-– Examples: fmale in gender, text in numerical a8ributes, ... Can be
-checked quite easy.
-Semantic accuracy: Entry is in the domain but not correct
-– Example: John Smith is female
-– Needs more informa4on to be checked (e.g. “business rules”).
-Completeness: is violated if an entry is not correct although
-it belongs to the domain of the attribute.
-– Example: Complete records are missing, the data is biased (A bank has
-rejected customers with low income.)
-Unbalanced data: The data set might be biased extremely
-to one type of records.
-– Example: Defec4ve goods are a very small frac4on of all.
-Timeliness: Is the available data up to date?
+    \item [Syntactic accuracy: ] entry is not in the domain, like write "fmale" in gender, and that can be 
+                                  checked and solve quite easy.
+    \item [Semantic accuracy: ] entry is in the domain but not correct, like "Bergamo is in France", and 
+                                that type of error needs more information to be checked ("business rules").
+    \item [Completeness: ] is violated if an entry is not correct although it belongs to the domain of the attribute,
+                           and that happens when complete records are missing so the data is biased.
+
+    \item [Unbalanced data: ] the data set might be biased extremely to one type of records.
+    \item [Timeliness: ] is the available data up to date?
 \end{description}
 Data set may include data objects that are duplicates, or almost duplicates of one another and that is 
 a major issue when we are merging data from heterogeneous sources, an example can be a same person with
 multiple email addresses.
-\emph{Data cleaning} is the process of dealing with duplicate data issues 
-When should duplicate data not be removed?
+\emph{Data cleaning} is the process of dealing with duplicate data issues and consists to discover 
+missing data and outlier with the purpose to remove all or at least a largest part.
 
-Figure: In figure we change from Lira to Euro and that explain a dramatic reduction on figure and that is 
-a problem so we have to rescale values that makes consistent data.
+In figure \ref{img:rescale} we can see that in $2001$ there was the change from Lira to Euro and 
+that explain a dramatic reduction on a problem so we have to rescale values that makes consistent data.
 
-Figure: 
+The distribution of data observation is important to recognize if we have symmetric data, skewed data, bimodal
+pattern (which usually shows subpopulation on attribute) and when visualisations reveal patterns or exceptions,
+then there is “something” in the data set; when visualisations do not indicate anything specific,
+there might still be patterns or structures in the data that cannot be revealed by the corresponding
+(simple) visualisation techniques.
 
-Distribution of data observation is important to recognize if we have symmetric data, skewed data, bimodal
-pattern (which usually shows subpopulation on attribute)
+
+We will define now what we intend when we talk about outlier:
+\begin{defi}
+    Outliers are data objects with characteristics that are considerably different than most of the other
+    data objects in the data set.
+\end{defi}
+There are two different cases: one when Outliers are noise that interferes with data analysis and another
+when Outliers are the goal of our analysis, like in credit card fraud and intrusion detection.\newline
+Outliers cause data quality problems and should be exceptional or an unusual data objects, so 
+outliers coming from erroneous data should be excluded from the analysis and even if the outliers are correct
+(exceptional data), it is sometime useful to exclude them from the analysis.\newline
+For example, a single extremely large outlier can lead to completely misleading values for the mean value.
+
+To detect an outlier we can do the following actions:
+\begin{description}
+    \item [Single Attribute: ] when we have an outlier in categorial attributes we can find it when we have 
+                               a value that occurs with an extremely lower frequency than other; in case we 
+                               want to discover an outlier in numerical attributes we use box plots.
+    \item [Multidimensional Attribute: ] we can use Scatter plots for visually detect outliers for two attributes or
+                                         also we can use PCA or MDS plots to discover outliers.
+\end{description}
+For some instances values of single attributes might be missing, due to a missing a collection of an information,
+broken sensors and also attributes may not be applicable to all cases, and also missing value might not
+necessarily be indicated as missing, we can use instead zero or default values.
+
+\section{Data Preparation}
+Data preparation uses informations from data understanding to select attributes, reduce the data dimension,
+select records, treat missing values, treat outliers, integrate, unify and transform data 
+and in the end we can improve data quality.
+
+In Data Preparation can be execute the following operations:
+\begin{description}
+    \item [Aggregation: ] combining two or more attributes (or objects) into a single attribute (or object)
+                          with the purpose of reduce the number of attributes/objects, have more stable
+                          data and also to change the scale, like aggregate cities into regions.\newline
+                          In figure \ref{img:stableData} it is possible that aggregation from number of precipitation
+                          from a month in Australia in number of precipitation in a year make more stable data.
+                          \begin{figure}
+                            
+                              \label{img:stableData}
+                          \end{figure}
+    \item [Data Reduction: ] we reduce the amount of data that can be done in two ways:
+                             \begin{itemize}
+                                \item Reduce the number of records, using Data Sampling and Clustering.
+                                \item Reduce the number of columns (attributes), where we select a subset
+                                      of attributes and we generate a new (a smaller) set of attributes
+                             \end{itemize}
+                             \emph{Sampling} is the main technique employed for data reduction and it
+                             is often used for both the preliminary investigation of the data 
+                             and the final data analysis.\newline
+                             Sampling is typically used in data mining because processing the entire set of data
+                             of interest is too expensive or time consuming.
+
+                             The key principle for effective sampling is to using a sample that will work
+                             almost as well as using the entire dataset, if the sample is \emph{representative},
+                             that happens if the same has approximately the same properties as 
+                             the original set of data.
+                            
+                             The types of Samplings are the following:
+                             \begin{description}
+                                 \item [Simple Random Sampling: ] there is an equal probability of selecting
+                                        any particular item and we can have sampling without and with replacement.
+                                 \item [Stratified Sampling: ] split the data into several partitions and 
+                                        then draw random samples from each partition and we create an
+                                        approximation of the percentage of each class; it is suitable 
+                                        for distribution with peaks, in which each peak is a layer.
+                             \end{description}
+    \item [Dimension Reduction: ] selection of a subset of attributes that is as small as possible
+                                  and sufficient for the data analysis.\newline
+                                  Consist in removing (more or less) irrelevant features, that contain no 
+                                  information useful for data mining (students ID is irrelevant in predicting 
+                                  student GPA), and also removing redundant features, that duplicate much or 
+                                  all of the information contained in one or more other attributes.\newline
+                                  When dimensionality increases, data becomes increasingly sparse in the
+                                  space that it occupies(curse of dimensionality) and also definitions of
+                                  density and distance between points, which are critical for clustering
+                                  and outlier detection, become less meaningful.
+
+                                  The reduction of dimension has the purpose to avoid curse of dimensionality,
+                                  reduce amount of time and memory required by datamining algorithms, 
+                                  allow data to be more easily visualized and 
+                                  may help to eliminate irrelevant features or reduce noise.
+
+                                  It uses PCA(Principal Components Analysis), Singular Value Decomposition
+                                  or other supervised and non-linear techniques.
+                                
+                                  For removing irrelevant features, a performance measure is needed that
+                                  indicates how well a feature or subset of features performs and for removing
+                                  redundant features, either a performance measure for subsets of features or a
+                                  correlation measure is needed.
+
+                                  To reduce the dimension we usually use these $3$ methods:
+                                  \begin{description}
+                                      \item [Filter Method: ] selection after analyzing the significance and 
+                                                              correlation with other attributes (preprocessing)
+                                      \item [Wrapper Method: ] selecting the top-ranked features using 
+                                                               as reference a DM task and there is an incremental
+                                                               selection of the “best” attributes, with respect
+                                                               of information gain.
+                                      \item [Embedded Method: ] selection as part of the data mining algorithm,
+                                                                so during the operation of the DM algorithm,
+                                                                the algorithm itself decides which attributes to use
+                                                                and which to ignore, like Decision tree.
+                                  \end{description}
+    \item [Feature Creation: ] create new attributes that can capture the important information in a dataset
+                               much more efficiently than the original attributes and 
+                               there are two general methodologies:
+                               \begin{itemize}
+                                   \item Feature construction: in figure \ref{img:featureCreation} can be seen
+                                         an example on how to create a new feature.
+                                   \item Feature projection: it transforms the data in the high-dimensional space
+                                         to a space of fewer dimensions and this transformation may be linear,
+                                         or nonlinear.\newline
+                                         It uses
+                               \end{itemize}
+
+                               \begin{figure}
+                                    \caption{Example of Feature Creation}
+                                    \label{img:featureCreation}
+                                    \includegraphics[width=\textwidth]{Images/featureCreation}
+                               \end{figure}
+The data transformation may be linear, or nonlinear.
+Approaches:
+–
+ Principal Component Analysis (PCA)
+–
+ Singular Value Decomposition (SVD)
+–
+ Non-negative matrix factorization (NMF)
+–
+ Linear Discriminant Analysis (LDA)
+–
+ Autoencoder
+
+
+\end{description}
+Data Cleaning
+• How to handle anomalous values
+• How to handle outliers
+• Data Transformations
+
+Manage Missing Values
+1.
+2.
+EliminaRon of records
+SubsRtuRon of values
+Note: it can influence the original distribu7on of numerical values
+–
+ Use mean/median/mode
+–
+ Es7mate missing values using the probability distribu7on of
+exis7ng values
+–
+ Data Segmenta7on and using mean/mode/median of each
+segment
+–
+ Data Segmenta7on and using the probability distribu7on within
+the segment
+–
+ Build a model of classifica7on/regression for compu7ng missing
+values
+
+Discretization is the process of converting a
+continuous attribute into an ordinal attribute
+– A potentially infinite number of values are mapped into a
+small number of categories
+– Discretization is commonly used in classification
+– Many classification algorithms work best if both the
+independent and dependent variables have only a few
+values
+
+Hard to understand the optimal discretization
+– We should need the real data distribution
+• Original values can be continuous and sparse
+• Discretized data can be simple to be interpreted
+• Data distribution after discretization can have a Normal shape
+• Discretized data can be too much sparse yet
+– Elimination of the attribute
+
+Characteristics:
+– No label for the instances
+– The number of classes is unknown
+•Techniques of binning:
+– Natural binning
+ à Intervals with the same width
+– Equal Frequency binning à Intervals with the same frequency
+– Statistical binning
+ à Use statistical information (Mean, variance,
+Quartile)
+

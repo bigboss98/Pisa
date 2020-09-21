@@ -6,6 +6,9 @@ only consider on search engines, so a definition of information retrieval is the
 Information retrieval is finding material (usually documents) of unstructured nature that satisfies
 an information need from within large collections
 \end{defi}
+An information need is the topic about which the user desires to know more, and is differentiated from a query,
+which is what the user conveys to the computer in an attempt to communicate the information need.
+
 As defined in this way, information retrieval used to be an activity that only a few people engaged in:
 reference librarians, paralegals, and similar professional searchers, but now the world has changed,
 and hundreds of millions of people engage in information retrieval every day when 
@@ -121,7 +124,19 @@ because document matches condition or not.
 We consider as example to determine which plays of Shakespeare contain the words 
 "Brutus AND Ceaser AND NOT Calpurnia" and the simplest form is do a sort of linear scan, but this type
 of text processing does not enable to rank results, consider some similarity measures and so on, so we use 
-our boolean retrieval model defined above 
+our boolean retrieval model defined above.
+
+We consider as \emph{documents} whatever units we have
+decided to build a retrieval system over, so they might be individual memos or chapters of a book.\newline
+We will refer to the group of documents over which we perform retrieval as the
+(document) \emph{collection} and it is sometimes also referred to as a \emph{corpus} (a body of texts).
+
+To assess the effectiveness of an IR system (the quality of its search results), a user will usually want
+to know two key statistics about the system’s returned results for a query:
+\begin{description}
+    \item [Precision: ] What fraction of the returned results are relevant to the information need?
+    \item [Recall: ]    What fraction of the relevant documents in the collection were returned by the system?
+\end{description}
 
 In figure \ref{img:booleanMatrix} is possible to note a term-document incident matrix, where we 
 record for each document, here a play of Shakespeare’s, whether it contains each word 
@@ -138,6 +153,8 @@ matrix, so we waste a lot of spaces to represent useless data.
 
 To solve this problem we introduce \emph{inverted index}, where for each term $t$, we must store a list 
 of all documents that contain $t$ and we identify each by docID, a document serial number.\newline
+It is called inverted because usually in a document we have a list of word instead in our index we have 
+for a word a list of documents where it occurs.\newline
 In figure \ref{img:invertedIndex} is possible to note an example of inverted index, where we only store the docID
 where a word appear in a document.
 
@@ -171,6 +188,7 @@ performance of AND query.
         \li         \Then $\id{p_1} \gets \proc{next}(p_1)$
         \li     \ElseNoIf $\id{p_2} \gets \proc{next}(p_2)$
                 \End
+            \End
         \li \Return $\id{answer}$
     \end{codebox}
 \end{figure}
@@ -186,8 +204,112 @@ then compute "(Brutus AND Calpurnia) AND Caesar"
     \label{img:andQuery}
     \includegraphics[width=\textwidth]{Images/andQuery}
 \end{figure}
+In figure \ref{alg:intersectionTerms} it can be find the pseudocode to compute the intersection between 
+$n$ terms, that use the intution we have explain briefly in the previous phrase.
+
+\begin{figure}
+    \caption{Pseudocode of Intersection operation between $n$ terms}
+    \label{alg:intersectionTerms}
+    \begin{codebox}
+        
+    \end{codebox}
+\end{figure}
+To gain the speed benefits of indexing at retrieval time, we have to build the index in advance
+and the major steps in this are:
+\begin{enumerate}
+    \item Collect the documents to be indexed
+    \item Tokenize the text, turning each document into a list of tokens
+    \item Do linguistic preprocessing, producing a list of normalized tokens, which are the indexing terms
+    \item Index the documents that each term occurs in by creating an inverted index,
+          consisting of a dictionary and postings
+\end{enumerate}
+The first three steps will consider later in the course and the last one is considered now when we talk about 
+inverted index.
+
+To represent the index we have to done some choice about data structure to use, infact 
+a fixed length array would be wasteful as some words occur in many documents, and others in very few.\newline
+For an in-memory postings list, two good alternatives are singly linked lists or variable length arrays:
+singly linked lists allow cheap insertion of documents into postings lists (following updates,
+such as when recrawling the web for updated documents), and naturally extend to more advanced indexing strategies
+such as skip lists, which require additional pointers.\newline
+Variable length arrays win in space requirements by avoiding the overhead for pointers and in
+time requirements because their use of contiguous memory increases speed on modern processors with memory caches
+and extra pointers can in practice be encoded into the lists as offsets.
+
+If updates are relatively infrequent, variable
+length arrays will be more compact and faster to traverse. We can also use a
+hybrid scheme with a linked list of fixed length arrays for each term. When
+postings lists are stored on disk, they are stored (perhaps compressed) as a
+contiguous run of postings without explicit pointers (as in Figure 1.3), so as
+to minimize the size of the postings list and the number of disk seeks to read
+a postings list into memory.
+
+An improvement to our intersection can be obtained with \emph{skip pointers}, where we put a pointer 
+head to some element that will permits to avoid to consider some elements, as it can be viewed on 
+figure \ref{img:skip}
+
+\begin{figure}
+    \caption{Postings lists with skip pointers. The postings intersection can use a skip pointer
+             when the end point is still less than the item on the other list.}
+    \label{img:skip}
+    \includegraphics[width=\textwidth]{Images/skip}
+\end{figure}
+With skip we can logically divide elements in block, where we can access to the first item of a block and we 
+can avoid maybe avoid to consider other elements of a block.\newline
+The important thing that we have to record is that more is the size of a block less is the number of skip pointers 
+and more element is possible to purge from our operation.
+
+
+Worst case(elements are in the last block): 
+n/L to use the local head and L to scan the last block and we achieve min n/L + L is obtain when L = \sqrt{n}
+
+Typically we use a Dynamic Programming based skip pointers, where we assume that exist some documents 
+very frequent as a result of a query so whenever we do an intersection it is more likely that they are occuring,
+so we divide block with frequent document as start of a block.\newline
+With Dynamic Programming approach the append of a new element will be difficult because we have to recompute
+the distribution of skip pointers instead on equal size skip pointers we only append 
+new block, with the new element.
+
+Recursive Merge(Splitting by pivots) --> We take a pivot (the median element) and we do a binary search to 
+retrieve if the pivot occurs in the other lists and then we do something similar to Quicksort -->Use the example 
+
+Time complexity: Easy case --> If median is always out we have $O(\log n * \log m)$ because you always remove the upper bound of the list so we consider only the lound bound of median
+                 Worst case --> T(n, m) = O(\log n) + 2T(n/2, m/2) = O(m \log n/m) --> Find why we obtain this result
+
+if $m \sim n$ became $O(m) = O(n + m)$, in case $m << n$ became $O(m \log n)$ that means for every element in list
+of size $m$ we do a binary search.
+
+OR --> Union without problem
+OR NOT --> will be a problem because if we have a list with $2$ element the complementation of a list has $N - 2$ 
+           elements and that will be a huge problem 
+
+Information Retrieval is not only limited to boolean model so we want to consider phrases, proximity operators
+like "Gates near Microsoft" where we need index to capture term position in docs and sometimes we are also 
+interested to consider zones in documents like "Find documents with (author = Ullman) and (text contains automata)".
+
+We define zone indexes as
+\begin{defi}
+    Zone indexes: is a region of the doc that can contain an arbitrary amound of text, like title, abstract
+                  or references.
+\end{defi}
+We build inverted indexes on fields and zones to permit querying, as can be noted on figure \ref{img:zoneIndex}.
+
+\begin{figure}
+    \caption{Inverted index on zone fields}
+    \label{img:zoneIndex}
+    \includegraphics[width=\textwidth]{Images/zoneIndex}
+\end{figure}
 
 
 
 
+Image the Bow Tie
+If you think the web graph this is the picture of Altavista show in the end of 90s 
+IN -> Input List
+SCC -> strongly connected components also called Core of Web
+OUT -> Output List
+
+A inters B = A_1 \cap B_1 \cup A_2 \cap B_2
+
+\section{Search Engine}
 
