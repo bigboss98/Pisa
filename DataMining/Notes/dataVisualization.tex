@@ -12,8 +12,8 @@ Data can be represent usually by $3$ modes:
                       then the data objects can be thought of as points in a multidimensional space,
                       where each dimension represents a distinct attribute.\newline
                       Such data set can be represented by an $m$ by $n$ matrix, where there are $m$ rows,
-                      one for each object, and $n$ columns, one for each attribute,
-                      as you can see in figure \ref{img:dataMatrix}.
+                      one for each object, and $n$ columns, one for each attribute.
+
                 \item Document Matrix: each document becomes a ‘term’ vector, where each term 
                       is a component (attribute) of the vector and the value of each component is 
                       the number of times the corresponding term occurs in the document.
@@ -88,6 +88,12 @@ missing data and outlier with the purpose to remove all or at least a largest pa
 
 In figure \ref{img:rescale} we can see that in $2001$ there was the change from Lira to Euro and 
 that explain a dramatic reduction on a problem so we have to rescale values that makes consistent data.
+
+\begin{figure}
+    \caption{Change of scale in Revenue in Italy}
+    \label{img:rescale}
+    \includegraphics[width=\textwidth]{Images/}
+\end{figure}
 
 The distribution of data observation is important to recognize if we have symmetric data, skewed data, bimodal
 pattern (which usually shows subpopulation on attribute) and when visualisations reveal patterns or exceptions,
@@ -208,7 +214,8 @@ In Data Preparation can be execute the following operations:
                                    \item Feature projection: it transforms the data in the high-dimensional space
                                          to a space of fewer dimensions and this transformation may be linear,
                                          or nonlinear.\newline
-                                         It uses
+					 It uses PCA (Principal Component Analysis), SVD (Singular Value Decomposition),
+					 Autoencoder and LDA (Linear Discriminant Analysis).
                                \end{itemize}
 
                                \begin{figure}
@@ -216,72 +223,109 @@ In Data Preparation can be execute the following operations:
                                     \label{img:featureCreation}
                                     \includegraphics[width=\textwidth]{Images/featureCreation}
                                \end{figure}
-The data transformation may be linear, or nonlinear.
-Approaches:
-–
- Principal Component Analysis (PCA)
-–
- Singular Value Decomposition (SVD)
-–
- Non-negative matrix factorization (NMF)
-–
- Linear Discriminant Analysis (LDA)
-–
- Autoencoder
-
-
 \end{description}
-Data Cleaning
-• How to handle anomalous values
-• How to handle outliers
-• Data Transformations
+\emph{Data Cleaning} will deal on how to handle anomalous values, how to handle outliers and also on data transformations, so we will
+start to discuss on how we can manage missing values: a first approach can be to eliminate records that contain missing values or also it 
+is possibile to substitute values, estimate using a probability distribution of existing values or also build a model (regression/classification) 
+for computing missing values, or even using mean, median and mode.
 
-Manage Missing Values
-1.
-2.
-EliminaRon of records
-SubsRtuRon of values
-Note: it can influence the original distribu7on of numerical values
-–
- Use mean/median/mode
-–
- Es7mate missing values using the probability distribu7on of
-exis7ng values
-–
- Data Segmenta7on and using mean/mode/median of each
-segment
-–
- Data Segmenta7on and using the probability distribu7on within
-the segment
-–
- Build a model of classifica7on/regression for compu7ng missing
-values
+\emph{Discretization} is the process of converting a continuous attribute into an ordinal attribute, where potentially infinite number of values
+are mapped into a small number of categories and this technique is commonly used in classification, because many classification algorithms 
+work best if both the independent and dependent variables have only a few values.\newline
+The advantages of Discretization is that original values can be continuous and sparse instead discretized data can be simple to be interpreted 
+and also data distribution after discretization can have a normal shape.
 
-Discretization is the process of converting a
-continuous attribute into an ordinal attribute
-– A potentially infinite number of values are mapped into a
-small number of categories
-– Discretization is commonly used in classification
-– Many classification algorithms work best if both the
-independent and dependent variables have only a few
-values
+There are two different approach to discretize data:
+\begin{description}
+   \item [Unsupervised Discretization: ] we don't have label for the instances and the number of classes is unknown and there are 3 technique to bin data:
+	   				 \begin{description}
+					     \item [Natural Binning: ] it is a simple approach, which subdivise sorted attributes values in $k$ parts
+						                       with the same  size using a interval size defined as 
+						                       \[ \delta = \frac{x_{max} - x_{min}}{k} \]
+								       so an element $x_j$ belong to a class $i$ if 
+								       \[ x_j \in (x_min + i \delta, x_min + (i + 1) \delta) \]
+								       The problem of this approach is that can generate distribution very unbalanced.
+					     \item [Equal Frequency Binning: ]  we sort, count the elements, and we define $k$ intervals of $f$ as 
+						     				\[ f = \frac{N}{k} \]
+										where $N$ are the number of elements on the sample.\newline
+										An element $x_j$ belongs to a class $j$ if we have 
+										\[ j \times f \leq i \leq (j + 1) \times f \]
+										It is not always suitable for highlighting interesting correlations.
+					     \item [Statisical Binning: ] it uses statistical information (Mean, variance, quartile) to create $k$ interval
+					\end{description}
+					The optimal number of classes is function of $N$ elements defined by \cite{sturges} in $1929$
+					\[ C = 1 + \frac{10}{3} \log _{10} N \]
+					and the optimal width of the classes depends on the variance and the number of data as told in $1979$ in \cite{scott}
+					\[ h = \frac{3.5 * s}{\sqrt{N}} \]
 
-Hard to understand the optimal discretization
-– We should need the real data distribution
-• Original values can be continuous and sparse
-• Discretized data can be simple to be interpreted
-• Data distribution after discretization can have a Normal shape
-• Discretized data can be too much sparse yet
-– Elimination of the attribute
+    \item [Supervised Discretization: ] the discretization has a quantifiable goal and the number of classes is known and there are two techniques used:
+	    				\begin{itemize}
+					    \item discretization based on percentiles
+					    \item discretization based on \emph{Entropy}: Minimizes the entropy of a label, that maximizes the purity of the
+					          intervals, so in this starts by bisecting the initial values so that the resulting two intervals
+						  give minimum entropy, the splitting process is then with another interval, typically
+						  choosing the interval with the worst (highest) entropy and in the end we will stop when a user-specified 
+						  number of intervals is reached, or a stopping criterion is satisfied.
+					\end{itemize}
+\end{description}
+\emph{Binarization} maps a continuous or categorical attribute into one or more binary variables and it is typically used for association analysis.\newline
+We often convert a continuous attribute to a categorical attribute and then convert a categorical attribute to a set of binary attributes.
 
-Characteristics:
-– No label for the instances
-– The number of classes is unknown
-•Techniques of binning:
-– Natural binning
- à Intervals with the same width
-– Equal Frequency binning à Intervals with the same frequency
-– Statistical binning
- à Use statistical information (Mean, variance,
-Quartile)
+\section{Data Transformation}
+In this section we will briefly talk about data transformation that can reduce in particular two issues: data with errors and imcomplete and 
+data not adequately distributed (with many peaks and strong asymmetry in the data).
 
+An \emph{attribute transform} is a function that maps the entire set of values of a given attribute to a new set of replacement values such that
+each old value can be identified with one of the new values.\newline
+It can be done by a simple function ($e^x, \log x$ for example) or by normalization and in statistics standardization refers to substracting off
+the means and dividing by the standard deviation.\newline
+We define a transformation $T$ on the attribute $X$ as $Y = T(X)$ such that $Y$ preserve the relevant information of $X$, $Y$ is more useful of $X$ and 
+in the end $Y$ eliminates at least one of the problems of $X$.
+
+The goals of data transformation are the following:
+\begin{itemize}
+    \item stabilize the variances
+    \item normalize the distributions
+    \item make linear relationships among variables
+    \item simplify the elaboration of data containing features you do not like
+    \item represent data in a scale considered more suitable
+\end{itemize}
+To normalize data there are $3$ techniques that are the following:
+\begin{description}
+    \item [Min-Max normalization: ] we transform data using a new max e min of our data as following
+	    			    \[ v' = \frac{v - min_A}{max_A - min_A} (new\_max_A - new\_min_A) + new\_min_A \]
+    \item [Z-score normalization: ] we transform to a variable distributed as a $Z$ with the following transformation
+	                            \[ v' = \frac{(v - mean_A)}{stdev_A} \]
+    \item [Decimal scaling: ] we scale all values $V$ by a decimal scaling defined as
+	                      \[ v' = \frac{v}{10^j} \]
+			      where $j$ is the smallest number such that $max |v'| \leq 1$.
+\end{description}
+
+
+\section{PCA: Principal Component Analysis}
+The goal of PCA is to find a new set of dimensions (attributes or features) that better captures the variability of the data and in PCA
+the first dimension is chosen to capture as much of the variability as possible; the second dimension is orthogonal to the first
+and, subject to that constraint, captures as much of the remaining variability as possible, and so on.\newline
+It is a linear transformation that chooses a new coordinate system for the data set and the steps done in PCA approach are the following:
+\begin{enumerate}
+    \item Standardize the dataset 
+    \item Calculate the covariance matrix for the features in the dataset.
+    \item Calculate the eigenvalues and eigenvectors for the covariance matrix.
+    \item Sort eigenvalues and their corresponding eigenvectors and pick $k$ eigenvalues and form a matrix of eigenvectors. 
+    \item Transform the original matrix.
+\end{enumerate}
+PCA calculates the covariance matrix of all pairs of attributes given matrix D of data, where remove the mean of each column from the column vectors
+to get the centered matrix $C$ (standardization) and then compute the matrix $V = \transpose{C} C$, the covariance matrix of the row vectors of $C$.
+
+Exact value in Covariance matrixis not as important as it’s sign, so a positive value of covariance indicates both dimensions increase or decrease together,
+a negative value indicates while one increases the other decreases, or vice-versa and in the end if covariance is zero 
+the two dimensions are independent of each other.
+
+We identify the principal components of data by computing the eigenvectors and eigenvalues from the covariance matrix, these components are 
+new variables that are constructed as linear combinations of the initial variables, uncorrelated and most of the information 
+within the initial variables is squeezed or compressed into the first components, infact PCA tries to put maximum possible information in the first
+component, then maximum remaining information in the second and so on.
+
+The eigenvectors of the Covariance matrix are actually the directions of the axes where there is the most variance(most information) and 
+Eigenvalues are simply the coefficients attached to eigenvectors, which give the amount of variance carried in each PC.\newline
+By ranking your eigenvectors in order of their eigenvalues, highest to lowest, you get the principal components in order of significance.
