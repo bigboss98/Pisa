@@ -1,0 +1,52 @@
+\chapter{Data Similarity}
+Similarity is a numerical measure of how alike two data objects are, it is higher when objects are more alike and often 
+falls in the range $[0, 1]$.\newline
+We have another concept related is the \emph{dissimilarity}, who is a numerical measure of how different are two data objects, it is lower 
+when objects are more alike and minimum dissimilarity is often $0$.
+
+To compute the dissimilarity of data we will use some distance function, where the more common are the following:
+\begin{description}
+    \item [Euclidean Distance: ] it is a common distance function used in geometry to compute the distance between vectors and it is defined as
+                                 \[ d(x, y) = \sqrt{\sum _{k=1}^n (x_k - y_k)^2} \]
+    \item [Minkowski Distance: ] is a generalization of Euclidean distance and it is defined as 
+    				 \[ d(x, y) = (\sum _{k=1}^n (x_k - y_k)^r)^{1/r} \]
+    				 When $r=1$ we have \emph{Manhattan Distance}, with $r=2$ we have Euclidean Distance and in the end with $r=\infty$
+				 we have $L_{\infty}$ norm.
+\end{description}
+Distances, such as the Euclidean distance, have some well-known properties:
+\begin{enumerate}
+	\item $d(x, y) \geq 0 \quad \forall x, y$
+	\item $d(x, y) = 0 \quad x = y$
+	\item $d(x, y) = d(y, x) \quad \forall x, y$
+	\item $d(x, z) \leq d(x, y) + d(y, z) \quad \forall x, y, z$
+\end{enumerate}
+A distance that satisfies these properties is a \emph{metric} and also similarities have some well-known properties:
+\begin{enumerate}
+    \item $s(x, y) = 1 \quad x = y$
+    \item $s(x, y) = s(y, x) \quad \forall x, y$
+\end{enumerate}
+Common situation is that objects, $p$ and $q$, have only binary attributes, so we have to compute similarities using the following two measure:
+\begin{description}
+    \item [SMC (Simple Matching): ] it is defined as the ratio between number of matches and number of attributes 
+    \item [Jaccard Coefficient: ] it is defined as the ratio betwen number of $11$ matches and number of not-both-zero attributes values
+\end{description}
+If $d_1$ and $d_2$ are two document vectors, we compute the similarity using the \emph{cosine similarity}, that is defined as 
+\[ \cos (d_1, d_2) = \frac{d_1 * d_2}{\norm{d_1} \norm{d_2}} \]
+We can consider also weights in our similarities and distance, adding an weight elements that multiply each element in distance and similarity function.
+
+Another important measure is the \emph{Correlation}, who measures the linear relationship between objects (binary or continuous) and to compute correlation,
+we standardize data objects, $p$ and $q$, and then we compute
+\[ corr(x, y) = \frac{s_{xy}}{s_x s_y} \]
+
+Another important consideration to do is the amount of information of attributes and information relates to possible outcomes of an event, where 
+the more certain an outcome, the less information that it contains and vice-versa.\newline
+To compute the quantity of information \emph{Entropy} is the commonly used measure defined as 
+\[ H(X) = - \sum _{i=1}^n p_i \log p_i \]
+and this measure is between $0$ and $log n$, with bits as measure unit.
+
+We also consider \emph{mutual information}, that captures information that one variable provide to another and it is computes as 
+\[ I(X, Y) = H(X) + H(Y) - H(X, Y) \] 
+where $H(X, Y)$ is defined as 
+\[ H(X, Y) = - \sum _i \sum _j p_{ij} \log p_{ij} \]
+
+
