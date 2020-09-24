@@ -1,0 +1,50 @@
+\chapter{CSP (Constraint Satisfaction Problems}
+It is often better to describe states in terms of features and then to reason in terms of these features and we have called this a \emph{factored representation}.
+
+This representation may be more natural and efficient than explicitly enumerating the states, so with $10$ binary features we can describe $2^10 = 1024$ states,
+often these features are not independent and there are constraints that specify legal combinations of assignments of values to them.
+
+A CSP is a problem composed of a finite set of variables, each variable is associated with a finite domain and a set of constraints that restrict the values
+the variables can simultaneously take, so the task is to assign a value (from the associated domain) to each variable satisfying all the constraints;
+this problem is in NP hard in the worst cases but general heuristics exist, and structure can be exploited for efficiency.
+
+A Constraint Satisfaction Problem consists of three components, $X, D,$ and $C$, so $CSP = (X, D, C)$ where 
+$X$ is a set of variables $\{x_1, \dots, x_n\}$, $D$ is a set of domains $\{D_1, \dots, D_n\}$, one for each variable, and 
+$C$ is a set of contraints that specify allowable combinations of values.
+
+A [partial] assignment of values to a set of variables (also called compound label) is a set of pairs $A = \{(x_i, v_i), (x_i, v_j), \dots\}$
+where values are taken from the variable domain and we have that a complete assignment is an assignment to all the variables of the problem (a possible world).\newline
+A complete assignment can be projected to a smaller partial assignment by restricting the variables to a subset and we will use the projection operator 
+from relational algebra as notation.
+
+A constraint on a set of variables is a set of possible assignments for those variables and each constraint C can be represented as a pair (scope, rel), 
+where scope is a tuple of variables participating in the constraint $(x_1, x_2, \dots, x_k)$ and rel is a relation that defines the allowable combinations 
+of values for those variables, taken from their respective domains.
+
+To solve a CSP problem $(X, D, C)$, seen as a search problem, we need to define a state space and the notion of a solution:
+a state in a CSP is an assignment of values to some or all of the variables and we have a partial assignment when we assigns values to only some of the variables,
+a complete assignment when every variable is assigned and in the end a consistent assignment is the one that satisfies all the constraints.\newline
+A solution to a CSP (a goal state) is a consistent, complete assignment.
+
+%The simplest kind of CSP involves variables that have discrete, finite domains
+% Values can be numbers, strings, Booleans (True, False)
+%When variables are numbers, and the constraints are inequalities we can deal with
+%variables with infinite domains or continuous domains with linear or integer
+%programming (techniques used in Operations research).
+%According to the number of variables involved constraints can be:
+% unary (ex. “x even”)
+% binary (ex. “x  y”)
+% higher-order constraints (ex. x+y = z)
+%Absolute/hard vs soft/preference constraints
+% CSPs with preferences can be solved by optimization methods. These are called
+%Constraint Optimization Problems, or COP.
+
+%Problem reduction/Inference/Constraint propagation
+% Techniques for transforming a CSP into an equivalent one which is easier to solve or
+%recognizable as insoluble (removing values from domains and tightening constraints).
+%Searching
+% Search in the space of labels: enumerate combinations of labels to find solutions.
+% How to search efficiently: heuristics, intelligent backtracking ... local search
+%Exploiting the structure of the problem
+% Independent sub-problems, tree-structured constraints, tree-decomposition,
+%exploiting symmetry
