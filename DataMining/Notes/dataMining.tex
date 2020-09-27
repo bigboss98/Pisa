@@ -24,8 +24,8 @@
 \newcommand{\deriv}{\Rightarrow}
 \newcommand{\transpose}[1]{#1 ^ \mathsf{T}}
 \newcommand{\derivative}[1]{\frac{\partial}{\partial #1}}
-\newcommand{\gaussian}[2]{\frac{1}{\sqrt{2 \pi #2}} exp \left(\frac{-(y^{(i)} - #1)^2}{2 #2}\right)
-}
+\newcommand{\gaussian}[2]{\frac{1}{\sqrt{2 \pi #2}} exp \left(\frac{-(y^{(i)} - #1)^2}{2 #2}\right)}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \begin{document}
     \title{Data Mining notes}
     \author{Marco Natali}
@@ -37,4 +37,6 @@
 
     \input{intro}%Introduction Chapter
     \input{dataVisualization}%Chapter about Data Visualization
+    \input{similarity}
+    \input{clustering}
 \end{document}

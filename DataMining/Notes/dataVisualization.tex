@@ -17,7 +17,7 @@ Data can be represent usually by $3$ modes:
                 \item Document Matrix: each document becomes a ‘term’ vector, where each term 
                       is a component (attribute) of the vector and the value of each component is 
                       the number of times the corresponding term occurs in the document.
-                \item Transition Data: A special type of record data, where each record (transaction)
+                \item Transiction Data: A special type of record data, where each record (transaction)
                       involves a set of items, so for example consider a grocery store.\newline
                       The set of products purchased by a customer during one shopping trip constitute a transaction,
                       while the individual products that were purchased are the items,
@@ -26,6 +26,12 @@ Data can be represent usually by $3$ modes:
     \item Graph
     \item Order
 \end{itemize}
+
+\begin{figure}
+    \caption{Example of Transiction Data}
+    \label{img:transiction}
+    \includegraphics[width=\textwidth]{Images/transiction}
+\end{figure}
 Data is a collection of data objects and their attributes, where the last one is a property or 
 characteristic of an object like eye color of a person and a data object is a collection of 
 attributes that descrive an object.
@@ -92,7 +98,7 @@ that explain a dramatic reduction on a problem so we have to rescale values that
 \begin{figure}
     \caption{Change of scale in Revenue in Italy}
     \label{img:rescale}
-    \includegraphics[width=\textwidth]{Images/}
+    \includegraphics[width=\textwidth]{Images/rescale}
 \end{figure}
 
 The distribution of data observation is important to recognize if we have symmetric data, skewed data, bimodal
@@ -139,8 +145,9 @@ In Data Preparation can be execute the following operations:
                           In figure \ref{img:stableData} it is possible that aggregation from number of precipitation
                           from a month in Australia in number of precipitation in a year make more stable data.
                           \begin{figure}
-                            
+				  \caption{Example Aggregation on Australia's precipitation}
                               \label{img:stableData}
+			      \includegraphics[width=\textwidth]{Images/stableData}
                           \end{figure}
     \item [Data Reduction: ] we reduce the amount of data that can be done in two ways:
                              \begin{itemize}
