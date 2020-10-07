@@ -204,6 +204,86 @@ key (URL) to a position (integer) in B
 	      in $T$ time we can manage $U = T^{1/3}$ users.
 	
 	\item Generate a fingerprint for every user that is much shorter than d and allows to transform similarity into equality of fingerprints.\newline
-	      It is randomized, correct with high probability and it guarantees local access to data, which is good for speed in disk/distributed setting
+	      It is randomized, correct with high probability and it guarantees local access to data, which is good for speed in disk/distributed setting.
+
+	      We consider two vectors $p, q \in \{0, 1\}^d$ and we define the \emph{hamming distance} $D(p, q)$ as the number of bits where $p$ and $q$ differ;
+	      we define also a \emph{similarity} measure as 
+	      \[ s(p, q) = s = \frac{d - D(p, q)}{d} \quad 0 \leq s \leq 1 \]
+	      We define now hash functions $h$ by choosing a set $l$ of $k$ random coordinates and we have that the propability to $x$ random such that $p(x) = q(x)$ is defined as 
+	      \[ P[\text{picking } x \text{ random such that } p(x) = q(x)] = \frac{d - D(p, q)}{d} = s \]
+	      The probability that the hash function $h_I$ has the same value in $p$ and $q$ is defined as 
+	      \[ P[h_I(p) = h_I(q)] = s^k = (\frac{d - D(p, q)}{d})^k \]
+	      In case we have larger $k$ we have small false positive, instead if we have a large $l$ we have small false negative.
+
+	      We can iterate $L$ times the $k$ projections $h_I(p)$ and we set $g(p) = <h_1(p), h_2(p), \dots, h_L(p)>$, so we declare "$p$ matches $q$" if exist a $I$ such that
+	      $h_I(p) = h_I(q)$ and we have that probability of a match defined as 
+	      \[ \begin{align}
+		      P[g(p) \approx g(q)] & = 1 - P(h_{I_j}(p) \neq h_{I_j}(q) \, \forall j) \\
+		                           & = 1 - [P(h_{I_j}(p) \neq h_{I_j}(q)]^L \\
+					   & = 1 - (1 - s^k)^L 
+	         \end{align] \]
+	      This probability follow the aspect described in figure \ref{img:matchesProb} and we have that we have to scan all $L$ hash function to create a $L$ fingerprint 
+	      with a problem in time complexity.
+
+	      To solve this problem we define for every $p_i$ element $g(p_i) = <h_{I_1}(p_i), h_{I_2}(p_i), \dots, h_{I_L}(p_i)>$ and to compute we follow this algorithm
+	     \begin{enumerate}
+		\item Sort by $I_1$, scan $g(p_i)$ and find group of continuous vector that have the same first component
+		\item Sort by $I_2$, scan $g(p_i)$ and find group of continuos vector that have the same second component
+		\item Repeat this approach $L$ times until you sort for $I_L$
+	     \end{enumerate}
+	     This approach is done by offline search engine, where it is possible to compute statistically connected components, instead online search engine, like databases, 
+	     given a query $w$ compute $h_{I_1}(w), \dots, h_{I_L}(w)$ and check the vectors in the buckets $h_J(w)$.
+
+	    This approach of LSH(Locality-sensitive hashing) finds correct clusters with high probability, compares only very short (sketch) vectors, does not need to know the number
+	    of clusters and sorts $U$ short items, with few scans.
+
     \end{enumerate}
+
+\section{Document Duplication}
+    The web is full of duplicated content, and exist only few exact duplicate documents but many cases of near duplicates docs (differ for Last modified date, malicious, spam and so on)
+    so in this section we will analyze how to determine if two document are duplicates.
+
+   To determine an exact duplication there are several approaches:
+   \begin{itemize}
+	\item Obvious (slow) technique, like \emph{checksum} (no worst-case collision probability guarantees) or \emph{MD5} (cryptographically-secure string hashes)
+	\item Karp-Rabin (fast) scheme: it is a \emph{Rolling hash} (split doc in many pieces), it use arithmetic on primes, it is efficient and has other nice properties.\newline
+	      We consider an $m$ bit string $A = 1 a_1 \dots a_{m-1} a_m$ and we choose a prime $p$ in the universe $U$, such that $2p$ uses few memory-words (hence $U \approx 2^64$),
+	      so we define the fingerprints $f(A) = A \mod p$, that has a nice properties that if $B = 1 a_2 \dots a_{m-1} a_m a_{m+1}$ we have that 
+	      \[ f(B) = [2(A - 2^m - a_1 2^{m-1}) + a_{m+1} + 2^m] \mod p \]
+	      and the probabilities that we have a false positive is defined as 
+	      \[ \begin{cases}
+		      P[\text{false hit to } A \text{ and } B \text{ on same window}] & = \text{Probability } p \text{ divides } (A - B) \\
+		                                                                      & = \frac{# div(A - B)}{#prime(U)} \\
+										      & \approx \frac{(\log (A + B)}{# prime(U)} \\
+										      & = \frac{m \log U}{U} 
+		 \end{cases} \]
+    \end{itemize}
+    Now we consider the problem to given a large collection of documents identify the near-duplicate documents and this aspect is important because it has been found that
+    in $1997 30\%$ of web-pages was near-duplicates.
+
+
+    A common approach used is the \emph{shingling}, where from docs we obtain sets of shingles that are a dissection of document in $q-$gram (shingles), with usually $4 \leq q \leq 8$,
+    and the near-duplicate document detection problem reduces to set intersection among integers (shingles), but this naive approaches is computationally expensive so we consider now
+    a better approach that use the \emph{Jaccard similarity}, defined as 
+    \[ sim(S_A, S_B) = \frac{| A \cap B|}{|A \cup B|} \]
+    but also this approach has the problem that we have to compute the similarity of both $A$ and $B$, so a solution consist to use the min hashing, where we define a permutation function,
+    we apply them and we take the min element in the permutation of $A$ and $B$.\newline
+    An heuristic consist to use $200$ random permutation or pick the $200$ smallest item using only a single permutation, so we obtain a $200$ vector per set which we compare using Hamming distance,
+    but of course we can choose how many $k$ element to consider to estimate the Jaccard similarity; the importance of this approximation yields to this important proposition, that will stated and proved
+    \begin{prop}
+	    $P(\alpha, \beta)$ is exactly the Jaccard similarity $JS(S_A, S_B)$
+    \end{prop}
+    \begin{proof}
+
+    \end{proof}
+    Another important similarity function is the \emph{cosine Similarity} defined as 
+    \[ \cos \alpha = \frac{p * q}{||p|| ||q||} \]
+    The computation of the scalar product between $p$ and $q$ is huge, so to solve this problem we use an approximation that consist to construct a random hyperplane $r$ of dimension $d$ and unit norm,
+    so we define a sketch vector $h_r(p) = sign(p * r) = \pm 1$ and in a similar way we define a sketch vector for $q$ so we have this proposition
+    \begin{prop}
+	    $P(h_r(p) = h_r(q)) = 1 - \frac{\alpha}{\pi}$ and also $P(h_r(p) \neq h_r(q)) = \text{hyperplane falls between } p \text{ and } q$
+    \end{prop}
+    With this probabilistic interpretation we have $O(nk)$ time for each scalar product with an overall time of $O(D * n * k)$, instead if we use $sort(D)$ (I/O efficient) 
+    we have $O(D^2)$ that do not scale very well.
+
 
