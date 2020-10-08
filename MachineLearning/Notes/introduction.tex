@@ -143,65 +143,35 @@ In figure \ref{img:mlProcess} it is possible to note all components of a ML proc
                             \label{img:dataset}
                             \includegraphics[width=\textwidth]{images/dataSet}
                         \end{figure}
+			We define as validation metrics to consider the following:
+			\begin{itemize}
+			    \item Specificity define as $TN / (FP + TN)$ where $TN$ are true negative and $FP$ are false positive.
+			    \item Sensitivity define as $TP / (TP + FN)$
+			    \item Accuracy define as $TP + TN / total$
+			    \item ROC curve: in figure \ref{img:roc} it is possible to discover the ROC curve where the diagonal corresponds to the 
+				  worst classificator and better curves have higher AUC (Area Under the Curve).
+			\end{itemize}
 
-Specificity = TN / (FP + TN)
-Positive
- Negative
-Positive
- TP
- FN
- (True Negative rate =1 -FPR)
-Sensitivity = TP / (TP + FN)
-Negative
- FP
- TN
-(True Positive rate or Recall)
-(Precison= TP/(TP+FP))
-false positive (FP) :eqv. with
-false alarm
-Accuracy: % of correctly classified patterns = TP +TN / total
-Note: for binary classif.: 50% correctly classified = “coin” (random guess) predictor!
-Other topics:
-• unbalanced data (e.g. 99% +)  trivial classifier exists ,
+			\begin{figure}
+			    \caption{ROC Curve Phenomena}
+			    \label{img:roc}
+			    \includegraphics[width=\textwidth]{images/rocCurve}
+			\end{figure}
 
-ROC curve
-The diagonal corresponds
-to the worst classificator.
-Better curves have higher
-AUC (Area Under the
-Curve).
-
-Specificity = TN / (FP + TN)
-Positive
- TP
- FN
- TPr or Sensitivity = TP / (TP + FN)
-Negative
- FP
- TN
-
- Data collection:
-–
- adequately large and representative set of examples
-for training and test the system
-Data representation
-– domain dependent, exploit prior knowledge of the
-application expert
-– Feature selection
-– Outliers detection
-– Other preprocessing: variable scaling, missing data,..
-Often the most critical phase for an overall success!
-Model choice:
-– statement of the problem
-– hypothesis formulation
-• You must know the limits of applicability of your model
-– complexity control
-
-Building of the model (core of ML):
-– through the learning algorithm using the
-training data
-Evaluation:
-– performance = predictive accuracy !
 \end{description}
-VC dim theory analysis !!!
+We have as general theory of learning the \emph{Statistical Learning Theory} that relates to investigate on the generalization capability of a model 
+(measured as a risk or test error), with respect to the training error and considering overfitting and underfitting zones.\newline
+It also consider the role of model complexity and of the number of data and also in figure \ref{img:overfitting} it is possible to note the effect
+of underfitting/overfitting in error rate considering the model complexity.
+\begin{figure}
+    \caption{Underfitting/Overfitting effects considering the model complexity}
+    \label{img:overfitting}
+    \includegraphics[width=\textwidth]{images/overfitting}
+\end{figure}
+We have an important measure called \emph{Vapnik-Chervonenkis} that measure complexity of $H$ (flexibility to fit data) likw number of parameters 
+for linear models/polynomials and also we have an important bound that estabilish 
+\[ R \leq R_{emp} + \epsilon (1 / l, VC, 1 / \delta) \]
+where we have that $\epsilon$ is a function directly proportional to VC (VC-dim) and inversely proportional to $l$ and $\delta$ and also we 
+know that $R_{emp}$ decrease using complex models (with high VC-dim ) and $\delta$ is the confidence, it rules the probability that the bound holds, like
+low delta $0.01$ it holds with probability $0.99$.
 

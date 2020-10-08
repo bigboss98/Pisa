@@ -94,93 +94,20 @@ Gradient Descent gives a way to minimize $J(\theta)$, we present now another met
 we performing the minimization explicitly and without resorting to an iterative algorithm.\newline
 In this method, we will minimize $J$ by explicitly taking its derivatives with respect to the $\theta_j$’s,
 and setting them to zero.\newline
-To enable us to do this without having to write pages full of matrices of derivatives,
-let’s introduce some notation for doing calculus with matrices.
-
-\subsection{Matrix derivates}
-For a function $f: \R ^{m \times n} \to \R$ mapping from $m$-by-$n$ matrices to the real numbers, 
-we define the derivative of $f$ with respect to $A$ to be 
-\[ \Delta _A f(A) = \begin{bmatrix}
-                        \derivative{A_{11}} & \ldots & \derivative{A_{1n}} \\
-                        \vdots & \ddots & \vdots \\
-                        \derivative{A_{m1}} & \ldots & \derivative{A_{mn}} \\
-                    \end{bmatrix} \]
-For example suppose $A = \begin{bmatrix}
-                       A_{11} & A_{12} \\
-                       A_{21} & A_{22} \\
-                         \end{bmatrix}$
-is a $2 \times 2$ matrix and the function $f:\R ^{2 \times 2} \to \R$ is given by 
-\[ f(A) = \frac{3}{2} A_{11} + 5A^2 _{12} + A_{21}A_{22} \]
-so we obtain the following gradient matrix 
-\[ \Delta _A f(A) = \begin{bmatrix}
-                    \frac{3}{2} & 10 A_{12} \\
-                    A_{22} & A_{21} \\
-                    \end{bmatrix} \]
-We also introduce the \emph{trace} operator defined as 
-\[ tr A = \sum _{i=1}^n A_{ii} \]
-The trace operator has commutative, associative properties and also the following properties(proof is 
-easy, you need only to consider the definition) with $A$ and $B$ as square matrices and $a \in \R$
+So we have
 \begin{align*}
-    tr A & = tr \transpose{A} \\
-    tr (A + B) & = tr A + tr B \\
-    tr \, aA & = a \, tr A \\
+	\myDeriv{J(\theta)}{\theta_j} & = \myDeriv{\frac{1}{2} \sum_{i=1}^m (y^{(i)}-\transpose{\theta}x^{(i)})^2}{\theta_j} \\
+	                                 & = \sum _{i=1}^m (y^{(i)} - \transpose{\theta}x^{(i)}) \myDeriv{(y^{(i)} - \transpose{\theta}x^{(i)})}{\theta_j} \\
+					 & = - \sum _{i=1}^m (y^{(i)} - \transpose{\theta}x^{(i)}) x^{(i)}_j \\
 \end{align*}
-We present now some properties about matrix derivation, without proof
-\begin{align}
-    \Delta _A tr AB & = \transpose{B} \\
-    \Delta _{\transpose{A}} f(A) & = \transpose{(\Delta _A f(A))} \\
-    \Delta _A tr AB \transpose{A} C & = CAB + \transpose{C} A \transpose{B} \\
-    \Delta _A |A| & = |A| \transpose{(A ^{-1})} \\
-\end{align}
-
-\subsection{Least squares revised}
-Given a training set, define the \emph{design matrix} $X$ to be the $m \times n$ matrix(actually 
-the $m \times n+1$ if we include the intercept term), that contains the training example in this way 
-\[ X = \begin{bmatrix}
-        \dots & \transpose{(x^{(1)})} & \dots \\
-        \dots & \transpose{(x^{(2)})} & \dots \\
-        \dots & \vdots & \dots \\
-        \dots & \transpose{(x^{(m)})} & \dots \\
-        \end{bmatrix} \]
-Also let $y$ be the $m$ dimensional vector that containing all the target values from the training set
-\[ y = \begin{bmatrix}
-        y^{(1)} \\
-        y^{(2)} \\
-        \vdots \\
-        y^{(m)} \\
-        \end{bmatrix} \]
-Now since $h_{\theta}(x) = \transpose{(x^{(i)})} \theta$ we can easily verify that
-\[ \begin{bmatrix}
-    h_{\theta}(x^{(1)}) - y^{(1)} \\
-    \vdots \\
-    h_{\theta}(x^{(m)}) - y^{(m)} \\
-    \end{bmatrix} \]
-Using the fact that for a vector $z$, we have $z ^\intercal z = \sum _i z_i^2$, so we obtain 
-\begin{align*}
-    \frac{1}{2} \transpose{(X \theta - y)} (X \theta - y) & = \frac{1}{2} \sum _{i = 1}^m
-                                                            (h_{\theta}(x^{(i)}) - y^{(i)})^2 \\
-                                                        & = J(\theta) \\
-\end{align*}
-To minimize $J(\theta)$ we consider now the derivative with the respect to $\theta$ 
-\begin{align*}
-    \Delta _{\theta} J(\theta) & = \Delta _{\theta} \frac{1}{2} \transpose{(X \theta - y)} (X \theta - y) \\
-                               & = \frac{1}{2} \Delta _{\theta} (\transpose{\theta} \transpose{X} X \theta -
-                                   \transpose{\theta} \transpose{X} y - \theta X \transpose{y} + \transpose{y} y) \\
-                               & = \frac{1}{2} \Delta _{\theta} tr(\transpose{\theta} \transpose{X} X \theta -
-                                   \transpose{\theta} \transpose{X} y - \theta X \transpose{y} + \transpose{y} y) \\
-                               & = \frac{1}{2} \Delta _{\theta} (tr \transpose{\theta} \transpose{X} \theta X -
-                                   2 tr \transpose{y} \theta X) \\
-                               & = \frac{1}{2} (\transpose{X} X \theta + \transpose{X} X \theta - 2 \transpose{X} y) \\
-                               & = \transpose{X} X \theta - \transpose{X} y 
-\end{align*}
-In the third step, we used the fact that the trace of a real numer is just the real number, the fourth step 
-used the fact that $tr A = tr \transpose{A}$ and the fifth step we use the second and third properties given 
-in matrix derivation.\newline
 To minimize $J$, we set its derivatives to zero, and obtain the normal equations
 \[ \transpose{X} X \theta = \transpose{X} y \]
 so the value of $\theta$ that minimize $J(\theta)$ is given by 
-\[ \theta = (\transpose{X} X)^{-1} \transpose{X} y \]
-
+\[ \theta = (\transpose{X} X)^{-1} \transpose{X} y = X^+ y\]
+where $X^+$ is the Moore-Penrose pseudoinverse that is compute also when $X$ is not invertible.\newline
+Singular Value Decomposition can be used for computing the pseudoinverse of a matrix, infact we have $X = U \Sigma \transpose{V}$ that imply 
+\[ X^+ = V \Sigma^+ \transpose{U} \]
+so we can use SVD to compute $\theta = X^+ y$ (more details can be found on Computation Math course).
 
 \section{Probabilistic Interpretation of Linear Regression}
 In this section, we will give a set of probabilistic assumptions, under which least-squares regression
@@ -255,6 +182,38 @@ it is usually much faster over all.\newline
 When Newton’s method is applied to maximize the logistic regression log likelihood function $l(\theta)$,
 the resulting method is also called \emph{Fisher scoring}.
 
+
+\section{Control model complexity}
+To control the model complexity there are several approaches, like do a subset reduction, coefficient shrinkage, but we will now introduce and 
+concentrate on \emph{Regularization}, that consist to keep track that an higher complexity VC correspond overfittig, so we define now the \emph{Ridge regression} as 
+\begin{defi}
+	Ridge regression shrinks the regression coefficients by imposing a penalty on their size and ridge coefficients minimize a penalized residual sum of squares
+	\[ \hat{\theta_{ridge}} = argmin \{ \sum _{i=1}^N (y_i - \sum _{j=0}^P x_{ij} \theta_j)^2 + \lambda \sum _{j=0}^P \theta_j^2 \} \]
+\end{defi}
+$\lambda \geq 0$ control the amount of shrinkage and the idea of penalizing is also used in NN, where it is known as \emph{weight decay} and with Ridge regularization 
+we have the loss function defined as 
+\[ J(\theta) = \frac{1}{2} \sum _{i=1}^l (y^{(i)} - \transpose{\theta}x^{(i)})^2 + \lambda ||w||^2 \]
+Using the direct approach (normal equation) we obtain 
+\[ \theta = (\transpose{X}X + \lambda I)^{-1} \transpose{X} y \]
+If we compute the gradient descent of the lost function $J(\theta)$ we obtain 
+\begin{align*}
+	\myDeriv{J(\theta)}{\theta_j} & = \sum _{i=1}^n (y^{(i)} - \transpose{\theta}x^{(i)}) x^{(i)}_j + \myDeriv{\lambda \sum \theta_j^2}{\theta_j} \\
+	                              & = \sum _{i=1}^n (y^{(i)} - \transpose{\theta}x^{(i)}) x^{(i)}_j + 2 \lambda \theta_j \\
+\end{align*} 
+So the update rule for $\theta_j$ is obtained by 
+\[ \theta_j = \theta_j - \eta \sum _{i=1}^n (y^{(i)} - \transpose{\theta}x^{(i)}) x^{(i)}_j - 2 \lambda \theta_j \]
+The penalty term penalizes high value of the weights $\theta_i$ and tends to drive all the weights to the smaller values, and also it implements a control of the model complexity, where
+leads to a model with less VC-dim, but we have to be aware that we have to have an amount of lambda that will not cause underfitting or overfitting.
+
+We have $3$ types of regularization, that will only differ on which type of norm we are using:
+\begin{description}
+	\item [Ridge Regression: ] it uses the euclidean norm $|| ||_2$
+	\item [Lasso Regression: ] it uses the one-norm $|| ||_1$
+	\item [Elastic Nets:] use both euclidean and one-norm.
+\end{description}
+L$2$ norm penalizes the square value of the weight and tends to drive all weights to smaller values, instead L$1$ norm penalizes the absolute value of the weights and tends to drive some 
+weights to exactly zero, but it introduce a non differenciable loss function.
+
 \section{Locally Weighted Regression}
 Learning algorithms can be divided in two different categories:
 \begin{description}
@@ -283,4 +242,24 @@ is important to avoid overfitting and underfitting.
 
 It is commonly used when we have a lot of data and we don't want to think about which features to use.
 
+\section{K-means}
+A natural way to classify a new point is to have a look at its neighbors and take an average 
+\[ avg_k(x) = \frac{1}{k} \sum _{x^{(i)} \in N_k(x)} y^{(i)} \]
+where $N_k(x)$ is a neighborhood of $x$ that contains exactly $k$ neighbors (closest patterns according to distance function $d$).
 
+If there is a clear dominance of one of the classes in the neighborhood of an observation $x$, then it is likely that the observation itself would belong to that class, too, 
+thus the classification rule is the majority voting amongthe members of $N_k(x)$ and as before, we have 
+\[ h(x) = \begin{cases}
+		1 \quad \text{if } avg_K(x) \geq 0.5 \\
+		0 \quad \text{otherwise} \\
+	  \end{cases} \]
+In case of regression task we use directly the average mean over $k$ nearing neighbors and in case of multiclass $k$-nn return the class most common amongst its $k$ nearest neighbors.
+
+The k-means approach is a complete different from linear models introduced in this chapter, infact we went from a rigid model (linear regression), with low variance, to a very flexible model ($k$-nn),
+with high variance and also the inductive bias of $k$-nn approach is the assumption of distance, that will tell us which are the most similar examples.
+
+With $k$-nn we have to be aware when we change scale of value, because it can yield to a change on the $k$ most similar values, and also that $k$-nn approach follow a lazy approach,
+where we don't create a model but we keep all training data and that causes a huge computation cost during prediction phase.
+
+A last but not least limitation of $k$-nn is that suffer from curve of dimensionality, due the difficult to find near element in high dimensions and also that irrelevant features can
+misleading our prediction.
