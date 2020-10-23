@@ -18,6 +18,12 @@ under statistical and computational conditions and criteria.
 Some examples of application of ML are real-world systems, like human computer interface and search engine,
 pattern recognition (face and speech recognition), Computer Vision, Natural Language Processing and so on.
 
+\begin{figure}
+    \caption{Components of ML Process}
+    \label{img:mlProcess}
+    \includegraphics[width=\textwidth]{images/mlProcess}
+\end{figure}
+
 In figure \ref{img:mlProcess} it is possible to note all components of a ML process that we will analyzed now:
 \begin{description}
     \item [Data: ] represent the available facts (experience) and can helps to capture the structure
@@ -100,74 +106,27 @@ In figure \ref{img:mlProcess} it is possible to note all components of a ML proc
                             In figure \ref{img:overfitting} we can see the effect of overfitting in polynomial
                             fitting, with also in figure \ref{img:coefficients} it possible to note the 
                             coefficients of our polynomial fitting.
+
+			    \begin{figure}
+    				\caption{Underfitting/Overfitting effects considering the model complexity}
+    				\label{img:overfitting}
+    				\includegraphics[width=\textwidth]{images/overfitting}
+			    \end{figure}
+
+			    \begin{figure}
+				\caption{Coefficients of Polynomial fitting}
+				\label{img:coefficients}
+				\includegraphics[width=\textwidth]{images/coefficients}
+			    \end{figure}
     \item [Validation: ] evaluation of performances for ML systems gives a predictive accuracy and we have
                          that the performance on training data provide an overoptimistic evaluation.\newline
-                         Validation has $2$ aims:
-                         \begin{enumerate}
-                            \item \emph{Model selection} where we estimating the performance (generalization error)
-                                  of different learning models in order to choose the best one (to generalize) and 
-                                  this includes search the best hyper-parameters of your model and returns a model.
-                            \item \emph{Model assessment}, after we have chosen a final model,
-                                  estimating/evaluating its prediction error/ risk (generalization error)
-                                  on new test data (measure of the quality/performance of the ultimately chosen model)
-                                  and it returns an estimation.
-                         \end{enumerate}
-                         A good rule is to keep a separation between goals and use separate datasets to validate
-                         and test our model, so we should have $3$ dataset: a training set, to find the best 
-                         hypothesis, a validation set for model selection and in the end a external unseen 
-                         test dataset to estimate our prediction error.
-                            
-                         If we have infinite data there are not problem, but we have only a small amount of data
-                         we have to choose how to create these $3$ datasets so we present now some technique
-                         to do validation, that will be extended later during the course:
-                         \begin{description}
-                             \item [Hold-out Cross Validation: ] we partition dataset $D$ into $3$ disjoint sets
-                                    training set $TR$, validation set $VL$ and test set $TS$, as we can see
-                                    in figure \ref{img:hold-out} and in figure \ref{img:dataset} we can see
-                                    the purpose of each dataset.
-                             
-                            \item [K-fold Cross Validation: ] Hold CV make an insufficient use of data so we 
-                                  split the dataset $D$ into $k$ mutually exclusive subsets $D_1, D_2, \dots, D_k$
-                                  to train the learning algorithm on $D - D_i$ and test it on $D_i$ and it uses
-                                  all the data for training and validation/testing.
-                        \end{description}
-
-                        \begin{figure}
-                            \caption{Representation of dataset in Hold-out validation}
-                            \label{img:hold-out}
-                            \includegraphics[width=\textwidth]{images/holdOut}
-                        \end{figure}
-
-                        \begin{figure}
-                            \caption{Purpose of Training, validation and testset}
-                            \label{img:dataset}
-                            \includegraphics[width=\textwidth]{images/dataSet}
-                        \end{figure}
-			We define as validation metrics to consider the following:
-			\begin{itemize}
-			    \item Specificity define as $TN / (FP + TN)$ where $TN$ are true negative and $FP$ are false positive.
-			    \item Sensitivity define as $TP / (TP + FN)$
-			    \item Accuracy define as $TP + TN / total$
-			    \item ROC curve: in figure \ref{img:roc} it is possible to discover the ROC curve where the diagonal corresponds to the 
-				  worst classificator and better curves have higher AUC (Area Under the Curve).
-			\end{itemize}
-
-			\begin{figure}
-			    \caption{ROC Curve Phenomena}
-			    \label{img:roc}
-			    \includegraphics[width=\textwidth]{images/rocCurve}
-			\end{figure}
 
 \end{description}
 We have as general theory of learning the \emph{Statistical Learning Theory} that relates to investigate on the generalization capability of a model 
 (measured as a risk or test error), with respect to the training error and considering overfitting and underfitting zones.\newline
 It also consider the role of model complexity and of the number of data and also in figure \ref{img:overfitting} it is possible to note the effect
 of underfitting/overfitting in error rate considering the model complexity.
-\begin{figure}
-    \caption{Underfitting/Overfitting effects considering the model complexity}
-    \label{img:overfitting}
-    \includegraphics[width=\textwidth]{images/overfitting}
-\end{figure}
+
 We have an important measure called \emph{Vapnik-Chervonenkis} that measure complexity of $H$ (flexibility to fit data) likw number of parameters 
 for linear models/polynomials and also we have an important bound that estabilish 
 \[ R \leq R_{emp} + \epsilon (1 / l, VC, 1 / \delta) \]
