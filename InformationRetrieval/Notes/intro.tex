@@ -25,8 +25,8 @@ the exploitation of hypertext
 In between is the space of enterprise,
 institutional, and domain-specific search, where retrieval might be provided for
 collections such as a corporation’s internal documents, a database of patents,
-or research articles on biochemistry. In this case, the documents will typi-
-cally be stored on centralized file systems and one or a handful of dedicated
+or research articles on biochemistry. In this case, the documents will typically be stored on
+centralized file systems and one or a handful of dedicated
 machines will provide search over the collection
 
 Data available and considered can be from different nature, so we have the following classification:
@@ -55,22 +55,28 @@ and other types of files.
 Search engines are not only web search engine but contains also social network (Facebook), streaming site (Netflix),
 Maps (OpenStreetMap) and work finder (Linkedin) and we have 5 generations of search engines:
 \begin{description}
-    \item [Zero generation: ] introduced on 1991, use only metadata added by users
-    \item [First generation: ] introduced on 1995-1997 and use only on-page web-text data, as can be seen on 
+    \item [Zero generation: ] introduced on 1991, where was used only metadata added by users
+    \item [First generation: ] introduced on 1995-1997 and used only on-page web-text data, as can be seen on 
                                figure \ref{img:altavista}.
                                \begin{figure}
-                                    \caption{Altavista search engine web page}
-                                    \label{img:altavista}
-                                    \includegraphics[width=\textwidth]{Images/altavista}
                                 \end{figure}
     \item [Second generation: ] introduced on 1998 by Google, use off-page, web-graph data, where it
                                 use \emph{anchor texts} (how people refer to the page) and \emph{links}, that
                                 strongly improve the usability and utility of a search engine.
                                 An example of second generation search engine can be viewed on figure \ref{img:google}.
                                 \begin{figure}
-                                    \caption{Google search engine on 1998}
-                                    \label{img:google}
-                                    \includegraphics[width=\textwidth]{Images/google}
+				    \begin{subfigure}{0.6\textwidth}
+                                    	\includegraphics[width=0.6\textwidth]{Images/altavista}
+                                    	\caption{Altavista search engine web page}
+                                    	\label{img:altavista}
+				    \end{subfigure}
+				    \begin{subfigure}{0.6\textwidth}
+                                    	\includegraphics[width=0.8\textwidth]{Images/google}
+                                    	\caption{Google search engine on 1998}
+                                    	\label{img:google}
+				    \end{subfigure}
+				    \caption{Some example of Search Engine}
+				    \label{img:generationSearch}
                                 \end{figure}
     \item [Third generation: ] introduced on $2005$, it start to answer "the need behind the query" and are
                                added more sources, like maps, images, news, wikipedia and so on. 
@@ -90,15 +96,15 @@ Maps (OpenStreetMap) and work finder (Linkedin) and we have 5 generations of sea
                                 \emph{sinonimy} word, so at example is possible recognise that "Microsoft's browser"
                                 and "Internet explorer" represent the same concept.
                                 \begin{figure}
+                                    \includegraphics[width=0.6\textwidth]{Images/knowledgeGraph}
                                     \caption{A Google search with knowledge graph}
                                     \label{img:knowledgeGraph}
-                                    \includegraphics[width=\textwidth]{Images/knowledgeGraph}
                                 \end{figure}
                                 \begin{figure}
+                                    \includegraphics[width=0.6\textwidth]{Images/leonardo}
                                     \caption{an example of transition from word to concept with the phrase
                                              "Leonardo is the scientist that has painted the Mona Lisa"}
                                     \label{img:leonardo}
-                                    \includegraphics[width=\textwidth]{Images/leonardo}
                                 \end{figure}
 \end{description}
 In figure \ref{img:googleEvolution} is possible to notice which was the evolution on Google search engine.
@@ -106,7 +112,7 @@ In figure \ref{img:googleEvolution} is possible to notice which was the evolutio
 \begin{figure}
     \caption{Google search evolution}
     \label{img:googleEvolution}
-    \includegraphics[width=\textwidth]{Images/googleGeneration}
+    \includegraphics[width=0.6\textwidth]{Images/googleGeneration}
 \end{figure}
 Now are available "devices $2.0$", that have their IDs, communication capacity, computing and storage, like
 for example car with maps, where the driver can asks (using text or voice audio) the route for a place.
@@ -117,7 +123,7 @@ but are also used currently in email, library catalog and so on.
 
 \begin{defi}
 The boolean retrieval model is a model able to asks query formed by a boolean expression (query where we use 
-AND, OR, NOT operators to join terms) where we Views each document as a set of words and it is a precise model,
+AND, OR, NOT operators to join terms) where we views each document as a set of words and it is a precise model,
 because document matches condition or not.
 \end{defi}
 
@@ -172,6 +178,13 @@ if we sort the two postings list, so at least if we compare $1$ and $2$ we can a
 element $1$ with element that are greater than $2$, so we need only $n + m$ comparison that will improve the
 performance of AND query.
 
+
+The pseudocode to intersect two postings list in a AND query can be found on figure \ref{alg:intersection} and
+in case we have to compute an AND query between 3 operands, it is better to first compute an AND query between
+operands with smallest length and then compute an AND query with the other operand, so to compute the 
+query "Brutus AND Caesar AND Calpurnia" in figure \ref{img:andQuery} we first compute "Brutus AND Calpurnia" and
+then compute "(Brutus AND Calpurnia) AND Caesar"
+
 \begin{figure}
     \caption{Pseudocode of Intersection between two postings list}
     \label{alg:intersection}
@@ -186,36 +199,28 @@ performance of AND query.
         \li               $\id{p_2} \gets \proc{next}(p_2)$
         \li     \ElseIf $\proc{docID}(p_1) < \proc{docID}(p_2)$
         \li         \Then $\id{p_1} \gets \proc{next}(p_1)$
-        \li     \ElseNoIf $\id{p_2} \gets \proc{next}(p_2)$
-                \End
+        \li     \Else $\id{p_2} \gets \proc{next}(p_2)$
             \End
         \li \Return $\id{answer}$
     \end{codebox}
 \end{figure}
-
-The pseudocode to intersect two postings list in a AND query can be found on figure \ref{alg:intersection} and
-in case we have to compute an AND query between 3 operands, it is better to first compute an AND query between
-operands with smallest length and then compute an AND query with the other operand, so to compute the 
-query "Brutus AND Caesar AND Calpurnia" in figure \ref{img:andQuery} we first compute "Brutus AND Calpurnia" and
-then compute "(Brutus AND Calpurnia) AND Caesar"
-
 \begin{figure}
     \caption{And query between Brutus, Calpurnia and Caesar}
     \label{img:andQuery}
     \includegraphics[width=\textwidth]{Images/andQuery}
 \end{figure}
 In figure \ref{alg:intersectionTerms} it can be find the pseudocode to compute the intersection between 
-$n$ terms, that use the intution we have explain briefly in the previous phrase.
+$n$ terms, that use the intution we have explain briefly previously.
 
 \begin{figure}
     \caption{Pseudocode of Intersection operation between $n$ terms}
     \label{alg:intersectionTerms}
     \begin{codebox}
 	\Procname{$\proc{intersection} (<t_1, \dots, t_n>)$}
-	    \li $\id{terms} \gets \proc{SortByIncreasingFrequency(<t_1, \dots, t_n>)$}
+	    \li $\id{terms} \gets \proc{SortByIncreasingFrequency}(<t_1, \dots, t_n>)$
 	    \li $\id{result} \gets \proc{postings} (\proc{first}(\id{terms}))$
 	    \li $\id{terms} \gets \proc{rest} (\id{terms})$
-	    \li \While $\id{terms} \neq \Nil$ and $\id{result} \neq \Nil$
+	    \li \While $\id{terms} \neq \const{nil}$ and $\id{result} \neq \const{nil}$
 	    	\Do
 	    \li $\id{result} \gets \proc{intersect} (\id{result}, postings(\proc{first} (\id{terms})))$
 	    \li $\id{terms} \gets \proc{rest} (\id{terms})$
@@ -246,10 +251,10 @@ time requirements because their use of contiguous memory increases speed on mode
 and extra pointers can in practice be encoded into the lists as offsets.
 
 If updates are relatively infrequent, variable
-length arrays will be more compact and faster to traverse. We can also use a
-hybrid scheme with a linked list of fixed length arrays for each term. When
-postings lists are stored on disk, they are stored (perhaps compressed) as a
-contiguous run of postings without explicit pointers (as in Figure 1.3), so as
+length arrays will be more compact and faster to traverse and we can also use a
+hybrid scheme with a linked list of fixed length arrays for each term.\newline
+When postings lists are stored on disk, they are stored (perhaps compressed) as a
+contiguous run of postings without explicit pointers 
 to minimize the size of the postings list and the number of disk seeks to read
 a postings list into memory.
 
@@ -271,7 +276,7 @@ figure \ref{img:skip} and in figure \ref{alg:skip} there is the pseudocode of in
     \begin{codebox}
 	\Procname{$\proc{intersectWithSkips} (p_1, p_2)$}
 	\li $\id{answer} \gets <>$
-	\li \While $p_1 \neq \Nil$ and $p_2 \neq \Nil$
+	\li \While $p_1 \neq \const{nil}$ and $p_2 \neq \const{nil}$
 	    \Do
 	\li        \If $\proc{docID}(p_1) = \proc{docID}(p_2)$
 	    	   \Then
@@ -286,7 +291,7 @@ in the last block so we have to consider $\frac{n}{L}$ blocks and $L$ to scan th
 \[ min \frac{n}{L} + L \]
 when $L = \sqrt{n}$.
 
-Typically we use a Dynamic Programming based skip pointers, where we assume that exist some documents 
+Typically we use a dynamic programming based skip pointers, where we assume that exist some documents 
 very frequent as a result of a query so whenever we do an intersection it is more likely that they are occuring,
 so we divide block with frequent document as start of a block.\newline
 With Dynamic Programming approach the append of a new element will be difficult because we have to recompute
@@ -327,5 +332,5 @@ We build inverted indexes on fields and zones to permit querying, as can be note
 \end{figure}
 
 An \emph{search engine} it comes of several components that can be viewed in figure \ref{img:searchEngine}, 
-we will start talking about crawling and then we will introduce the other components.
+we will start talking about crawling and then we will introduce the other components in the following chapter.
 

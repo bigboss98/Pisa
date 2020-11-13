@@ -72,9 +72,86 @@ To check if the page has been parsed/downloaded before URL match, duplicate docu
 \end{itemize}
 
 \section{Bloom Filter}
-    Bloom Filter consist to create a binary array $B[1, m]$ 
- Consider a family of k hash functions that map a
-key (URL) to a position (integer) in B
+An empty Bloom filter is a bit array of $m$ bits, all set to $0$ and there must also be $k$ different hash functions defined, each of which maps or hashes some set element to one of the
+$m$ array positions, generating a uniform random distribution.\newline
+Typically, $k$ is a small constant which depends on the desired false error rate $\epsilon$, while $m$ is proportional to $k$ and the number of elements to be added and 
+to add an element, feed it to each of the $k$ hash functions to get $k$ array positions and set the bits at all these positions to $1$.
+
+To query for an element (test whether it is in the set), feed it to each of the $k$ hash functions to get $k$ array positions and if any of the bits at these positions is $0$,
+the element is definitely not in the set; if it were, then all the bits would have been set to $1$ when it was inserted and if all are $1$, then either the element is in the set,
+or the bits have by chance been set to $1$ during the insertion of other elements, resulting in a false positive.
+
+In a simple Bloom filter, there is no way to distinguish between the two cases, but more advanced techniques can address this problem and 
+the requirement of designing $k$ different independent hash functions can be prohibitive for large $k$, so for a good hash function with a wide output,
+there should be little if any correlation between different bit-fields of such a hash, so this type of hash can be used to generate multiple "different" hash functions
+by slicing its output into multiple bit fields.\newline
+Alternatively, one can pass $k$ different initial values (such as $0, 1, \dots, k-1)$ to a hash function that takes an initial value, or add (or append) these values to the key. 
+
+Removing an element from this simple Bloom filter is impossible because there is no way to tell which of the k bits it maps to should be cleared and although setting any one of those
+$k$ bits to zero suffices to remove the element, it would also remove any other elements that happen to map onto that bit, so since the simple algorithm provides no way
+to determine whether any other elements have been added that affect the bits for the element to be removed, clearing any of the bits would introduce the possibility of false negatives.
+
+One-time removal of an element from a Bloom filter can be simulated by having a second Bloom filter that contains items that have been removed, however, false positives
+in the second filter become false negatives in the composite filter, which may be undesirable and in this approach re-adding a previously removed item is not possible,
+as one would have to remove it from the "removed" filter.
+
+Assume that a hash function selects each array position with equal probability, so if $m$ is the number of bits in the array, the probability that a certain bit
+is not set to $1$ by a certain hash function during the insertion of an element is
+\[ 1 - \frac{1}{m} \]
+so if $k$ is the number of hash functions and each has no significant correlation between each other, then the probability that the bit is not set to 1 by any of the hash functions is
+\[ (1 - \frac{1}{m})^k \]
+and using the well-known identity for $e$ we can obtain for large $m$
+\[ (1 - \frac{1}{m})^k = ((1 - \frac{1}{m})^m)^{k/m} \approx -e^{k/m} \]
+If we have inserted n elements, the probability that a certain bit is still $0$ is 
+\[ (1 - \frac{1}{m})^{kn} \approx -e^{kn}{m} = 0.62^{m/n}\]
+It minimize prob. error for $k = (m/n) ln 2$and it is advantageous when $(m/n) << (\text{ key-length in bits } + \log n)$
+
+Pattern maching is a set of objects, whose keys are complex and time costly to be compared (URLs, matrices, MP3 and so on) so we use Bloom Filter to
+reduce the explicit comparison and it is effective in hierarchical memories (Example on Dictionary matching).
+
+Another example is \emph{Set intersection}, where we have two machines $M_A$ and $M_B$, each storing a set of items $A$ and $B$ and we wish compute $A \cup B$
+exchanging small number of bits.\newline
+A solution consist to compute $B - A$ by exchanging small amount of bits ($|A| \log \log |B|$), time depending on $B - A$ and with only $1$ communication round and we consider now
+\emph{Patricia Tree}, a special variant of the radix binary trie, in which rather than explicitly store every bit of every key, the nodes store only the position of the first bit
+which differentiates two sub-trees.\newline
+During traversal the algorithm examines the indexed bit of the search key and chooses the left or right sub-tree as appropriate, and an example can be viewed in figure \ref{img:patricia}.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Images/patricia}
+	\caption {Example of Patricia Tree}
+	\label{img:patricia}
+\end{figure}
+Given $PT_A$ and $PT_B$ at machine $M_B$ we procede as follows:
+\begin{enumerate}
+    \item Visit $PT_B$ top down and compare a node of $PT_B$ against the correspective node in $PT_A$.
+    \item If there is a match, the visit backtracks, otherwise proceeds to all children.
+    \item If we reach a leaf, then the correspective of $B$ is declared to be in $B - A$
+\end{enumerate}
+In figure \ref{img:merkleTree} is possible to note Merkle Tree, that are Patricia Tree with hashing and we consider an approximate algorithms, visible in figure \ref{img:approximateAlg},
+that use $BF(MT_A)$ to send $MT_A$ in less bits and bookkeeping for its structure, but this of course introduce false-positive errors.
+\begin{figure}
+	\includegraphics[width=\textwidth]{Images/merkle}
+	\caption{Example of Merkle Tree}
+	\label{img:merkleTree}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Images/approximativeAlg}
+	\caption{Approximative algorithm to compute Set intersection}
+	\label{img:approximateAlg}
+\end{figure}
+Given $BF(MT_A)$ and $MT_B$, the machine $M_B$ proceeds as follows:
+\begin{enumerate}
+	\item Visit $MT_B$ top-down and, for each node, check its hash in $BF(MT_A)$.
+	\item IF there is a match the visit backtrack, otherwise proceeds to their children.
+	\item If we reach a leaf, then the correspective of $B$ is declared to be in $B - A$
+\end{enumerate}
+Let $m_A = \Theta(|A| \log \log |B|)$ and the optimal $k_A = \Theta(\log \log |B|)$ we send $m_A$ bits for the $BF(A)$ and we have
+\[ \epsilon_A = (1/2)^{k_A} = O(1/ \log |B|) \] 
+that is the error of $BF(A)$.\newline
+The probability of a success for a leaf is given by $(1 - \epsilon_A)^d = \Theta(1)$ and for a correct leaf we have visited its downward path of length $\Theta(\log |B|)$ 
+computing $\Theta(\log \log |B|)$ hash functions per node.\newline
+This needs a round, $O(|A| \log \log |B|)$ bits, and $O(B - A \log |B| \log \log |B|)$ of reconciliation time.
 
 \subsection{Spectral Bloom Filter}
     We define now an evolution of Bloom Filter, used not only in URL match, with the following definition
@@ -217,11 +294,11 @@ key (URL) to a position (integer) in B
 
 	      We can iterate $L$ times the $k$ projections $h_I(p)$ and we set $g(p) = <h_1(p), h_2(p), \dots, h_L(p)>$, so we declare "$p$ matches $q$" if exist a $I$ such that
 	      $h_I(p) = h_I(q)$ and we have that probability of a match defined as 
-	      \[ \begin{align}
+	       \begin{align}
 		      P[g(p) \approx g(q)] & = 1 - P(h_{I_j}(p) \neq h_{I_j}(q) \, \forall j) \\
 		                           & = 1 - [P(h_{I_j}(p) \neq h_{I_j}(q)]^L \\
 					   & = 1 - (1 - s^k)^L 
-	         \end{align] \]
+	      \end{align} 
 	      This probability follow the aspect described in figure \ref{img:matchesProb} and we have that we have to scan all $L$ hash function to create a $L$ fingerprint 
 	      with a problem in time complexity.
 
@@ -253,8 +330,8 @@ key (URL) to a position (integer) in B
 	      and the probabilities that we have a false positive is defined as 
 	      \[ \begin{cases}
 		      P[\text{false hit to } A \text{ and } B \text{ on same window}] & = \text{Probability } p \text{ divides } (A - B) \\
-		                                                                      & = \frac{# div(A - B)}{#prime(U)} \\
-										      & \approx \frac{(\log (A + B)}{# prime(U)} \\
+		                                                                      & = \frac{\# div(A - B)}{\#prime(U)} \\
+										      & \approx \frac{(\log (A + B)}{\# prime(U)} \\
 										      & = \frac{m \log U}{U} 
 		 \end{cases} \]
     \end{itemize}
@@ -274,7 +351,18 @@ key (URL) to a position (integer) in B
 	    $P(\alpha, \beta)$ is exactly the Jaccard similarity $JS(S_A, S_B)$
     \end{prop}
     \begin{proof}
+	We give the proof in a slightly more general setting: consider a family of sets whose elements are drawn from a common universe and 
+	view the sets as columns of a matrix $A$, with one row for each element in the universe.\newline
+	The element $a_{ij} = 1$ if element $i$ is present in the set $S_j$ that the $j$th column represents and let $\Pi$ be a random permutation of  the  rows of $A$;
+	denote  by $\Pi(S_j)$ the column that results from applying $\Pi$ to the $j$th column and finally, let $x_{\Pi_j}$ be the index of the first row in which the column
+	$\Pi(S_j)$ has a $1$, now we prove that $P(\alpha, \beta) = JS(S_A, S_B)$ and if we can prove this, the theorem follows.
 
+	Consider two columns $j_1, j_2$ and the ordered pairs of entries of $S_{j_1}$ and $S_{j_2}$ partition the rows into four types, as we can note in figure \ref{img:jaccardProof},
+	denote by $C_{00}$ the number of rows with $0$’s in both columns, $C_{01}$ the second, $C_{10}$ the third and $C_{11}$ the fourth, then 
+	\[ JS(S_{j_1}, S_{j_2}) = \frac{C_{11}}{C_{01} + C_{10} + C_{11}} \]
+	To complete the proof by showing that the right-hand side equals to $P(x_{j_1}^{\Pi} = x_{j_2}^{\Pi})$, consider scanning columns $j_1,j_2$ in increasing row
+	index until the first non-zero entry is found in either column, and because $\Pi$ is a random permutation, the probability that this smallest row
+	has a $1$ in both columns is exactly the right-hand side of Equation.
     \end{proof}
     Another important similarity function is the \emph{cosine Similarity} defined as 
     \[ \cos \alpha = \frac{p * q}{||p|| ||q||} \]
