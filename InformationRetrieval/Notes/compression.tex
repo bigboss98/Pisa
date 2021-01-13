@@ -5,16 +5,17 @@ the amount of data that are travel across network.
 Snappy is a compression/decompression library that implement it, usable with several language and 
 Google has implement recently \emph{Brotli}, a new compression algorithm for internet.
 
-\section{LZ77 Compression Method}
-LZ77 is a compression method, where given a input in the form "past\_knowledge|string\_to\_comprex"
-so LZ77 start from string\_to\_comprex and using past knowledge we encode the document with triples
-of form $<dist, len, next-char>$, that represent the pattern that was founded in previous string and
+\section{LZ$77$ Compression Method}
+LZ$77$ is a compression method, where given a input in the form "past\_string
+|string", so LZ$77$ start from string and using past knowledge 
+we encode the document with triples of form $<$dist, len, next-char$>$,
+that represent the pattern that was founded in previous string and
 we advance in string by $len + 1$.\newline
 Usually it used a buffer "window" used to find repeted occurencies to compress and has to be 
 the same for encoding and decoding.
 
 The decoding operation do the inverse process, so decoder keeps the same dictionary window as
-encoder and finds substring $<dist, len, next-char>$ in previously decoded text and 
+encoder and finds substring $<$dist, len, next-char$>$ in previously decoded text and 
 insert a copy of it.
 
 \begin{esempio}
@@ -45,7 +46,7 @@ These two standard techniques used two types of situation can happen:
 
 \section{Z-Delta Compression}
 We have two files f\_known (known to both parties) and f\_new (is known only to the sender) and
-the goal is to compute a file f\_d of minimum size such that f new can be derived by the receiver
+the goal is to compute a file f\_d of minimum size such that f\_new can be derived by the receiver
 from f\_known and f\_d; it assume that block moves and copies are allowed, LZ77 decomprension
 scheme provides an efficient, optimal solution, so we only compress f\_new based on f\_known
 and we decompress f\_d using f\_known .
@@ -78,22 +79,31 @@ We will briefly analyze two different approach:
 \begin{description}
 	\item [rsync: ] file synch tool, distributed with Linux and it is simple, widely used and
 	                use single roundtrip.\newline
+			In figure \ref{img:rsync} there is an example of rsync compression, where we can
+			note the computation steps that are executed.\newline
 			It uses $4$-byte rolling hash $+ 2$-byte MD5, gzip for literals,
 			choice of block size problematic (default: $max\{700, \sqrt{n}\}$ bytes)
 			and also there is a high load on the server.
+
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{Images/rsync}
+				\caption{Rsync Computation steps}
+				\label{img:rsync}
+			\end{figure}
 
 	\item [zsync: ] minimze server load, where computation are done in Client, and has 
 			three communication steps visible in figure \ref{img:zsync}.
 
 			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{Images/zsync}
 				\caption{Zsync Computation steps}
 				\label{img:zsync}
-				\includegraphics[width=\textwidth]{Images/zsync}
 			\end{figure}
 			The hashes of the blocks can be precalculated and stored in .zsync file
 			and Server should be not overloaded, so it is better suited to 
 			distribute multiple-files through network, given one .zsync.
 
-			In our example we have a bitmap of $3$ bits because of \#blocks in
-			f\_new are only three.
+			In our example we have a bitmap of $5$ bits because of \#blocks in
+			f\_new are only five.
+
 \end{description}

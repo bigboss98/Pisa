@@ -1,2 +1,36 @@
 \BOOKMARK [0][]{chapter.1}{1 Introduction to Information Retrieval}{}% 1
 \BOOKMARK [1][-]{section.1.1}{1.1 Boolean retrieval model}{chapter.1}% 2
+\BOOKMARK [0][]{chapter.2}{2 Search Engine}{}% 3
+\BOOKMARK [1][-]{section.2.1}{2.1 Crawling}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.2}{2.2 Bloom Filter}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Spectral Bloom Filter}{section.2.2}% 6
+\BOOKMARK [1][-]{section.2.3}{2.3 Parallel Crawlers}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{2.4 Compressed storage of Web Graph}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.5}{2.5 Locality-sensitive hashing and its applications}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.6}{2.6 Document Duplication}{chapter.2}% 10
+\BOOKMARK [0][]{chapter.3}{3 Index Construction}{}% 11
+\BOOKMARK [1][-]{section.3.1}{3.1 SPIMI approach}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.2}{3.2 BSBI approach}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.3}{3.3 Multi-way merge sort}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.4}{3.4 Distributed indexing}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.5}{3.5 Compression of Postings}{chapter.3}% 16
+\BOOKMARK [0][]{chapter.4}{4 Compression}{}% 17
+\BOOKMARK [1][-]{section.4.1}{4.1 LZ77 Compression Method}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.2}{4.2 Compression and Networking}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.3}{4.3 Z-Delta Compression}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.4}{4.4 File Synchronization}{chapter.4}% 21
+\BOOKMARK [0][]{chapter.5}{5 Document Preprocessing}{}% 22
+\BOOKMARK [1][-]{section.5.1}{5.1 Statistical Properties of Text}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.2}{5.2 Keyword extraction}{chapter.5}% 24
+\BOOKMARK [0][]{chapter.6}{6 Data Structures for Inverted Index}{}% 25
+\BOOKMARK [1][-]{section.6.1}{6.1 Correction Queries}{chapter.6}% 26
+\BOOKMARK [0][]{chapter.7}{7 Query Processing}{}% 27
+\BOOKMARK [0][]{chapter.8}{8 Document ranking}{}% 28
+\BOOKMARK [1][-]{section.8.1}{8.1 Top-k documents}{chapter.8}% 29
+\BOOKMARK [1][-]{section.8.2}{8.2 Exact top-k documents}{chapter.8}% 30
+\BOOKMARK [1][-]{section.8.3}{8.3 Relevance Feedback}{chapter.8}% 31
+\BOOKMARK [1][-]{section.8.4}{8.4 Quality of Search Engine}{chapter.8}% 32
+\BOOKMARK [0][]{chapter.9}{9 Random Walks}{}% 33
+\BOOKMARK [1][-]{section.9.1}{9.1 Link-based Ranking and Pagerank}{chapter.9}% 34
+\BOOKMARK [1][-]{section.9.2}{9.2 HITS \(Hypertext Induced Topic Search}{chapter.9}% 35
+\BOOKMARK [1][-]{section.9.3}{9.3 LSI \(Latent Semantic Indexing\)}{chapter.9}% 36

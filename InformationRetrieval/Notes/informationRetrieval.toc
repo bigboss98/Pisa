@@ -1,5 +1,38 @@
-\babel@toc {italian}{}
-\babel@toc {italian}{}
+\babel@toc {english}{}
 \vspace {-\cftbeforepartskip }
-\contentsline {chapter}{\numberline {1}{Introduction to Information Retrieval}}{4}{chapter.1}%
+\contentsline {chapter}{\numberline {1}{Introduction to Information Retrieval}}{5}{chapter.1}%
 \contentsline {section}{\numberline {1.1}{Boolean retrieval model}}{7}{section.1.1}%
+\contentsline {chapter}{\numberline {2}{Search Engine}}{12}{chapter.2}%
+\contentsline {section}{\numberline {2.1}{Crawling}}{12}{section.2.1}%
+\contentsline {section}{\numberline {2.2}{Bloom Filter}}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}{Spectral Bloom Filter}}{17}{subsection.2.2.1}%
+\contentsline {section}{\numberline {2.3}{Parallel Crawlers}}{19}{section.2.3}%
+\contentsline {section}{\numberline {2.4}{Compressed storage of Web Graph}}{19}{section.2.4}%
+\contentsline {section}{\numberline {2.5}{Locality-sensitive hashing and its applications}}{21}{section.2.5}%
+\contentsline {section}{\numberline {2.6}{Document Duplication}}{23}{section.2.6}%
+\contentsline {chapter}{\numberline {3}{Index Construction}}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}{SPIMI approach}}{25}{section.3.1}%
+\contentsline {section}{\numberline {3.2}{BSBI approach}}{25}{section.3.2}%
+\contentsline {section}{\numberline {3.3}{Multi-way merge sort}}{26}{section.3.3}%
+\contentsline {section}{\numberline {3.4}{Distributed indexing}}{26}{section.3.4}%
+\contentsline {section}{\numberline {3.5}{Compression of Postings}}{28}{section.3.5}%
+\contentsline {chapter}{\numberline {4}{Compression}}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}{LZ$77$ Compression Method}}{31}{section.4.1}%
+\contentsline {section}{\numberline {4.2}{Compression and Networking}}{31}{section.4.2}%
+\contentsline {section}{\numberline {4.3}{Z-Delta Compression}}{31}{section.4.3}%
+\contentsline {section}{\numberline {4.4}{File Synchronization}}{32}{section.4.4}%
+\contentsline {chapter}{\numberline {5}{Document Preprocessing}}{34}{chapter.5}%
+\contentsline {section}{\numberline {5.1}{Statistical Properties of Text}}{34}{section.5.1}%
+\contentsline {section}{\numberline {5.2}{Keyword extraction}}{35}{section.5.2}%
+\contentsline {chapter}{\numberline {6}{Data Structures for Inverted Index}}{39}{chapter.6}%
+\contentsline {section}{\numberline {6.1}{Correction Queries}}{39}{section.6.1}%
+\contentsline {chapter}{\numberline {7}{Query Processing}}{42}{chapter.7}%
+\contentsline {chapter}{\numberline {8}{Document ranking}}{45}{chapter.8}%
+\contentsline {section}{\numberline {8.1}{Top-k documents}}{47}{section.8.1}%
+\contentsline {section}{\numberline {8.2}{Exact top-$k$ documents}}{48}{section.8.2}%
+\contentsline {section}{\numberline {8.3}{Relevance Feedback}}{49}{section.8.3}%
+\contentsline {section}{\numberline {8.4}{Quality of Search Engine}}{50}{section.8.4}%
+\contentsline {chapter}{\numberline {9}{Random Walks}}{53}{chapter.9}%
+\contentsline {section}{\numberline {9.1}{Link-based Ranking and Pagerank}}{53}{section.9.1}%
+\contentsline {section}{\numberline {9.2}{HITS (Hypertext Induced Topic Search}}{55}{section.9.2}%
+\contentsline {section}{\numberline {9.3}{LSI (Latent Semantic Indexing)}}{56}{section.9.3}%

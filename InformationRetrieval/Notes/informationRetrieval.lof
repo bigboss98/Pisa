@@ -1,15 +1,79 @@
-\babel@toc {italian}{}
-\babel@toc {italian}{}
+\babel@toc {english}{}
 \deactivateaddvspace 
 \ttl@tocsep 
 \ttl@tocsep 
 \ttl@tocsep 
-\contentsline {figure}{\numberline {1}{\ignorespaces Altavista search engine web page\relax }}{5}{figure.caption.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Google search engine on 1998\relax }}{5}{figure.caption.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces A Google search with knowledge graph\relax }}{6}{figure.caption.3}%
-\contentsline {figure}{\numberline {4}{\ignorespaces an example of transition from word to concept with the phrase "Leonardo is the scientist that has painted the Mona Lisa"\relax }}{6}{figure.caption.4}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Google search evolution\relax }}{7}{figure.caption.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces A term-document incidence matrix. Matrix element $(t, d)$ is $1$ if the play in column $d$ contains the word in row $t$, and is $0$ otherwise\relax }}{7}{figure.caption.6}%
-\contentsline {figure}{\numberline {7}{\ignorespaces an example of Inverted index for Brutus, Caesar and Calpurnia\relax }}{8}{figure.caption.7}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Pseudocode of Intersection between two postings list\relax }}{8}{figure.caption.8}%
-\contentsline {figure}{\numberline {9}{\ignorespaces And query between Brutus, Calpurnia and Caesar\relax }}{9}{figure.caption.9}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Some example of Search Engine\relax }}{6}{figure.caption.2}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Some Webpages with Knowledge Graph\relax }}{6}{figure.caption.3}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Google search evolution\relax }}{7}{figure.caption.4}%
+\contentsline {figure}{\numberline {4}{\ignorespaces A term-document incidence matrix. Matrix element $(t, d)$ is $1$ if the play in column $d$ contains the word in row $t$, and is $0$ otherwise\relax }}{8}{figure.caption.5}%
+\contentsline {figure}{\numberline {5}{\ignorespaces an example of Inverted index for Brutus, Caesar and Calpurnia\relax }}{8}{figure.caption.6}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Pseudocode of Intersection between two postings list\relax }}{8}{figure.caption.7}%
+\contentsline {figure}{\numberline {7}{\ignorespaces And query between Brutus, Calpurnia and Caesar\relax }}{9}{figure.caption.8}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Pseudocode of Intersection operation between $n$ terms\relax }}{9}{figure.caption.9}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Postings lists with skip pointers. The postings intersection can use a skip pointer when the end point is still less than the item on the other list.\relax }}{10}{figure.caption.10}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Pseudocode of Intersection with Skip Pointers\relax }}{10}{figure.caption.11}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Inverted index on zone fields\relax }}{11}{figure.caption.12}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {12}{\ignorespaces Components of a Search Engine\relax }}{12}{figure.caption.13}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Crawler bowtie\relax }}{13}{figure.caption.14}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Diagramm of Crawler operation\relax }}{13}{figure.caption.15}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Component of Crawler\relax }}{13}{figure.caption.16}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Pseudocode of Crawler components\relax }}{14}{figure.caption.17}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Structure of Mercator search engine\relax }}{14}{figure.caption.18}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Example of Patricia Tree\relax }}{16}{figure.caption.19}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Example of Merkle Tree\relax }}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Approximative algorithm to compute Set intersection\relax }}{17}{figure.caption.21}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Example of approximation between $C_i$ and $f_X$\relax }}{18}{figure.caption.22}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Consistent Hashing Example\relax }}{20}{figure.caption.23}%
+\contentsline {figure}{\numberline {23}{\ignorespaces In-degree value in Altavista Crawl in 1997\relax }}{20}{figure.caption.24}%
+\contentsline {figure}{\numberline {24}{\ignorespaces In-degree value in WebBase crawl in 2001\relax }}{20}{figure.caption.25}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Example of Copy List\relax }}{21}{figure.caption.26}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Example of Copy Block\relax }}{21}{figure.caption.27}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Probability of Fingerprint projections\relax }}{22}{figure.caption.28}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Partition of $A$ and $B$ in Jaccard approximation proof\relax }}{24}{figure.caption.29}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {29}{\ignorespaces SPIMI pseudocode\relax }}{25}{figure.caption.30}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Multiway Merge-sort merging\relax }}{26}{figure.caption.31}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Term-based Distributed indexing\relax }}{27}{figure.caption.32}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Doc-based Distributed indexing\relax }}{27}{figure.caption.33}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Gap Encoding approach\relax }}{28}{figure.caption.34}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Example of Variable encoding\relax }}{29}{figure.caption.35}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Encoding of PForDelta code\relax }}{29}{figure.caption.36}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Example of PForDelta code\relax }}{29}{figure.caption.37}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Example of Gamma encoding\relax }}{30}{figure.caption.38}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Encoding in Elias-Fano code\relax }}{30}{figure.caption.39}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {39}{\ignorespaces Rsync Computation steps\relax }}{32}{figure.caption.40}%
+\contentsline {figure}{\numberline {40}{\ignorespaces Zsync Computation steps\relax }}{33}{figure.caption.41}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {41}{\ignorespaces Frequency and POS tagging approach\relax }}{35}{figure.caption.42}%
+\contentsline {figure}{\numberline {42}{\ignorespaces Mean and Variance between Strong and some words\relax }}{36}{figure.caption.43}%
+\contentsline {figure}{\numberline {43}{\ignorespaces Example of Mean and Variance distance\relax }}{36}{figure.caption.44}%
+\contentsline {figure}{\numberline {44}{\ignorespaces Extraction of Candidate keywords using RAKE\relax }}{37}{figure.caption.45}%
+\contentsline {figure}{\numberline {45}{\ignorespaces Calculation of Scoring of Candidate keywords\relax }}{38}{figure.caption.46}%
+\contentsline {figure}{\numberline {46}{\ignorespaces Sorted Scoring of RAKE approach\relax }}{38}{figure.caption.47}%
+\contentsline {figure}{\numberline {47}{\ignorespaces Results obtained by Rake and manual extraction\relax }}{38}{figure.caption.48}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {48}{\ignorespaces Example of Front Coding\relax }}{39}{figure.caption.49}%
+\contentsline {figure}{\numberline {49}{\ignorespaces Equation for computing Edit Distance\relax }}{40}{figure.caption.50}%
+\contentsline {figure}{\numberline {50}{\ignorespaces Soundex basic Algorithm\relax }}{41}{figure.caption.51}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {51}{\ignorespaces SoftAnd Algorithm procedure\relax }}{43}{figure.caption.52}%
+\contentsline {figure}{\numberline {52}{\ignorespaces Composition of Cache on Query/Postings\relax }}{43}{figure.caption.53}%
+\contentsline {figure}{\numberline {53}{\ignorespaces Example of Tiered Queries\relax }}{44}{figure.caption.54}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {54}{\ignorespaces Example of Overlap measure\relax }}{45}{figure.caption.55}%
+\contentsline {figure}{\numberline {55}{\ignorespaces Example of problem in distance\relax }}{46}{figure.caption.56}%
+\contentsline {figure}{\numberline {56}{\ignorespaces Algorithm to compute the cosine score\relax }}{46}{figure.caption.57}%
+\contentsline {figure}{\numberline {57}{\ignorespaces Top-k documents using high-IDF\relax }}{47}{figure.caption.58}%
+\contentsline {figure}{\numberline {58}{\ignorespaces Stop criteria for Fancy-hits approach\relax }}{48}{figure.caption.59}%
+\contentsline {figure}{\numberline {59}{\ignorespaces Execution of Wand algorithms steps\relax }}{49}{figure.caption.60}%
+\contentsline {figure}{\numberline {60}{\ignorespaces Block-max Wand approach extension\relax }}{50}{figure.caption.61}%
+\contentsline {figure}{\numberline {61}{\ignorespaces Meaning of Precision and Recall\relax }}{51}{figure.caption.62}%
+\contentsline {figure}{\numberline {62}{\ignorespaces Relation between Relevant and Retrieved documents\relax }}{51}{figure.caption.63}%
+\contentsline {figure}{\numberline {63}{\ignorespaces Precision-Recall curve\relax }}{52}{figure.caption.64}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {64}{\ignorespaces Transition matrix for a graph $G$\relax }}{54}{figure.caption.65}%
+\contentsline {figure}{\numberline {65}{\ignorespaces Pagerank approach on a node\relax }}{54}{figure.caption.66}%
+\contentsline {figure}{\numberline {66}{\ignorespaces Hits Graph architecture\relax }}{56}{figure.caption.67}%

@@ -19,7 +19,7 @@ and is language dependent.
 Another preprocessing step is to remove \emph{Stop words}, most common words in
 document, and the intuition behind is that they have little semantic content
 (the, a, and, to, be) and there are a lot of them ($\sim 30\%$ of postings 
-for top $30$ words.\newline
+for top $30$ words).\newline
 Nowadays good compression techniques has reduced the space necessary to include also
 stopwords and with good query optimations it is required only a small more time also
 to consider it, so usually the stop words are not deleted.
@@ -69,9 +69,9 @@ To extract keyword that should be consider as a single token we have several app
 	  as can be viewed in figure \ref{img:posFrequency}.
 
 	  \begin{figure}
+		  \includegraphics[width=\textwidth]{Images/posFrequency}
 		  \caption{Frequency and POS tagging approach}
 		  \label{img:posFrequency}
-		  \includegraphics[width=\textwidth]{Images/posFrequency}
 	  \end{figure}
 
     \item Often the words are not adjacent to each other and to find keyword we 
@@ -82,15 +82,15 @@ To extract keyword that should be consider as a single token we have several app
 	  $d > 0$ and $s$ very small we have interesting new keyword.
 
 	  \begin{figure}
+		\includegraphics[width=0.7\textwidth]{Images/meanDistance}
 		\caption{Mean and Variance between Strong and some words}
 		\label{img:meanDistance}
-		\includegraphics[width=\textwidth]{Images/meanDistance}
 	  \end{figure}
 
 	  \begin{figure}
+		\includegraphics[width=0.7\textwidth]{Images/exampleMeanDistance}
 		\caption{Example of Mean and Variance distance}
 		\label{img:exampleDistance}
-		\includegraphics[width=\textwidth]{Images/exampleMeanDistance}
 	  \end{figure}
     \item Pearson Chi-Square test statistics that follow a chi-squared distribution
 	  arise from an assumption of independent normally distributed data,
@@ -118,9 +118,9 @@ To extract keyword that should be consider as a single token we have several app
 		      \ref{img:rake}.
 
 		      \begin{figure}
+			      \includegraphics[width=\textwidth]{Images/rake}
 			      \caption{Extraction of Candidate keywords using RAKE}
 			      \label{img:rake}
-			      \includegraphics[width=\textwidth]{Images/rake}
 		      \end{figure}
 
 		\item [Step \#2: ] compute the table of co-occurrences and we use few metrics:
@@ -130,9 +130,9 @@ To extract keyword that should be consider as a single token we have several app
 				  to compute the scoring Candidate keywords.
 
 			\begin{figure}
+				\includegraphics[width=\textwidth]{Images/rakeScoring}
 				\caption{Calculation of Scoring of Candidate keywords}
 				\label{img:scoringCandidate}
-				\includegraphics[width=\textwidth]{Images/rakeScoring}
 			\end{figure}
 		\item [Step \#3: ] identifies keywords that contain interior stop words such as axis of evil and 
 			looks for pairs of keywords that adjoin one another at least twice in the same document
@@ -141,17 +141,18 @@ To extract keyword that should be consider as a single token we have several app
 			in figure \ref{img:listScoring}.
 
 			\begin{figure}
+				\includegraphics[width=\textwidth]{Images/rakeScoring}
 				\caption{Sorted Scoring of RAKE approach}
 				\label{img:listScoring}
-				\includegraphics[width=\textwidth]{Images/rakeScoring}
 			\end{figure}
 		\item [Step \#4: ] we select the top one-third of sorted list of scoring obtained in previous steps
 			and in figure \ref{img:rakeScoring} is possible to compare results obtained by RAKE and 
 			by manual keyword extraction.
 
 			\begin{figure}
-				\label{img:rakeScoring}
 				\includegraphics[width=\textwidth]{Images/rakeComparison}
+				\caption{Results obtained by Rake and manual extraction}
+				\label{img:rakeScoring}
 			\end{figure}
 
 	   \end{description}

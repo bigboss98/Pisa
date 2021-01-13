@@ -1,6 +1,7 @@
 \chapter{Introduction to Information Retrieval}
 In this course we will strongly consider \emph{search engines}, but \emph{information retrieval} is not
-only consider on search engines, so a definition of information retrieval is the following
+only consider on search engines, so we provide now a definition 
+of information retrieval, that it is the following:
 
 \begin{defi}
 Information retrieval is finding material (usually documents) of unstructured nature that satisfies
@@ -9,25 +10,25 @@ an information need from within large collections
 An information need is the topic about which the user desires to know more, and is differentiated from a query,
 which is what the user conveys to the computer in an attempt to communicate the information need.
 
-As defined in this way, information retrieval used to be an activity that only a few people engaged in:
+As defined in this way, information retrieval is used to be an activity that only a few people engaged in:
 reference librarians, paralegals, and similar professional searchers, but now the world has changed,
 and hundreds of millions of people engage in information retrieval every day when 
 they use a web search engine or search their email.
 
 Information retrieval systems can also be distinguished by the scale at
-which they operate, and it is useful to distinguish three prominent scales.
-In web search, the system has to provide search over billions of documents
+which they operate, and it is useful to distinguish three prominent scales:
+in web search, the system has to provide search over billions of documents
 stored on millions of computers. Distinctive issues are needing to gather
 documents for indexing, being able to build systems that work efficiently
 at this enormous scale, and handling particular aspects of the web, such as
-the exploitation of hypertext
+the exploitation of hypertext.
 
 In between is the space of enterprise,
 institutional, and domain-specific search, where retrieval might be provided for
 collections such as a corporation’s internal documents, a database of patents,
 or research articles on biochemistry. In this case, the documents will typically be stored on
 centralized file systems and one or a handful of dedicated
-machines will provide search over the collection
+machines will provide search over the collection.
 
 Data available and considered can be from different nature, so we have the following classification:
 \begin{description}
@@ -65,7 +66,7 @@ Maps (OpenStreetMap) and work finder (Linkedin) and we have 5 generations of sea
                                 strongly improve the usability and utility of a search engine.
                                 An example of second generation search engine can be viewed on figure \ref{img:google}.
                                 \begin{figure}
-				    \begin{subfigure}{0.6\textwidth}
+				    \begin{subfigure}{0.5\textwidth}
                                     	\includegraphics[width=0.6\textwidth]{Images/altavista}
                                     	\caption{Altavista search engine web page}
                                     	\label{img:altavista}
@@ -96,26 +97,29 @@ Maps (OpenStreetMap) and work finder (Linkedin) and we have 5 generations of sea
                                 \emph{sinonimy} word, so at example is possible recognise that "Microsoft's browser"
                                 and "Internet explorer" represent the same concept.
                                 \begin{figure}
-                                    \includegraphics[width=0.6\textwidth]{Images/knowledgeGraph}
-                                    \caption{A Google search with knowledge graph}
-                                    \label{img:knowledgeGraph}
-                                \end{figure}
-                                \begin{figure}
-                                    \includegraphics[width=0.6\textwidth]{Images/leonardo}
-                                    \caption{an example of transition from word to concept with the phrase
-                                             "Leonardo is the scientist that has painted the Mona Lisa"}
-                                    \label{img:leonardo}
-                                \end{figure}
+				    \begin{subfigure}{0.6\textwidth}
+					\includegraphics[width=0.6\textwidth]{Images/knowledgeGraph}
+                                    	\caption{A Google search with knowledge graph}
+                                    	\label{img:knowledgeGraph}
+                                    \end{subfigure}
+				    \begin{subfigure}{0.6\textwidth}
+                                    	\includegraphics[width=0.6\textwidth]{Images/leonardo}
+                                    	\caption{Example of transition from word to concept with the phrase
+                                             	 "Leonardo is the scientist that has painted the Mona Lisa"}
+                                    	\label{img:leonardo}
+                                    \end{subfigure}
+				    \caption{Some Webpages with Knowledge Graph}
+				    \label{img:knowledge}
+				\end{figure}
 \end{description}
-In figure \ref{img:googleEvolution} is possible to notice which was the evolution on Google search engine.
-
+In figure \ref{img:googleEvolution} is possible to notice which was the evolution on Google search engine and
+now are available "devices $2.0$", that have their IDs, communication capacity, computing and storage, like
+for example car with maps, where the driver can asks (using text or voice audio) the route for a place.
 \begin{figure}
+    \includegraphics[width=0.5\textwidth]{Images/googleGeneration}
     \caption{Google search evolution}
     \label{img:googleEvolution}
-    \includegraphics[width=0.6\textwidth]{Images/googleGeneration}
 \end{figure}
-Now are available "devices $2.0$", that have their IDs, communication capacity, computing and storage, like
-for example car with maps, where the driver can asks (using text or voice audio) the route for a place.
 
 \section{Boolean retrieval model}
 We consider now the first model of Information retrieval, that was mainly used on first generation of search engine,
@@ -145,29 +149,29 @@ to know two key statistics about the system’s returned results for a query:
 \end{description}
 
 In figure \ref{img:booleanMatrix} is possible to note a term-document incident matrix, where we 
-record for each document, here a play of Shakespeare’s, whether it contains each word 
+record for each document, a play of Shakespeare’s, whether it contains each word 
 out of all the words Shakespeare used (Shakespeare used about 32,000 different words).
 
 \begin{figure}
+    \includegraphics[width=0.6\textwidth]{Images/booleanMatrix}
     \caption{A term-document incidence matrix. Matrix element $(t, d)$ is $1$ if the play in column $d$
              contains the word in row $t$, and is $0$ otherwise}
     \label{img:booleanMatrix}
-    \includegraphics[width=\textwidth]{Images/booleanMatrix}
 \end{figure}
 The problem of Term-document incident matrix is that the matrix could be very big and it is also a \emph{sparse}
 matrix, so we waste a lot of spaces to represent useless data.
 
 To solve this problem we introduce \emph{inverted index}, where for each term $t$, we must store a list 
-of all documents that contain $t$ and we identify each by docID, a document serial number.\newline
-It is called inverted because usually in a document we have a list of word instead in our index we have 
+of all documents that contain $t$ and we identify each by docID, a document serial number and 
+it is called inverted because usually in a document we have a list of word instead in our index we have 
 for a word a list of documents where it occurs.\newline
 In figure \ref{img:invertedIndex} is possible to note an example of inverted index, where we only store the docID
 where a word appear in a document.
 
 \begin{figure}
+    \includegraphics[width=\textwidth]{Images/invertedIndex}
     \caption{an example of Inverted index for Brutus, Caesar and Calpurnia}
     \label{img:invertedIndex}
-    \includegraphics[width=\textwidth]{Images/invertedIndex}
 \end{figure}
 The advantages of inverted index is that query requires just a scan and also we can store smaller integers,
 using \emph{gap coding}, that will enable to use less amount of memory.
@@ -186,11 +190,9 @@ query "Brutus AND Caesar AND Calpurnia" in figure \ref{img:andQuery} we first co
 then compute "(Brutus AND Calpurnia) AND Caesar"
 
 \begin{figure}
-    \caption{Pseudocode of Intersection between two postings list}
-    \label{alg:intersection}
     \begin{codebox}
         \Procname{$\proc{intersection} (p_1, p_2)$}
-        \li $\id{answer} \gets <> $
+	\li $\id{answer} \gets [] $
         \li \While $p_1 \neq \const{nil}$ and $p_2 \neq \const{nil}$ 
             \Do
         \li     \If $\proc{docID}(p_1) \isequal \proc{docID}(p_2)$
@@ -203,18 +205,18 @@ then compute "(Brutus AND Calpurnia) AND Caesar"
             \End
         \li \Return $\id{answer}$
     \end{codebox}
+    \caption{Pseudocode of Intersection between two postings list}
+    \label{alg:intersection}
 \end{figure}
 \begin{figure}
+    \includegraphics[width=\textwidth]{Images/andQuery}
     \caption{And query between Brutus, Calpurnia and Caesar}
     \label{img:andQuery}
-    \includegraphics[width=\textwidth]{Images/andQuery}
 \end{figure}
 In figure \ref{alg:intersectionTerms} it can be find the pseudocode to compute the intersection between 
 $n$ terms, that use the intution we have explain briefly previously.
 
 \begin{figure}
-    \caption{Pseudocode of Intersection operation between $n$ terms}
-    \label{alg:intersectionTerms}
     \begin{codebox}
 	\Procname{$\proc{intersection} (<t_1, \dots, t_n>)$}
 	    \li $\id{terms} \gets \proc{SortByIncreasingFrequency}(<t_1, \dots, t_n>)$
@@ -227,6 +229,8 @@ $n$ terms, that use the intution we have explain briefly previously.
 	        \End
 	    \li \Return $\id{result}$
     \end{codebox}
+    \caption{Pseudocode of Intersection operation between $n$ terms}
+    \label{alg:intersectionTerms}
 \end{figure}
 To gain the speed benefits of indexing at retrieval time, we have to build the index in advance
 and the major steps in this are:
@@ -241,8 +245,8 @@ The first three steps will consider later in the course and the last one is cons
 inverted index.
 
 To represent the index we have to done some choice about data structure to use, infact 
-a fixed length array would be wasteful as some words occur in many documents, and others in very few.\newline
-For an in-memory postings list, two good alternatives are singly linked lists or variable length arrays:
+a fixed length array would be wasteful as some words occur in many documents, and others in very few,
+so for an in-memory postings list, two good alternatives are singly linked lists or variable length arrays:
 singly linked lists allow cheap insertion of documents into postings lists (following updates,
 such as when recrawling the web for updated documents), and naturally extend to more advanced indexing strategies
 such as skip lists, which require additional pointers.\newline
@@ -320,17 +324,15 @@ interested to consider zones in documents like "Find documents with (author = Ul
 
 We define zone indexes as
 \begin{defi}
-    Zone indexes: is a region of the doc that can contain an arbitrary amound of text, like title, abstract
+    Zone indexes: is a region of the doc that can contain an arbitrary amount of text, like title, abstract
                   or references.
 \end{defi}
 We build inverted indexes on fields and zones to permit querying, as can be noted on figure \ref{img:zoneIndex}.
 
 \begin{figure}
+    \includegraphics[width=0.6\textwidth]{Images/zoneIndex}
     \caption{Inverted index on zone fields}
     \label{img:zoneIndex}
-    \includegraphics[width=\textwidth]{Images/zoneIndex}
 \end{figure}
 
-An \emph{search engine} it comes of several components that can be viewed in figure \ref{img:searchEngine}, 
-we will start talking about crawling and then we will introduce the other components in the following chapter.
 

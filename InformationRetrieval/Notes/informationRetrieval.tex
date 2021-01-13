@@ -1,7 +1,7 @@
 \documentclass[a4paper, openany]{book}
 \usepackage[T1]{fontenc}%per rappresentare i font italiani, come le lettere accentate, con la giusta spaziatura
 \usepackage[utf8]{inputenc}%per poter inserire nel testo .tex i caratteri unicode8
-\usepackage[italian]{babel}%per poter effettuare la giusta sillabazione della lingua italiana
+\usepackage[english]{babel}%per poter effettuare la giusta sillabazione della lingua italiana
 \usepackage{classicthesis}%necessario per usare lo stile arsclassica
 \usepackage{arsclassica}%per poter usare lo stile arsclassica usato nell'Arte di imparare il Latex
 \usepackage{amsmath}%per poter rappresentare ed utilizzare al meglio gli ambienti e le formule matematiche
@@ -23,9 +23,11 @@
 \newcommand{\numberset}{\mathbb}
 \newcommand{\N}{\numberset{N}}
 \newcommand{\deriv}{\Rightarrow}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\transpose}[1]{#1 ^ \mathsf{T}}
 
 \begin{document}
-    \title{Notes of Information Retrieval course}
+    \title{Notes of Information Retrieval $2020/21$}
     \author{Marco Natali}
     \date{}
     \maketitle 
@@ -39,5 +41,8 @@
       \input{compression}
       \input{preprocessing}
       \input{invertedIndex}
+      \input{queryProcessing}
+      \input{documentRanking}
+      \input{randomWalks}
       
 \end{document}

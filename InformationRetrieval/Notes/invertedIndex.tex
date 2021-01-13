@@ -64,21 +64,21 @@ We introduce now \emph{Weighted edit distance}, where the weight of an operation
 meant to capture keyboard errors, as for example $m$ is more likely to be mis-typed as $n$ than as $q$.\newline
 Therefore, replacing $m$ by $n$ is a smaller cost than by $q$ and requires weighted matrix as input.
 
-We create two dictionaries $D_1 = \{ strings \}$ and $D_2 = \{ strings of D1 with one deletion \}$; for a query we have to 
-do 1 search in $D_1$ in perfect match, $1$ query in $D_2$ to find $1$-char less, $p$ queries to find $P$ with $1$-char less from $D_2$ to $D_1$
+For $1$ error correction we create two dictionaries $D_1 = \{$ strings $\}$ and $D_2 = \{$ strings of $D1 $ with one deletion $\}$; for a query we have to 
+do 1 search in $D_1$ in perfect match, $1$ query in $D_2$ to find $1$-char less, $p$ queries to find $P$ with $1$-char less in $D_1$
 and in the end $p$ queries to find substitution in $D_2$ from $P$ with $1$-char less.
 
 We need $2p + 2$ hash computations for $P$ and the positive aspects are that is CPU efficient, no cache misses for computing P’s hashes,
 but $O(p)$ cache misses to search in $D_1$ and $D_2$, instead negative aspects are large space because of the many strings in $D_2$ 
 which must be stored to search in the hash table of D2, unless we avoid collision and the presence of false matches.
 
-A better approach consist to use overlap distance, where we use the $k$-gram index contains for every $k$-gram all terms including
+A better approach for $k$ error correction consist to use overlap distance, where we use the $k$-gram index contains for every $k$-gram all terms including
 that $k$-gram and we append $k-1$ symbol \$ at the front of each string, in order to generate a number $L$ of $k$-grams 
 for a string of length $L$
 
 We select terms by threshold on matching $k$-grams and if the term is $L$ chars long (it consists of $L k$-grams) and if $E$
 is the number of allowed errors ($E*k$ of the $k$-grams of $Q$ might be different from term’s ones because of the $E$ errors) and 
-so at least $L – E*k$ of the $k$-grams in $Q$ must match a dictionary term to be a candidate answer and if ED is required,
+so at least $L - E*k$ of the $k$-grams in $Q$ must match a dictionary term to be a candidate answer and if ED is required,
 post-filter results with dynamic programming.
 
 We enumerate multiple alternatives and then need to figure out which to present to the user for “Did you mean?" and we use heuristics:
@@ -104,10 +104,10 @@ and do the same with query terms, so we build and search an index on the reduced
 all steps of basic algorithm).
 
 \begin{figure}
+	\includegraphics[width=0.4\textwidth]{Images/soundex1}
+	\includegraphics[width=0.4\textwidth]{Images/soundex2}
 	\caption{Soundex basic Algorithm}
 	\label{img:soundex}
-	\includegraphics[width=\textwidth]{Images/soundex1}
-	\includegraphics[width=\textwidth]{Images/soundex2}
 \end{figure}
 Soundex is the classic algorithm, provided by most databases (Oracle, Microsoft, and so on) but is not very useful for information retrieval;
 is okay for “high recall” tasks (e.g., Interpol), though biased to names of certain nationalities, so other algorithms

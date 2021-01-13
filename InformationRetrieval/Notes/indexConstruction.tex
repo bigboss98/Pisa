@@ -5,16 +5,16 @@ In these chapter we will analyze how we construct inverted index and storage in 
 \section{SPIMI approach}
 SPIMI is an approach to storage inverted index using a single pass in memory and has two key ideas:
 \begin{enumerate}
-	\item Generate separate dictionaries for each block of docs (no need for term map to termID)
-	\item Accumulate postings in lists as they occur in each block of docs, in internal memory.
+	\item Generate separate dictionaries for each block of $k$ docs (no need for term map to termID)
+	\item Accumulate postings in lists as they occur in each block of $k$ docs, in internal memory.
 \end{enumerate}
 With this approach we generate an inverted index for each block, where also compression is possible and 
 in figure \ref{img:spimi} there is the pseudocode of SPIMI approach.
 
 \begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/spimi}
 	\caption{SPIMI pseudocode}
 	\label{img:spimi}
-	\includegraphics[width=\textwidth]{Images/spimi}
 \end{figure}
 There are some problems with this approach, like we decide always to double dimension of block when is full, also 
 we assign TermID, create pairs $<termID, docID>$ and sort pairs by TermID.
@@ -22,26 +22,27 @@ we assign TermID, create pairs $<termID, docID>$ and sort pairs by TermID.
 Given a query $q$ we require $N / m$ queries whose results have to be combinated, where $N$ is the number of items 
 and $m$ is the dimension of main memory.
 
-
+\section{BSBI approach}
+In \emph{BSBI} (Blocked sort-based indexing) we not directly manage terms but we create a map from term to termID,
+and sort the inverted index with term represented by termID.\newline
 To sort $n$ inverted index we accumulate terms, and in a certain time we will encounter again, so we 
 assume $|\text{dictionary}| \leq M$ and we have the following steps:
 \begin{enumerate}
     \item Scanning and build dictionary of distinct tokens.
-    \item Sort the tokens, assign lexicografic IDs such that $T_1 \leq_L T_2 \To ID(T_1) \leq ID(T_2)$
+    \item Sort the tokens, assign lexicografic IDs such that $T_1 \leq_L T_2 \implies ID(T_1) \leq ID(T_2)$
     \item Scan documents and we create pair $<term ID, docID>$.
     \item Sort by first component and then to second component and since the order of terms are 
 	  lexicografically sort of first component is this correct.
     \item Decode termID, such that scanning pair in substituting termID with terms, by using the internal
 	  memory dictionary.
 \end{enumerate}
-This sorting is stable, a properties that means that we keep reciprocal order of equal items.
+This sorting is stable, a properties that means that we keep reciprocal order of equal items.\newline
+The BSBI approach, require $O(n/M \log n/M)$ since the step with the highest complexity consist by the sorting.
+
 
 \section{Multi-way merge sort}
-We will now consider the multi-way merge-sort, called also \emph{BSBI} (Blocked sort-based Indexing), that consist that
-we map term to termID to be kept in memory for construction the pairs and needs two passes, unless we use hashing
-and thus with some probability of collision.
-
-This merge-sort consist in particular in two phases:
+We will now consider the multi-way merge-sort, a way to merge the $n/M$ inverted index created by BSBI approach, that consist
+in particular in two phases:
 \begin{enumerate}
     \item Scan input and divide on block of size $M$, where we have for each block $2M/B$ I/Os where $B$ 
 	  is the size of block.\newline
@@ -49,14 +50,22 @@ This merge-sort consist in particular in two phases:
     \item Merge $X = M/B-1$ runs, given a $\log_X N/M$ passes, as we can see in figure \ref{img:multiWayMerging}
 
 	  \begin{figure}
+	      \includegraphics[width=0.8\textwidth]{Images/multiwayMerge}
 	      \caption{Multiway Merge-sort merging}
 	      \label{img:multiWayMerging}
-	      \includegraphics[width=\textwidth]{Images/multiwayMerge}
 	  \end{figure}
 	  We have to compare $k$ minimum comparison to find the smallest and write in output and in case 
 	  output is full we have to flush on memory harddisk/SSD, so we have $O(\frac{X}{B})$ I/Os to find
 	  a list of $X$ items in $k$ sorted rows, and we have $\log _k \frac{n}{M}$ levels,
-	  yields to a total cost of $O(\frac{n}{B} \log_k \frac{n}{M})$.
+	  yields to a total cost of $O(\frac{n}{B} \log_k \frac{n}{M})$.\newline
+          In figure \ref{img:multiway_merge} we have an explanation of all steps of multiway mergesort with also an 
+	  explanation of time complexity of this approach.
+
+%	  \begin{figure}
+%		  \includegraphics[width=0.8\textwidth]{Images/multiwayMergeExplanation}
+%		  \caption{Explanations of Multiway merge-sort algorithm}
+%		  \label{img:multiway_merge}
+%	  \end{figure}
 \end{enumerate}
 
 \section{Distributed indexing}
@@ -75,14 +84,14 @@ We will use two sets of parallel tasks, Parsers and Inverters, so we break the d
 \end{description}
 
 \begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/termBased}
 	\caption{Term-based Distributed indexing}
 	\label{img:termBased}
-	\includegraphics[width=\textwidth]{Images/termBased}
 \end{figure}
 \begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/docBased}
 	\caption{Doc-based Distributed indexing}
 	\label{img:docBased}
-	\includegraphics[width=\textwidth]{Images/docBased}
 \end{figure}
 \emph{MapReduce} is a robust and conceptually simple framework for distributed computing, 
 without having to write code for the distribution part and Google indexing system (ca. $2004$) 
@@ -99,7 +108,7 @@ by the invalidation bit-vector and periodically, we re-index into one main index
 
 The problem is this approach is that has poor performance: merging of the auxiliary index into the main index
 is efficient if we keep a separate file for each postings list and merge is the same as a simple append
-[new docIDs are greater] but this needs a lot of files so is inefficient for O/S, anyway
+[new docIDs are greater] but this needs a lot of files so is inefficient for I/Os, anyway
 in reality we use a scheme somewhere in between, like split very large postings lists, 
 collect postings lists of length $1$ in one file and so on.
 
@@ -118,3 +127,82 @@ Most search engines now support dynamic indexing (news items, blogs, new topical
 but (sometimes/typically) they also periodically reconstruct the index, query processing is then
 switched to the new index, and the old index is then deleted.
 
+\section{Compression of Postings}
+To compress postings list we introduce and analyze now several encoding 
+and we will start first from \emph{Gap encoding}, visible in figure 
+\ref{img:gapEncoding}, which consist to encode element as the gap from
+the previous element so we can use a variable-length prefix-free codes.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Images/gapEncoding}
+	\caption{Gap Encoding approach}
+	\label{img:gapEncoding}
+\end{figure}
+Variable-legth codes wish to get very fast (de)compress, 
+using byte-align and given a binary representation of an integer
+we append $0$s to front, to get a multiple-of-7 number of bits,
+form groups of $7$-bits each and in the end append to the last group
+the bit 0, and to the other groups the bit 1 (tagging) so for 
+example given $v=2^{14} + 1$, which in binary is $bin(v) = 100000000000001$
+and the variable-byte encoding consist to 
+\[ 10000001 10000000 00000001 \]
+Note that in this approach we waste $1$ bit per byte, and avg $4$
+for the first byte, but it is also a prefix code, so encodes
+also the value $0$ and we have also \emph{T-nibble} we could design
+this code over $t$-bits, not just $t = 8$.\newline
+In figure \ref{img:variable} we have an example of Variable encoding on a set of elements.
+
+\begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/variableCode}
+	\caption{Example of Variable encoding}
+	\label{img:variable}
+\end{figure}
+
+\emph{PForDelta coding} consist to use $b$ (for example $b = 2$) bits 
+to encode $128$ numbers ($32$ bytes) or exceptions, and this approach
+consist to translate data from the range $[base, base + 2^b - 2]$ to 
+range $[0, 2^b - 2]$; we encode exceptions with value $2^b - 1$ and we 
+choose $b$ to encode $90\%$ values, or consist a trade-off, where 
+a high $b$ we waste more bits, with a low $b$ we have more exceptions.
+
+In figure \ref{img:pfDelta} it is possible to view what PForDelta coding
+consist and we have the exceptions mapped with an arrow symbol and 
+saved at the end of the list with their original values.\newline
+In figure \ref{img:pfDeltaEx} there is an example of PForDelta encoding.
+
+\begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/pfDelta}
+	\caption{Encoding of PForDelta code}
+	\label{img:pfDelta}ù
+\end{figure}
+\begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/PForDelta}
+	\caption{Example of PForDelta code}
+	\label{img:pfDeltaEx}
+\end{figure}
+$\gamma$ code consist that we use $|bin(x)| - 1$ zeros and then the 
+represent the binary value $bin(x)$, so we have $x > 0$ and $|bin(x)|$ is 
+given by $\log_2 x$, so at the end $\gamma$ code for $x$ takes
+$2 \log_2 x + 1$ bits and it is a prefix-free encoding, so given a 
+$\gamma$ code sequence we can obtain an unique representation.\newline
+In figure \ref{img:gamma} there is an example of Gamma encoding on a set of elements.
+
+\begin{figure}
+	\includegraphics[width=0.8\textwidth]{Images/gammaEx}
+	\caption{Example of Gamma encoding}
+	\label{img:gamma}
+\end{figure}
+We consider our last code, the \emph{Elias-Fano} code, where we represent
+numbers in $\log m$ bits, where $m = |B|$ and we set $z = \log n$,
+where $n = \# 1$ then it can be proved.
+
+We have that Elias-Fano represent numbers using $L$ and $H$, which
+$L$ takes $n \log m/n$ bits, $H$ takes $n 1$s $ + n 0$s $ = 2n$ bits 
+and in figure \ref{img:eliasFano} is possible to note how is done the 
+encoding in Elias-Fano.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Images/eliasFano}
+	\caption{Encoding in Elias-Fano code}
+	\label{img:eliasFano}
+\end{figure}
