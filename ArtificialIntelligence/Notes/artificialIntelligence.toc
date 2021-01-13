@@ -1,4 +1,26 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
 \vspace {-\cftbeforepartskip }
-\contentsline {chapter}{\numberline {1}{Introduction}}{4}{chapter.1}%
+\contentsline {chapter}{\numberline {1}{Introduction}}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}{Agents}}{7}{chapter.2}%
+\contentsline {chapter}{\numberline {3}{CSP (Constraint Satisfaction Problems}}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}{Review of local search methods}}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}{The Structure of Problems}}{19}{section.3.2}%
+\contentsline {chapter}{\numberline {4}{Knowledge representation \& reasoning}}{21}{chapter.4}%
+\contentsline {section}{\numberline {4.1}{Proposizional and First Order Logic}}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}{Knowledge \& Ontological Engineering}}{25}{section.4.2}%
+\contentsline {section}{\numberline {4.3}{Situation Calculus}}{27}{section.4.3}%
+\contentsline {section}{\numberline {4.4}{Event Calculus}}{28}{section.4.4}%
+\contentsline {section}{\numberline {4.5}{Nonmonotonic reasoning}}{29}{section.4.5}%
+\contentsline {section}{\numberline {4.6}{Knowledge and beliefs}}{33}{section.4.6}%
+\contentsline {section}{\numberline {4.7}{Reason Maintenance Systems}}{37}{section.4.7}%
+\contentsline {section}{\numberline {4.8}{Semantic Networks and Frames}}{41}{section.4.8}%
+\contentsline {section}{\numberline {4.9}{Description Logics}}{50}{section.4.9}%
+\contentsline {chapter}{\numberline {5}{Bayesian Network}}{60}{chapter.5}%
+\contentsline {section}{\numberline {5.1}{Uncertain Reasoning}}{60}{section.5.1}%
+\contentsline {section}{\numberline {5.2}{Bayesian Network}}{61}{section.5.2}%
+\contentsline {section}{\numberline {5.3}{Probabilistic reasoning over time}}{65}{section.5.3}%
+\contentsline {chapter}{\numberline {6}{Rule-based systems}}{72}{chapter.6}%
+\contentsline {section}{\numberline {6.1}{Prolog}}{77}{section.6.1}%
+\contentsline {section}{\numberline {6.2}{Answer Set Programming}}{78}{section.6.2}%
+\contentsline {chapter}{\numberline {7}{Planning}}{84}{chapter.7}%

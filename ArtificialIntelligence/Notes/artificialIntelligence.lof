@@ -5,3 +5,81 @@
 \ttl@tocsep 
 \ttl@tocsep 
 \contentsline {figure}{\numberline {1}{\ignorespaces AI Timeline evolution\relax }}{5}{figure.caption.1}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {2}{\ignorespaces Design Process of AI agents\relax }}{8}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Summary of Agent Design consideration\relax }}{10}{figure.caption.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Structure of an generic agent system\relax }}{11}{figure.caption.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Agent Functions to implement at each layer\relax }}{12}{figure.caption.5}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {6}{\ignorespaces Pseudocode of $\textnormal {\scshape AC-3}$\relax }}{15}{figure.caption.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Comparison of Search and Forward Checking cost in CSP problems\relax }}{16}{figure.caption.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Pseudocode of Backtracking algorithm\relax }}{17}{figure.caption.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Pseudocode for a generic Local Search algorithm\relax }}{17}{figure.caption.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Pseudocode of Min-conflicts\relax }}{18}{figure.caption.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Pseudocode for Tree CSP Solver\relax }}{19}{figure.caption.11}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {12}{\ignorespaces Pseudocode of DPLL\relax }}{23}{figure.caption.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Pseudocode of WalkSat\relax }}{24}{figure.caption.13}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Comparison between DPLL and WalkSat\relax }}{24}{figure.caption.14}%
+\contentsline {figure}{\numberline {15}{\ignorespaces General Ontology specification\relax }}{26}{figure.caption.15}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Visual representation of interval relations\relax }}{29}{figure.caption.16}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Example of Nested knowledge statements\relax }}{35}{figure.caption.17}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Description of Wise-men puzzle\relax }}{36}{figure.caption.18}%
+\contentsline {figure}{\numberline {19}{\ignorespaces General Architecture of RMS\relax }}{38}{figure.caption.19}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Example of SlList\relax }}{39}{figure.caption.20}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Complete example of Sllist in JTMS system\relax }}{39}{figure.caption.21}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Example of ATMS Dependency graph\relax }}{40}{figure.caption.22}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Example of a cognitive psychology definition\relax }}{41}{figure.caption.23}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Example of Hierarchical organization\relax }}{42}{figure.caption.24}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Example of Inheritance in Semantic Network\relax }}{43}{figure.caption.25}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Example of Conceptual graph\relax }}{43}{figure.caption.26}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Complex example of Conceptual graph\relax }}{44}{figure.caption.27}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Example of IS-A relation in KL One\relax }}{45}{figure.caption.28}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Definition of representation done at the symbol level\relax }}{45}{figure.caption.29}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Example of Inheritance Network\relax }}{46}{figure.caption.30}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Example of shortest path failure with redundant links\relax }}{47}{figure.caption.31}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Structure of WordNet\relax }}{48}{figure.caption.32}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Example of Frames\relax }}{49}{figure.caption.33}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Example of FrameNet\relax }}{50}{figure.caption.34}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Technologies used in Semantic Web\relax }}{51}{figure.caption.35}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Example of KB Description\relax }}{52}{figure.caption.36}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Definition of syntax of Logic $AL$\relax }}{52}{figure.caption.37}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Some rules for logic $AL$\relax }}{53}{figure.caption.38}%
+\contentsline {figure}{\numberline {39}{\ignorespaces Lattice of $AL$ logics\relax }}{54}{figure.caption.39}%
+\contentsline {figure}{\numberline {40}{\ignorespaces Example of Acyclic description logics\relax }}{54}{figure.caption.40}%
+\contentsline {figure}{\numberline {41}{\ignorespaces Example of an expansion of terminology\relax }}{55}{figure.caption.41}%
+\contentsline {figure}{\numberline {42}{\ignorespaces Translation rules for assertions\relax }}{55}{figure.caption.42}%
+\contentsline {figure}{\numberline {43}{\ignorespaces Translation rules for terms\relax }}{56}{figure.caption.43}%
+\contentsline {figure}{\numberline {44}{\ignorespaces Rules for constraint propagation\relax }}{57}{figure.caption.44}%
+\contentsline {figure}{\numberline {45}{\ignorespaces Additional constructors to description logics\relax }}{58}{figure.caption.45}%
+\contentsline {figure}{\numberline {46}{\ignorespaces Syntax for OWL\relax }}{58}{figure.caption.46}%
+\contentsline {figure}{\numberline {47}{\ignorespaces Axioms defined for OWL\relax }}{59}{figure.caption.47}%
+\contentsline {figure}{\numberline {48}{\ignorespaces XML syntax used for OWL\relax }}{59}{figure.caption.48}%
+\contentsline {figure}{\numberline {49}{\ignorespaces Complexity and decidability results for DL\relax }}{59}{figure.caption.49}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {50}{\ignorespaces Pseudocode for Enumeration Ask\relax }}{64}{figure.caption.50}%
+\contentsline {figure}{\numberline {51}{\ignorespaces Pseudocode for Variable elimination algorithm\relax }}{65}{figure.caption.51}%
+\contentsline {figure}{\numberline {52}{\ignorespaces Bayesian Network of Markov chain\relax }}{66}{figure.caption.52}%
+\contentsline {figure}{\numberline {53}{\ignorespaces Interaction between time and inference operations\relax }}{67}{figure.caption.53}%
+\contentsline {figure}{\numberline {54}{\ignorespaces Pseudocode for ForwardBackward algorithm\relax }}{69}{figure.caption.54}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {55}{\ignorespaces Pseudocode for Forward chaining\relax }}{73}{figure.caption.55}%
+\contentsline {figure}{\numberline {56}{\ignorespaces Pseudocode for SLD resolution strategy\relax }}{75}{figure.caption.56}%
+\contentsline {figure}{\numberline {57}{\ignorespaces Comparison between Prolog and CLP program\relax }}{78}{figure.caption.57}%
+\contentsline {figure}{\numberline {58}{\ignorespaces Meta interpreter implementation with Prolog\relax }}{79}{figure.caption.58}%
+\contentsline {figure}{\numberline {59}{\ignorespaces Example of Answer Set\relax }}{80}{figure.caption.59}%
+\contentsline {figure}{\numberline {60}{\ignorespaces Example of Ground program\relax }}{81}{figure.caption.60}%
+\contentsline {figure}{\numberline {61}{\ignorespaces Example of Answer Set without default negative\relax }}{81}{figure.caption.61}%
+\contentsline {figure}{\numberline {62}{\ignorespaces Another Example of Answer Set without negative\relax }}{81}{figure.caption.62}%
+\contentsline {figure}{\numberline {63}{\ignorespaces Workflow of Answer Set programming\relax }}{83}{figure.caption.63}%
+\ttl@tocsep 
+\contentsline {figure}{\numberline {64}{\ignorespaces Pseudocode of SatPlan approach\relax }}{84}{figure.caption.64}%
+\contentsline {figure}{\numberline {65}{\ignorespaces Example of PDDL actions\relax }}{85}{figure.caption.65}%
+\contentsline {figure}{\numberline {66}{\ignorespaces Comparison between two state space without and with ignore delete lists heuristics\relax }}{86}{figure.caption.66}%
+\contentsline {figure}{\numberline {67}{\ignorespaces Example of Planning Graph\relax }}{87}{figure.caption.67}%
+\contentsline {figure}{\numberline {68}{\ignorespaces Pseudocode of $\textnormal {\scshape GraphPlan}$ algorithm\relax }}{88}{figure.caption.68}%
+\contentsline {figure}{\numberline {69}{\ignorespaces Example of Graph Plan on the spare-tire problem\relax }}{88}{figure.caption.69}%
+\contentsline {figure}{\numberline {70}{\ignorespaces Representation of POP actions\relax }}{90}{figure.caption.70}%
+\contentsline {figure}{\numberline {71}{\ignorespaces Empty Plan on POP approach\relax }}{91}{figure.caption.71}%
+\contentsline {figure}{\numberline {72}{\ignorespaces Example how to remove threats in POP\relax }}{92}{figure.caption.72}%
+\contentsline {figure}{\numberline {73}{\ignorespaces Example of POP in action\relax }}{92}{figure.caption.73}%

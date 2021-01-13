@@ -13,12 +13,15 @@
 \usepackage{microtype}%per effettuare un aggiustamento della spaziatura tra caratteri e del font
 \usepackage{clrscode3e}%per effettuare lo pseudocodice nello stile del libro CLRS
 \usepackage{graphicx}
+\usepackage{listings}
 
 \theoremstyle{definition}%per avere lo stile tondo quando uso un ambiente definito da newtheorem
 \newtheorem*{defi}{Def}%Definizione per avere la gestione delle definizioni
 \newtheorem{prop}{Prop}[chapter]
 \newtheorem{thm}{Thm}[chapter]
+\newtheorem{corol}{Corol}[chapter]
 \newtheorem{esempio}{Esempio}
+
 \newcommand{\numberset}{\mathbb}
 \newcommand{\N}{\numberset{N}}
 \newcommand{\deriv}{\Rightarrow}
@@ -35,4 +38,8 @@
   \input{intro}%Introduction Chapter
   \input{agents}%Agent Chapter
   \input{csp}%CSP Chapter
+  \input{knowledge}%Knowledge Chapter
+  \input{bayesianNetwork}%Bayesian Network Chapter
+  \input{rules}%Logic Programming and AnswerSet chapter
+  \input{planning}%Planning chapter
 \end{document}
