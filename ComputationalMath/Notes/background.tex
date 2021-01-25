@@ -1,11 +1,268 @@
 \chapter{Background}
+The course of Computional Math will consider Optimization problems and resolution of Linear System,
+and we will now start a background review.\newline
+Optimization problem are defined as 
+\begin{defi}[Optimization problem]
+    Given any set $X$, any function $f:X \to \R$, we define the optimization problem where we have
+    the purpose to find 
+    \[ f_* = \min \{f(x): x \in X\} \]
+    where $X$ is the feasible region and $f$ is the objective function.
+\end{defi}
+We have also that if $x \in X$, often $X \subset F, x \in F - X$ is an unfeasible solution.
 
-Matrix Product 
-Vector sum
-Bases
-Linear system resolution
+We want to find any optimal solution $x_* \in X$ such that $f(x_*) \leq f(x) \forall x \in X$,
+and usually is impossible to find (due to $X$ may have inaccessible cardinal, $f$ not computable 
+function and other possible events), as we can note in the following "bad" optimization problems:
+\begin{example}
+   With $X = \emptyset$ we have that there is just no solution.
 
-Invertibility -> Definitions
+   If $\forall M \exists x_M \in X$ such that $f(x_M) \leq M$ we have that the optimization problem
+   \[ \min \{x: x \in \R \land x \leq 0 \} \]
+   has solutions as good as you like.
+\end{example}
+Sometimes assumptions are needed on $f$ and $X$ to ensure "things work" and typically $x \in \R$
+means $x \in \Q$ with up to $k$ digits precision.\newline
+Many problems will solve if goal is hust to find approximately optimal $\bar{x}$ and prove that 
+absolute or relative error is $\leq \epsilon$.\newline
+Also that $f:X \to \R$ is a strong assumption, since sometimes we need more than one values so
+we can also define optimization problem like
+\[ \min \{[f_1(x), f_2(x)]: x \in X\} \]
+with $f_1, f_2$ constrasting and/or with incomparable units.
+
+Since we minimize/maximize stuff, infima/suprema are important and we have that because $\R$ is 
+totally ordered holds 
+\[ \forall x, y \in X \, f(x) \leq f(y) \text{ or } f(y) \leq f(x) \]
+The definition of infima and suprema are the following
+\begin{defi}
+    \[ S \subseteq \R \, \underbar{s} = \inf S \iff \underbar{s} \leq s \forall s \in S \land
+                         \forall t > \underbar{s} \exists s \in S \, s \leq t \]
+    \[ S \subseteq \R \, \bar{s} = \sup S \iff \bar{s} \geq s \forall s \in S \land
+                         \forall t < \bar{s} \exists s \in S \, s \geq t \]
+\end{defi}
+$\inf S/ \sup S$ may not exist in $\R$ so we define the set of extended reals 
+\[ \bar{\R} = \{ -\infty\} \cup \R \cup \{+\infty\} \]
+where for all $S \subseteq \R \, \sup/\inf S \in \bar{\R}$.
+
+We often do iterations, hence we produce sequences $v_1, v_2, \dots$ and typically we can't get 
+$f_*$ in finite time, but we can get as close as we want, so we define 
+\[ \lim _{i \to \infty} v_i = v \iff \forall \epsilon > 0 \exist h \, |v_i - v| \leq \epsilon 
+                                     \forall i \geq h \]
+We have that any monotone sequence has a limit and the obvious way to make $\{v_i\}$ monotone is 
+to keep aside the best as follows
+\[ v_i^* = \min \{v_h : h \leq i \} \]
+With this definition we have that 
+\[v_1^* \geq v_2^* \geq \dots \Rightarrow v^*_{\infty} = \lim _{i \to \infty} v^*_i \geq f_* \]
+In case $v^*_{\infty} = f_§$ we have that $\{ v_i \}$ minimizing sequence of values.
+
+The hard way to extract monotone sequences from $\{v_i\}$ consist to define 
+\[ \underbar{v}_i = \inf \{v_h : h \geq i\} \]
+\[ \bar{v}_i = \sup \{v_h : h \geq i \} \]
+We have that $\underbar{v}_1 \leq \underbar{v}_2 \leq \dots, \, \bar{v}_1 \geq \bar{v}_2 \geq \dots$
+so we can define the following two limits
+\[ \lim \inf _{i \to \infty} v_i = \lim _{i \to \infty} \underbar{v_i} = \sup_i \underbar{v_i} \]
+\[ \lim \sup _{i \to \infty} v_i = \lim _{i \to \infty} \bar{v_i} = \inf_i \bar{v_i} \]
+We have that if $\bar{v}_i \geq \underbar{v_i} \Rightarrow \lim \sup_{i \to \infty} v_i \geq
+                                                           \lim \inf_{i \to \infty} v_i$
+then holds $\lim \sup _{i \to \infty} v_i \geq \lim \inf _{i \to \infty} v_i$.\newline
+In case $\lim _{i \to \infty} v_i = v \iff \lim \sup _{i \to \infty} v_i = v = 
+                                           \lim \inf _{i \to \infty} v_i$, so if 
+$\lim \inf _{i \to \infty} v_i = f_* \Rightarrow \{v_i\}$ minimizing sequence of values.
+
+We consider also vector spaces, with their operations and i suggest to review notes about Linear 
+Algebra, anyway we will now provide the definition of different norms
+\[ \norm{x}_1 = \sum _{i = 1}^n |x_i| \]
+\[ \norm{x}_2 = (\sum _{i = 1}^n x_i^2)^{1/2} \]
+\[ \norm{x}_{\infty} = \max \{|x_i| : i = 1, \dots, n\} \]
+\[ \norm{x}_0 = |\{i : |x_i| > 0\}| \]
+\[ \norm{x}_F = (\sum _{i=1}^m \sum _{j=1}^n |a_{ij}|^2)^{1/2} = \sqrt{tr(A^*A)} \]
+Many but not all, derive from $p$-norm which is defined as 
+\[ \norm{x}_p = (\sum _{i=1}^n |x_i|^p)^{1/p} \]
+This norm is convex for $p \geq 1$, and not convex for $p < 1$, as we can see in figure 
+\ref{img:p-norm}.
+
+Euclidean distance between $x$ and $y$ is defined by 
+\[ d(x, y) = \norm{x - y} = \sqrt{(x_1 - y_1)^2 + \dots + (x_n - y_n)^2} \]
+The distance has the properties that is always positive, and $d(x, y) = 0 \iff x = y$.\newline
+Holds also the triangle inequality property, and also $d(\alpha x, 0) = |\alpha| d(x, 0) 
+\forall x \in \R^n, \alpha \in \R$.
+
+We define also ball, with center $x \in \R^n$ and radius $r > 0$, as 
+\[ B(x, r) = \{y \in \R^n : \norm{y - x} \leq r \} \]
+the distance/norm defines the topology of the vector space, but doesn't really matter since 
+all norms are equivalent.
+
+Given $S \subseteq \R^n$, we define the interior/boundary points of $S$ as follows:
+\[ x \in int(S) \equiv \exists r > 0 \, B(x, r) \subseteq S \]
+\[ x \in \partial(S) \equiv \forall r > 0, \exists y, z \in B(x, r) \, y \in S \land z \not \in S \]
+We have that $S$ is open if $S = int(S)$ and the closure of $S$ is defined as 
+\[ cl(S) = int(S) \cup \partial S \]
+We have that $S \subseteq \R^n$ is closed if $S = cl(S) \equiv \R^n - S$ is open, but also if 
+we have a sequence of open sets the union of this sequence is open, and also if we have a sequence 
+of closed sets their intersection is closed.
+
+\begin{defi}
+    $S \subseteq \R^n$ is bounded if $\exists r > 0$ such that $S \subseteq B(0, r)$.
+\end{defi}
+\begin{defi}
+    A set $S$ is compact if and only if $S$ is closed and bounded.
+\end{defi}
+\begin{defi}
+    Given a sequence $\{x_i\}$ we have that $x$ is an accumulation point if $\exists \{x_{n_i}}\}
+    \to x \equiv \lim \inf_{i \to \infty} d(x_i, x) = 0$.
+\end{defi}
+\begin{thm}[Bolzano-Weierstrass]
+    If $S \subseteq \R^n$ is compact, then any sequence $\{x_i\} \subset S$ has an accumulation 
+    point $x \in S$.
+\end{thm}
+A consequence is that if $X$ is compact any minimizing sequence has one accumulation point.
+
+For minimizing we define $f(x) = \infty$ for $x \not \in D$ and 
+to represent function $f:D \to \R$ we consider the following sets
+\[ gr(f) = \{(f(x), x): x \in dom(f)\} \]
+\[ epi(f) = \{(v, x): x \in dom(f) \land v \geq f(x)\} \]
+Looking at $f$ in $\R^n$ it is required the following \emph{projections}
+\[ L(f, v) = \{x \in dom(f): f(x) = v\} \, \text{(level set)} \]
+\[ S(f, v) = \{x \in dom(f): f(x) \leq v\}\, \text{(sublevel set)} \]
+When we are maximizing we defining $f(x) = -\infty$ for $x \not \in D$, superlevel set and ipograph.
+
+We have that $f:\R^n \to \R$ is continuous at $x$ if yields 
+\[ \{x_i\} \to x \Rightarrow \{f(x_i)\} \to f(x) \]
+Formaly we have the following definitions
+\begin{defi}
+    $f:\R^n \to \R$ is continuous at $x$ if 
+    \[ \forall \epsilon > 0 \exists \delta > 0 \text{ s.t } |f(y) - f(x)| < \epsilon \, 
+       \forall y \in B(x, \delta) \]
+\end{defi}
+Continuity is preserved on sum, product, max, min of continuous function but also the composition 
+of two function is continuous if the two functions are continuous.
+
+\begin{thm}[Intermediate value]
+    $f: \R \to \R$ continuous at $[a, b]$, we have that $\forall v$ such that 
+    \[ \min \{f(a), f(b)\} \leq v \leq \max \{f(a), f(b)\} \]
+    exists $c \in [a, b]$ such that $f(c) = v$.
+\end{thm}
+\begin{thm}[Weierstrass extreme value]
+    If $X \subseteq \R^n$ compact and $f$ continuous on $X$ then our optimization problem
+    has an optimal solution.
+\end{thm}
+A natural assumptions is $X$ compact and $f$ continuous on $X$, but is also common 
+is to have a non-bounded $X$.
+
+\begin{defi}
+    $f$ is Lipschitz continuous on $S$ if $\exists L > 0$ such that 
+    \[ |f(x) - f(y)| \leq L\norm{x - y} \, \forall x, y \in S \]
+    This is the globally definition, instead locally at $x$ we have 
+    \[ \exists \epsilon > 0 \, S \supseteq B(x, \epsilon) \]
+\end{defi}
+Lipschitz continuity is equivalent to have that $f$ cannot change too fast and has a strong
+relationship with derivatives and it is a much stronger property of Lipschitz continuity.
+
+\begin{defi}[semi-continuous]
+    A weaker continuity is that $f$ is lower [upper] semi-continuous at $x$ if 
+    \[ \{x_i\} \to x \Rightarrow f(x) \leq \lim \inf_{i \to \infty} f(x_i) 
+                                 [f(x) \geq \lim \sup \dots ] \]
+\end{defi}
+We have that $f$ is continuous at $x$ if and only if $f$ is both lower and upper semi-continuous
+at $x$.
+
+We consider also the derivatives in $\R^n$, we assume their knowledge in $\R$, so we will now
+consider the partial derivatives, gradient and directional derivatives.
+
+\begin{defi}[Partial Derivatives]
+    Given $f: \R^n \to \R$ we define the partial derivative of $f$ w.r.t. $x_i$ at $x \in \R^n$ as
+    \[ \frac{\partial f}{\partial x_i} (x) = \lim _{t \to 0} 
+                      \frac{f(x_1, \dots, x_{i-1}, x_i + t, x_{i+1}, \dots, x_n) - f(x)}{t} \]
+\end{defi}
+\begin{defi}[Gradient]
+    The gradient is the vecotr of all partial derivatives and is defined as 
+    \[ \Delta f(x) = \begin{bmatrix}
+    			\frac{\partial f}{\partial x_1}(x) & \dots & 
+			\frac{\partial f}{\partial x_n}(x) \\
+		     \end{bmatrix} \]
+\end{defi}
+\begin{defi}[Directional derivative]
+    We define the directional derivative at $x$ along direction $d \in \R^n$ as 
+    \[ \frac{\partial f}{\partial d}(x) = \lim _{t \to 0} \frac{f(x + td) - f(x)}{t} \]
+\end{defi}
+Of course the partial derivative in $x_i$ is equal to directional derivative along direction $d$
+with $d = u_i$ and also we can define the one-sides directional derivative, which 
+generalizes $f'_+$ and $f'_$.
+
+We have that $f$ differentiable at $x$ if exist a linear function $\phi(h) = <c, h> + f(x)$ s.t.
+\[ \lim _{\norm{h} \to 0} \frac{|f(x+h) - \phi(h)|}{\norm{h}} = 0 \]
+$\phi$ is the "first order approximation" of $f$ at $x$ and the error in the approximation
+vanishes faster than linearly, so we have the following result
+\begin{thm}
+    $f$ differentiable at $x$ imply that $c = \Delta f(x)$ is equivalent to 
+    \[ \phi(h) = <\Delta f(x), h> + f(x) \] 
+    and the first-order model of $f$ at $x$ is defined by
+    \[ L_x(y) = \Delta f(x) (y - x) + f(x) \]
+\end{thm}
+Hence if $f$ differentiable, then $\frac{\partial f}{\partial x_i}$ exists $\forall i$ and more 
+in general, $f$ differentiable at $x$ imply that exist the directional derivative on $x$ for all
+$d \in \R^n$ and also 
+\[ \frac{\partial f}{\partial d}(x) = <\Delta f(x), d> \]
+$-\Delta f(x)$ is the steepest descent direction at $x$.
+
+If $f:\R^n \to \R$ is differentiable at $x$ it is implied that $f$ is locally Lipschitz continuous
+at $x$ and hence $f$ differentiable imply $f$ continuous.
+
+In $\R^n$ the sublevel set $S(L_x, f(x))$ is a line passing by $x$ and 
+$\Delta f(x) \perp S(L_x, f(x))$.\newline
+We have that if $f$ is differentiable at $x$ we have $S(f, f(x))$ smooth and if $f$ is not 
+differentiable at $x$ we have that $S(f, f(x))$ has "kinks".\newline
+An important result is that if $f$ is differentiable, it is implied that all relevant objects
+in $\R^{n+1}$ and $\R^n$ are smooth, instead if $f$ is non differentiable kinks appear.
+
+With vector-valued function $f:\R^n \to \R^m$ we have to introduce a new definition for 
+partial derivative and other definition.\newline
+\begin{defi}[Partial derivative]
+	\[ \frac{\partial f_j}{\partial x_i}(x) = 
+	       \frac{f_j(x_1, \dots, x_{i-1}, x_i + t, x_{i+1}, \dots, x_n) - f_j(x)}{t} \]
+\end{defi}
+\begin{defi}[Jacobian]
+	Jacobian is the matrix of all partial derivatives in $\R^{m, n}$ defined as 
+	\[ Jf(x) = \begin{bmatrix}
+		\Delta f_1(x) \\
+		\Delta f_2(x) \\
+		\vdots \\
+		\Delta f_m(x) \\
+		    \end{bmatrix} \]
+\end{defi}
+As usual, it is much better if continuous since we have that every $f_j$ differentiable and a 
+special case of vector-valued function is particularly important.
+\begin{defi}[Second order partial derivative]
+	it is the partial derivative done twice represented by 
+	$\frac{\partial^2 f}{\partial x_j \partial x_i}$
+\end{defi}
+\begin{defi}[Hessian]
+	Given $\Delta f(x): \R^n \to \R^n$ hence has a Jacobian called Hessian of $f$ defined as 
+	\[ \Delta^2 f(x) = J \Delta f(x) = \begin{bmatrix}
+		\frac{\partial^2 f}{\partial x_1^2}(x) & \dots & \frac{\partial^2 f}{\partial x_n \partial x_1}(x) \\
+		\frac{\partial^2 f}{\partial x_1 \partial x_2}(x) & \dots & \frac{\partial^2 f}{\partial x_n \partial x_2}(x) \\
+		\dots & \ddots & \dots \\
+		\frac{\partial^2 f}{\partial x_1 \partial x_n}(x) & \dots & \frac{\partial^2 f}{\partial x_n \partial x_n}(x) \\
+					   \end{bmatrix} \]
+\end{defi}
+$\Delta^2 f$ is $f^{''}$ and is a much more complex object, but some things generalise nicely.
+
+Another very important concept is the second-order model, which is the first-order model plus
+the second-order term, visible as
+\[ Q_x(y) = L_x(y) + \frac{1}{2}\transpose{(y - x)}\Delta^2 f(x)(y - x) \]
+
+\begin{thm}
+	If $\exists \delta > 0$ such that 
+	\[ \frac{\partial^2 f}{\partial x_j \partial x_i}(y) \text{ and }
+	   \frac{\partial^2 f}{\partial x_i \partial x_j}(y) \forall y \in B(x, \delta) \]
+	exists and are continuous at $x$ then we have that $\Delta^2 f$ is symmetric
+\end{thm}
+Symmetric is important, since it derive that all eigenvalues of $\Delta^2 f$ are real and a very
+good class for optimization is $C^2 = \Delta^2 f(x)$ continuous, which imply also $\Delta^2 f(x)$
+symmetric and $\Delta f(x)$ continuous.
+
+
+
+
 
 Write Block Matrices !!!
 DO EXERCISE ABOUT COMPUTATIONAL MATH -> Otherwise will be a problem
